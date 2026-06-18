@@ -609,6 +609,17 @@ h1 {
   box-shadow: 0 0 12px color-mix(in srgb, var(--mark-color) 20%, transparent);
 }
 
+.company-mark img {
+  display: block;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.company-mark span {
+  line-height: 1;
+}
+
 .score-cell {
   display: grid;
   grid-template-columns: 96px minmax(220px, 1fr);

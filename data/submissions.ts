@@ -16,6 +16,7 @@ export type Submission = {
   company: string;
   availability: Availability;
   llmSupported: LlmSupport;
+  runs?: number[];
   metrics: {
     physIq: MetricScore;
     sp: MetricScore;
@@ -120,20 +121,21 @@ export const submissions: Submission[] = [
     }
   },
   {
-    id: "cosmos3-nano",
-    model: "Cosmos3-Nano",
+    id: "cosmos3-nano-bpp-opus",
+    model: "cosmos3-nano-bpp-opus",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-06-18",
     company: "NVIDIA",
     availability: "Proprietary",
     llmSupported: "Yes",
+    runs: [30.22, 30.07, 29.55, 31.24],
     metrics: {
-      physIq: { mean: 29.1, std: 2.4 },
-      sp: { mean: 40.4, std: 2.3 },
-      st: { mean: 22.0, std: 3.7 },
-      ws: { mean: 24.6, std: 2.4 },
-      mse: { mean: 29.5, std: 1.7 }
+      physIq: { mean: 30.27, std: 0.61 },
+      sp: { mean: 44.48, std: 0.66 },
+      st: { mean: 20.87, std: 0.9 },
+      ws: { mean: 28.96, std: 0.76 },
+      mse: { mean: 26.76, std: 0.82 }
     }
   },
   {

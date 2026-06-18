@@ -280,7 +280,6 @@ export default function Home() {
         <a href="https://github.com/google-deepmind/physics-IQ-benchmark" target="_blank" rel="noreferrer">
           GitHub repo
         </a>
-        <span>Google DeepMind benchmark code</span>
         <a href="https://arxiv.org/abs/2606.18943" target="_blank" rel="noreferrer">
           Full paper
         </a>

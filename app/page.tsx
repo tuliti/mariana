@@ -537,11 +537,8 @@ function ScoreModeControl({
 }
 
 function CompanyMark({ company }: { company: string }) {
-  const iconExtensions = ["svg", "png"] as const;
-  const [iconIndex, setIconIndex] = useState(0);
-  const slug = company.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  const iconSrc =
-    iconIndex < iconExtensions.length ? `/icons/${slug}.${iconExtensions[iconIndex]}` : null;
+  const [iconFailed, setIconFailed] = useState(false);
+  const iconSrc = getCompanyIconSrc(company);
   const initials = company
     .split(/\s+/)
     .filter(Boolean)
@@ -552,16 +549,24 @@ function CompanyMark({ company }: { company: string }) {
 
   return (
     <span className="company-mark" style={getCompanyMarkStyle(company)} aria-hidden="true">
-      {iconSrc && (
-        <img
-          src={iconSrc}
-          alt=""
-          onError={() => setIconIndex((current) => current + 1)}
-        />
-      )}
-      {!iconSrc && <span>{initials}</span>}
+      {iconSrc && !iconFailed && <img src={iconSrc} alt="" onError={() => setIconFailed(true)} />}
+      {(!iconSrc || iconFailed) && <span>{initials}</span>}
     </span>
   );
+}
+
+function getCompanyIconSrc(company: string) {
+  const icons: Record<string, string> = {
+    "xai": "/icons/xai.svg",
+    "tencent": "/icons/tencent.png",
+    "alibaba": "/icons/alibaba.png",
+    "openai": "/icons/openai.svg",
+    "pruna ai": "/icons/pruna-ai.svg",
+    "nvidia": "/icons/nvidia.svg",
+    "google": "/icons/google.svg"
+  };
+
+  return icons[company.toLowerCase()] ?? null;
 }
 
 function getCompanyMarkStyle(company: string): CSSProperties {

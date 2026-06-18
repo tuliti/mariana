@@ -1,0 +1,115 @@
+export type InputType = "i2v" | "t2v" | "v2v";
+export type Availability = "Proprietary" | "Open source";
+
+export type MetricScore = {
+  mean: number;
+  std: number;
+};
+
+export type Submission = {
+  id: string;
+  model: string;
+  inputType: InputType;
+  dateAdded: string;
+  company: string;
+  availability: Availability;
+  llmSupported: boolean;
+  metrics: {
+    physIq: MetricScore;
+    sp: MetricScore;
+    st: MetricScore;
+    ws: MetricScore;
+    mse: MetricScore;
+  };
+};
+
+export const metricLabels = {
+  physIq: "Phys-IQ verified",
+  sp: "SP verified",
+  st: "ST verified",
+  ws: "WS verified",
+  mse: "MSE verified"
+} as const;
+
+export const submissions: Submission[] = [
+  {
+    id: "grok-imagine-video",
+    model: "Grok Imagine Video",
+    inputType: "i2v",
+    dateAdded: "2026-06-17",
+    company: "xAI",
+    availability: "Proprietary",
+    llmSupported: true,
+    metrics: {
+      physIq: { mean: 34.8, std: 0.6 },
+      sp: { mean: 52.7, std: 0.9 },
+      st: { mean: 21.4, std: 0.6 },
+      ws: { mean: 35.7, std: 1.0 },
+      mse: { mean: 29.6, std: 0.4 }
+    }
+  },
+  {
+    id: "hunyuan-video-15",
+    model: "Hunyuan Video 1.5",
+    inputType: "i2v",
+    dateAdded: "2026-06-17",
+    company: "Tencent",
+    availability: "Open source",
+    llmSupported: false,
+    metrics: {
+      physIq: { mean: 33.4, std: 0.8 },
+      sp: { mean: 47.1, std: 1.2 },
+      st: { mean: 26.9, std: 1.0 },
+      ws: { mean: 29.7, std: 0.6 },
+      mse: { mean: 30.0, std: 1.0 }
+    }
+  },
+  {
+    id: "wan-22",
+    model: "Wan 2.2",
+    inputType: "i2v",
+    dateAdded: "2026-06-17",
+    company: "Alibaba",
+    availability: "Open source",
+    llmSupported: false,
+    metrics: {
+      physIq: { mean: 32.2, std: 0.6 },
+      sp: { mean: 51.1, std: 1.0 },
+      st: { mean: 20.5, std: 0.7 },
+      ws: { mean: 28.5, std: 0.7 },
+      mse: { mean: 28.9, std: 0.4 }
+    }
+  },
+  {
+    id: "sora-2",
+    model: "Sora 2",
+    inputType: "i2v",
+    dateAdded: "2026-06-17",
+    company: "OpenAI",
+    availability: "Proprietary",
+    llmSupported: true,
+    metrics: {
+      physIq: { mean: 26.5, std: 0.8 },
+      sp: { mean: 37.3, std: 0.6 },
+      st: { mean: 27.0, std: 2.2 },
+      ws: { mean: 26.9, std: 0.7 },
+      mse: { mean: 14.8, std: 0.6 }
+    }
+  },
+  {
+    id: "p-video",
+    model: "P-Video",
+    inputType: "i2v",
+    dateAdded: "2026-06-17",
+    company: "Pruna AI",
+    availability: "Proprietary",
+    llmSupported: false,
+    metrics: {
+      physIq: { mean: 25.3, std: 1.8 },
+      sp: { mean: 38.6, std: 2.2 },
+      st: { mean: 16.4, std: 2.4 },
+      ws: { mean: 22.9, std: 1.8 },
+      mse: { mean: 23.3, std: 1.1 }
+    }
+  }
+];

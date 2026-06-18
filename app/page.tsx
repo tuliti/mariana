@@ -19,6 +19,7 @@ import {
   getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table";
+import type { CSSProperties } from "react";
 import { useMemo, useState } from "react";
 import { submissions, type MetricScore, type Submission } from "../data/submissions";
 
@@ -544,7 +545,6 @@ function ScoreModeControl({
 }
 
 function CompanyMark({ company }: { company: string }) {
-  const normalized = company.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const initials = company
     .split(/\s+/)
     .filter(Boolean)
@@ -554,10 +554,56 @@ function CompanyMark({ company }: { company: string }) {
     .toUpperCase();
 
   return (
-    <span className={`company-mark company-${normalized}`} aria-hidden="true">
+    <span className="company-mark" style={getCompanyMarkStyle(company)} aria-hidden="true">
       {initials}
     </span>
   );
+}
+
+function getCompanyMarkStyle(company: string): CSSProperties {
+  const companyColors: Record<string, { color: string; bg: string; border: string }> = {
+    "xai": {
+      color: "rgba(255, 255, 255, 0.92)",
+      bg: "rgba(255, 255, 255, 0.1)",
+      border: "rgba(255, 255, 255, 0.3)"
+    },
+    "tencent": {
+      color: "rgba(255, 220, 150, 0.98)",
+      bg: "rgba(240, 190, 80, 0.14)",
+      border: "rgba(240, 216, 120, 0.38)"
+    },
+    "alibaba": {
+      color: "rgba(255, 210, 120, 0.98)",
+      bg: "rgba(255, 150, 45, 0.14)",
+      border: "rgba(240, 180, 90, 0.38)"
+    },
+    "openai": {
+      color: "rgba(170, 240, 220, 0.98)",
+      bg: "rgba(80, 190, 170, 0.14)",
+      border: "rgba(120, 210, 190, 0.34)"
+    },
+    "pruna ai": {
+      color: "rgba(170, 205, 255, 0.98)",
+      bg: "rgba(95, 140, 255, 0.15)",
+      border: "rgba(120, 170, 255, 0.38)"
+    },
+    "nvidia": {
+      color: "rgba(190, 255, 125, 0.98)",
+      bg: "rgba(118, 185, 0, 0.18)",
+      border: "rgba(118, 185, 0, 0.46)"
+    }
+  };
+  const colors = companyColors[company.toLowerCase()] ?? {
+    color: "var(--gold)",
+    bg: "rgba(240, 216, 120, 0.12)",
+    border: "rgba(240, 216, 120, 0.28)"
+  };
+
+  return {
+    "--mark-color": colors.color,
+    "--mark-bg": colors.bg,
+    "--mark-border": colors.border
+  } as CSSProperties;
 }
 
 function ScoreCell({

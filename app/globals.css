@@ -597,39 +597,16 @@ h1 {
   justify-content: center;
   width: 26px;
   height: 26px;
-  border: 1px solid rgba(240, 216, 120, 0.28);
+  border: 1px solid var(--mark-border);
   background:
-    radial-gradient(circle at 35% 30%, rgba(240, 216, 120, 0.18), transparent 48%),
+    radial-gradient(circle at 35% 30%, var(--mark-bg), transparent 52%),
+    linear-gradient(135deg, var(--mark-bg), rgba(0, 10, 24, 0.92) 56%),
     rgba(0, 10, 24, 0.9);
-  color: var(--gold);
+  color: var(--mark-color);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.6px;
-  box-shadow: 0 0 12px rgba(240, 216, 120, 0.12);
-}
-
-.company-xai {
-  border-color: rgba(255, 255, 255, 0.26);
-  color: rgba(255, 255, 255, 0.88);
-}
-
-.company-tencent {
-  border-color: rgba(240, 216, 120, 0.38);
-}
-
-.company-alibaba {
-  border-color: rgba(240, 180, 90, 0.38);
-  color: rgba(255, 210, 120, 0.95);
-}
-
-.company-openai {
-  border-color: rgba(120, 210, 190, 0.34);
-  color: rgba(170, 240, 220, 0.95);
-}
-
-.company-pruna-ai {
-  border-color: rgba(120, 170, 255, 0.38);
-  color: rgba(170, 205, 255, 0.95);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--mark-color) 20%, transparent);
 }
 
 .score-cell {

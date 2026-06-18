@@ -135,5 +135,22 @@ export const submissions: Submission[] = [
       ws: { mean: 24.6, std: 2.4 },
       mse: { mean: 29.5, std: 1.7 }
     }
+  },
+  {
+    id: "cosmos3-super-image2video",
+    model: "Cosmos3-Super-Image2Video",
+    inputType: "i2v",
+    protocol: "BPP",
+    dateAdded: "2026-06-18",
+    company: "NVIDIA",
+    availability: "Proprietary",
+    llmSupported: "No",
+    metrics: {
+      physIq: { mean: 39.49, std: 0.82 },
+      sp: { mean: 53.56, std: 1.45 },
+      st: { mean: 29.96, std: 1.82 },
+      ws: { mean: 38.58, std: 1.41 },
+      mse: { mean: 35.85, std: 0.58 }
+    }
   }
 ];

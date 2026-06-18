@@ -25,7 +25,6 @@ import { submissions, type MetricScore, type Submission } from "../data/submissi
 
 type ViewMode = "models" | "companies";
 type ScoreMode = "verified" | "net";
-type MetricKey = keyof Submission["metrics"];
 type RankedRow = {
   id: string;
   rank: number;
@@ -77,15 +76,6 @@ function hasLlmSupport(value: string) {
   return value === "Yes" || value === "Likely";
 }
 
-function averageMetric(rows: Submission[], metric: MetricKey): MetricScore {
-  const means = rows.map((row) => row.metrics[metric].mean);
-  const stds = rows.map((row) => row.metrics[metric].std);
-  return {
-    mean: means.reduce((sum, value) => sum + value, 0) / means.length,
-    std: stds.reduce((sum, value) => sum + value, 0) / stds.length
-  };
-}
-
 function scoreSubmission(submission: Submission): RankedRow {
   return {
     id: submission.id,
@@ -133,25 +123,22 @@ function makeRows(viewMode: ViewMode, filters: FilterState) {
   });
 
   return Array.from(byCompany.entries())
-    .map(([company, members]) => ({
-      id: `company-${company}`,
-      rank: 0,
-      model: company,
-      company: `${members.length} submission${members.length === 1 ? "" : "s"}`,
-      availability: unique(members.map((member) => member.availability)).join(", "),
-      inputType: unique(members.map((member) => member.inputType)).join(", "),
-      protocol: unique(members.map((member) => member.protocol)).join(", "),
-      dateAdded: unique(members.map((member) => member.dateAdded)).at(-1) ?? "",
-      llmSupported: members.some((member) => hasLlmSupport(member.llmSupported)) ? "Yes" : "No",
-      metrics: {
-        physIq: averageMetric(members, "physIq"),
-        sp: averageMetric(members, "sp"),
-        st: averageMetric(members, "st"),
-        ws: averageMetric(members, "ws"),
-        mse: averageMetric(members, "mse")
-      },
-      members
-    }))
+    .map(([company, members]) => {
+      const best = [...members].sort((a, b) => b.metrics.physIq.mean - a.metrics.physIq.mean)[0];
+      return {
+        id: `company-${company}`,
+        rank: 0,
+        model: company,
+        company: best.model,
+        availability: best.availability,
+        inputType: best.inputType,
+        protocol: best.protocol,
+        dateAdded: best.dateAdded,
+        llmSupported: best.llmSupported,
+        metrics: best.metrics,
+        members
+      };
+    })
     .sort((a, b) => b.metrics.physIq.mean - a.metrics.physIq.mean)
     .map((row, index) => ({ ...row, rank: index + 1 }));
 }
@@ -272,7 +259,6 @@ export default function Home() {
           <a href="https://arxiv.org/abs/2606.18943" target="_blank" rel="noreferrer">
             Paper <ExternalLink size={13} />
           </a>
-          <a href="#leaderboard">Mariana</a>
         </nav>
       </header>
 

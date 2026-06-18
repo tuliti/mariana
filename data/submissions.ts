@@ -127,7 +127,7 @@ export const submissions: Submission[] = [
     dateAdded: "2026-06-18",
     company: "NVIDIA",
     availability: "Proprietary",
-    llmSupported: "No",
+    llmSupported: "Yes",
     metrics: {
       physIq: { mean: 29.1, std: 2.4 },
       sp: { mean: 40.4, std: 2.3 },
@@ -144,7 +144,7 @@ export const submissions: Submission[] = [
     dateAdded: "2026-06-18",
     company: "NVIDIA",
     availability: "Proprietary",
-    llmSupported: "No",
+    llmSupported: "Yes",
     metrics: {
       physIq: { mean: 39.49, std: 0.82 },
       sp: { mean: 53.56, std: 1.45 },

@@ -122,7 +122,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "cosmos3-nano-bpp-opus",
-    model: "cosmos3-nano-bpp-opus",
+    model: "Cosmos3-Nano",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-06-18",

@@ -264,9 +264,6 @@ export default function Home() {
           <a href="https://arxiv.org/abs/2606.18943" target="_blank" rel="noreferrer">
             Paper <ExternalLink size={13} />
           </a>
-          <a href="/docs/metric_definition_phys_iq_verified.pdf" target="_blank" rel="noreferrer">
-            Metrics <ExternalLink size={13} />
-          </a>
           <a href="#leaderboard">Mariana</a>
         </nav>
       </header>
@@ -284,9 +281,6 @@ export default function Home() {
           GitHub repo
         </a>
         <span>Google DeepMind benchmark code</span>
-        <a href="/docs/metric_definition_phys_iq_verified.pdf" target="_blank" rel="noreferrer">
-          Metric definitions
-        </a>
         <a href="https://arxiv.org/abs/2606.18943" target="_blank" rel="noreferrer">
           Full paper
         </a>

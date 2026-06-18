@@ -1,5 +1,6 @@
 export type InputType = "i2v" | "t2v" | "v2v";
 export type Availability = "Proprietary" | "Open source";
+export type LlmSupport = "Yes" | "Likely" | "No";
 
 export type MetricScore = {
   mean: number;
@@ -10,10 +11,11 @@ export type Submission = {
   id: string;
   model: string;
   inputType: InputType;
+  protocol: string;
   dateAdded: string;
   company: string;
   availability: Availability;
-  llmSupported: boolean;
+  llmSupported: LlmSupport;
   metrics: {
     physIq: MetricScore;
     sp: MetricScore;
@@ -36,10 +38,11 @@ export const submissions: Submission[] = [
     id: "grok-imagine-video",
     model: "Grok Imagine Video",
     inputType: "i2v",
+    protocol: "BPP",
     dateAdded: "2026-06-17",
     company: "xAI",
     availability: "Proprietary",
-    llmSupported: true,
+    llmSupported: "Likely",
     metrics: {
       physIq: { mean: 34.8, std: 0.6 },
       sp: { mean: 52.7, std: 0.9 },
@@ -52,10 +55,11 @@ export const submissions: Submission[] = [
     id: "hunyuan-video-15",
     model: "Hunyuan Video 1.5",
     inputType: "i2v",
+    protocol: "BPP",
     dateAdded: "2026-06-17",
     company: "Tencent",
     availability: "Open source",
-    llmSupported: false,
+    llmSupported: "No",
     metrics: {
       physIq: { mean: 33.4, std: 0.8 },
       sp: { mean: 47.1, std: 1.2 },
@@ -68,10 +72,11 @@ export const submissions: Submission[] = [
     id: "wan-22",
     model: "Wan 2.2",
     inputType: "i2v",
+    protocol: "BPP",
     dateAdded: "2026-06-17",
     company: "Alibaba",
     availability: "Open source",
-    llmSupported: false,
+    llmSupported: "No",
     metrics: {
       physIq: { mean: 32.2, std: 0.6 },
       sp: { mean: 51.1, std: 1.0 },
@@ -84,10 +89,11 @@ export const submissions: Submission[] = [
     id: "sora-2",
     model: "Sora 2",
     inputType: "i2v",
+    protocol: "BPP",
     dateAdded: "2026-06-17",
     company: "OpenAI",
     availability: "Proprietary",
-    llmSupported: true,
+    llmSupported: "Likely",
     metrics: {
       physIq: { mean: 26.5, std: 0.8 },
       sp: { mean: 37.3, std: 0.6 },
@@ -100,16 +106,34 @@ export const submissions: Submission[] = [
     id: "p-video",
     model: "P-Video",
     inputType: "i2v",
+    protocol: "BPP",
     dateAdded: "2026-06-17",
     company: "Pruna AI",
     availability: "Proprietary",
-    llmSupported: false,
+    llmSupported: "No",
     metrics: {
       physIq: { mean: 25.3, std: 1.8 },
       sp: { mean: 38.6, std: 2.2 },
       st: { mean: 16.4, std: 2.4 },
       ws: { mean: 22.9, std: 1.8 },
       mse: { mean: 23.3, std: 1.1 }
+    }
+  },
+  {
+    id: "cosmos3-nano",
+    model: "Cosmos3-Nano",
+    inputType: "i2v",
+    protocol: "BPP",
+    dateAdded: "2026-06-18",
+    company: "NVIDIA",
+    availability: "Proprietary",
+    llmSupported: "No",
+    metrics: {
+      physIq: { mean: 29.1, std: 2.4 },
+      sp: { mean: 40.4, std: 2.3 },
+      st: { mean: 22.0, std: 3.7 },
+      ws: { mean: 24.6, std: 2.4 },
+      mse: { mean: 29.5, std: 1.7 }
     }
   }
 ];

@@ -33,8 +33,9 @@ type RankedRow = {
   company: string;
   availability: string;
   inputType: string;
+  protocol: string;
   dateAdded: string;
-  llmSupported: boolean;
+  llmSupported: string;
   metrics: Submission["metrics"];
   members: Submission[];
 };
@@ -72,6 +73,10 @@ function optionMatch(selected: string[], value: string) {
   return selected.length === 0 || selected.includes(value);
 }
 
+function hasLlmSupport(value: string) {
+  return value === "Yes" || value === "Likely";
+}
+
 function averageMetric(rows: Submission[], metric: MetricKey): MetricScore {
   const means = rows.map((row) => row.metrics[metric].mean);
   const stds = rows.map((row) => row.metrics[metric].std);
@@ -89,6 +94,7 @@ function scoreSubmission(submission: Submission): RankedRow {
     company: submission.company,
     availability: submission.availability,
     inputType: submission.inputType,
+    protocol: submission.protocol,
     dateAdded: submission.dateAdded,
     llmSupported: submission.llmSupported,
     metrics: submission.metrics,
@@ -98,7 +104,7 @@ function scoreSubmission(submission: Submission): RankedRow {
 
 function passesFilters(row: RankedRow, filters: FilterState) {
   const query = filters.query.trim().toLowerCase();
-  const searchable = [row.model, row.company, row.availability, row.inputType, row.dateAdded]
+  const searchable = [row.model, row.company, row.availability, row.inputType, row.protocol, row.dateAdded]
     .join(" ")
     .toLowerCase();
 
@@ -108,7 +114,7 @@ function passesFilters(row: RankedRow, filters: FilterState) {
     optionMatch(filters.inputTypes, row.inputType) &&
     optionMatch(filters.availability, row.availability) &&
     (filters.llmSupported === "all" ||
-      (filters.llmSupported === "yes" ? row.llmSupported : !row.llmSupported))
+      (filters.llmSupported === "yes" ? hasLlmSupport(row.llmSupported) : !hasLlmSupport(row.llmSupported)))
   );
 }
 
@@ -134,8 +140,9 @@ function makeRows(viewMode: ViewMode, filters: FilterState) {
       company: `${members.length} submission${members.length === 1 ? "" : "s"}`,
       availability: unique(members.map((member) => member.availability)).join(", "),
       inputType: unique(members.map((member) => member.inputType)).join(", "),
+      protocol: unique(members.map((member) => member.protocol)).join(", "),
       dateAdded: unique(members.map((member) => member.dateAdded)).at(-1) ?? "",
-      llmSupported: members.some((member) => member.llmSupported),
+      llmSupported: members.some((member) => hasLlmSupport(member.llmSupported)) ? "Yes" : "No",
       metrics: {
         physIq: averageMetric(members, "physIq"),
         sp: averageMetric(members, "sp"),
@@ -230,8 +237,8 @@ export default function Home() {
         accessorKey: "llmSupported",
         header: "LLM",
         cell: ({ row }) => (
-          <span className={row.original.llmSupported ? "yes" : "muted-value"}>
-            {row.original.llmSupported ? "Yes" : "No"}
+          <span className={hasLlmSupport(row.original.llmSupported) ? "yes" : "muted-value"}>
+            {row.original.llmSupported}
           </span>
         )
       },
@@ -711,8 +718,9 @@ function DetailDialog({ row, onClose }: { row: RankedRow; onClose: () => void })
         </div>
         <div className="detail-meta">
           <span>{row.inputType}</span>
+          <span>{row.protocol}</span>
           <span>{row.availability}</span>
-          <span>{row.llmSupported ? "LLM supported" : "No LLM support"}</span>
+          <span>{hasLlmSupport(row.llmSupported) ? `LLM ${row.llmSupported}` : "No LLM support"}</span>
           <span>{row.dateAdded}</span>
         </div>
         {row.members.length > 1 && (

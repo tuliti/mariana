@@ -383,6 +383,12 @@ export default function Home() {
       )}
 
       {selected && <DetailDialog row={selected} onClose={() => setSelected(null)} />}
+
+      <footer className="site-footer">
+        <a href="https://anates.ai" target="_blank" rel="noreferrer">
+          Brought to you by Anates Labs
+        </a>
+      </footer>
     </main>
   );
 }

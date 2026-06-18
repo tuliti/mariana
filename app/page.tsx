@@ -278,7 +278,6 @@ export default function Home() {
 
       <section className="hero">
         <div>
-          <h1>Mariana</h1>
           <p className="terminal-line">// measuring visual intelligence<span className="blink">_</span></p>
           <p className="benchmark-title">Physics-IQ Verified</p>
         </div>

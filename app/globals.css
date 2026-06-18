@@ -177,7 +177,7 @@ button {
 .hero {
   width: 100%;
   max-width: 1480px;
-  margin: 30px auto 16px;
+  margin: 26px auto 16px;
 }
 
 .eyebrow,
@@ -209,7 +209,6 @@ h1 {
 }
 
 .terminal-line {
-  margin-top: 12px;
   color: var(--gold);
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -218,7 +217,7 @@ h1 {
 }
 
 .benchmark-title {
-  margin-top: 22px;
+  margin-top: 10px;
   color: var(--text-strong);
   text-transform: uppercase;
   letter-spacing: 2.6px;

@@ -288,8 +288,6 @@ export default function Home() {
             aria-label="Search leaderboard"
           />
         </div>
-        <SegmentedControl value={viewMode} onChange={setViewMode} />
-        <ScoreModeControl value={scoreMode} onChange={setScoreMode} />
         <button className="filter-toggle" onClick={() => setMobileFiltersOpen(true)}>
           <SlidersHorizontal size={15} />
           Filters
@@ -313,7 +311,10 @@ export default function Home() {
               <p className="section-kicker">Verified Ranking</p>
               <h2>{viewMode === "models" ? "Model results" : "Company aggregate"}</h2>
             </div>
-            <span className="row-count">{rows.length} visible</span>
+            <div className="panel-actions">
+              <SegmentedControl value={viewMode} onChange={setViewMode} />
+              <ScoreModeControl value={scoreMode} onChange={setScoreMode} />
+            </div>
           </div>
           <div className="table-wrap">
             <table className="leaderboard-table">
@@ -424,11 +425,11 @@ function Filters({
         onChange={(availability) => setFilters({ ...filters, availability })}
       />
       <RadioGroup
-        label="LLM Support"
+        label="LLM Usage"
         value={filters.llmSupported}
         options={[
           ["all", "All"],
-          ["yes", "Supported"],
+          ["yes", "LLM"],
           ["no", "No LLM"]
         ]}
         onChange={(llmSupported) => setFilters({ ...filters, llmSupported })}

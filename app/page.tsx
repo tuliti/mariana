@@ -617,7 +617,9 @@ function getCompanyIconSrc(company: string) {
     "openai": "/icons/openai.svg",
     "pruna ai": "/icons/pruna-ai.svg",
     "nvidia": "/icons/nvidia.svg",
-    "google": "/icons/google.svg"
+    "google": "/icons/google.svg",
+    "sand ai": "/icons/sand-ai.png",
+    "magi": "/icons/magi.png"
   };
 
   return icons[company.toLowerCase()] ?? null;
@@ -654,6 +656,16 @@ function getCompanyMarkStyle(company: string): CSSProperties {
       color: "rgba(190, 255, 125, 0.98)",
       bg: "rgba(118, 185, 0, 0.18)",
       border: "rgba(118, 185, 0, 0.46)"
+    },
+    "sand ai": {
+      color: "rgba(255, 255, 255, 0.95)",
+      bg: "rgba(240, 216, 120, 0.14)",
+      border: "rgba(240, 216, 120, 0.38)"
+    },
+    "magi": {
+      color: "rgba(255, 255, 255, 0.95)",
+      bg: "rgba(240, 216, 120, 0.14)",
+      border: "rgba(240, 216, 120, 0.38)"
     }
   };
   const colors = companyColors[company.toLowerCase()] ?? {

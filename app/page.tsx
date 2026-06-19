@@ -352,6 +352,8 @@ export default function Home() {
         </section>
       </div>
 
+      <MetricBreakdown rows={rows} />
+
       {mobileFiltersOpen && (
         <div className="drawer" role="dialog" aria-modal="true" aria-label="Filters">
           <button className="drawer-scrim" onClick={() => setMobileFiltersOpen(false)} />
@@ -552,6 +554,57 @@ function CompanyMark({ company }: { company: string }) {
       {iconSrc && !iconFailed && <img src={iconSrc} alt="" onError={() => setIconFailed(true)} />}
       {(!iconSrc || iconFailed) && <span>{initials}</span>}
     </span>
+  );
+}
+
+function MetricBreakdown({ rows }: { rows: RankedRow[] }) {
+  const metrics = [
+    { key: "sp" as const, label: "Spatial" },
+    { key: "st" as const, label: "Spatiotemporal" },
+    { key: "ws" as const, label: "Weighted Spatial" },
+    { key: "mse" as const, label: "MSE" }
+  ];
+
+  return (
+    <section className="metric-breakdown" aria-label="Metric breakdown">
+      <div className="panel-header">
+        <div>
+          <p className="section-kicker">Metric Breakdown</p>
+          <h2>Submetric leaders</h2>
+        </div>
+      </div>
+      <div className="breakdown-grid">
+        {metrics.map((metric) => {
+          const leaders = [...rows]
+            .sort((a, b) => b.metrics[metric.key].mean - a.metrics[metric.key].mean)
+            .slice(0, 5);
+          const max = Math.max(...leaders.map((row) => row.metrics[metric.key].mean), 1);
+
+          return (
+            <article className="breakdown-card" key={metric.key}>
+              <h3>{metric.label}</h3>
+              <ol>
+                {leaders.map((row) => {
+                  const score = row.metrics[metric.key];
+                  return (
+                    <li key={`${metric.key}-${row.id}`}>
+                      <span className="breakdown-name">{row.model}</span>
+                      <span className="breakdown-bar" aria-hidden="true">
+                        <span style={{ width: `${Math.max(5, (score.mean / max) * 100)}%` }} />
+                      </span>
+                      <span className="breakdown-score">
+                        {formatScore(score.mean)}
+                        <small>±{formatScore(score.std)}</small>
+                      </span>
+                    </li>
+                  );
+                })}
+              </ol>
+            </article>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 

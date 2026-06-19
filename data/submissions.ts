@@ -127,7 +127,7 @@ export const submissions: Submission[] = [
     protocol: "BPP",
     dateAdded: "2026-06-18",
     company: "NVIDIA",
-    availability: "Proprietary",
+    availability: "Open source",
     llmSupported: "Yes",
     runs: [30.22, 30.07, 29.55, 31.24],
     metrics: {
@@ -145,7 +145,7 @@ export const submissions: Submission[] = [
     protocol: "BPP",
     dateAdded: "2026-06-18",
     company: "NVIDIA",
-    availability: "Proprietary",
+    availability: "Open source",
     llmSupported: "Yes",
     metrics: {
       physIq: { mean: 39.49, std: 0.82 },

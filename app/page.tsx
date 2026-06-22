@@ -251,7 +251,7 @@ export default function Home() {
     <main className="page-shell">
       <BackgroundField />
       <header className="site-header">
-        <a className="brand" href="https://anates.com" aria-label="Anates Labs">
+        <a className="brand" href="https://anates.ai" aria-label="Anates Labs">
           <OrbitalMark />
           <span>Anates Labs</span>
         </a>

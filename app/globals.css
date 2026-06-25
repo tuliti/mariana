@@ -502,6 +502,11 @@ h1 {
   letter-spacing: 1.8px;
   font-size: 22px;
   font-weight: 700;
+  white-space: nowrap;
+}
+
+.pareto-panel .panel-header {
+  grid-template-columns: minmax(320px, auto) minmax(0, 1fr);
 }
 
 .table-wrap {
@@ -577,9 +582,12 @@ h1 {
 }
 
 .model-cell-text span {
+  display: -webkit-box;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
   font-size: 15px;
   font-weight: 700;
 }
@@ -789,6 +797,203 @@ h1 {
   border: 1px solid rgba(240, 216, 120, 0.18);
   background: rgba(0, 14, 34, 0.46);
   box-shadow: 0 0 30px rgba(10, 80, 200, 0.08);
+}
+
+.pareto-panel {
+  width: 100%;
+  max-width: 1480px;
+  margin: 14px auto 0;
+  border: 1px solid rgba(240, 216, 120, 0.18);
+  background: rgba(0, 14, 34, 0.46);
+  box-shadow: 0 0 30px rgba(10, 80, 200, 0.08);
+}
+
+.frontier-note {
+  max-width: none;
+  margin: 0;
+  border-top: 1px solid rgba(240, 216, 120, 0.12);
+  background: rgba(0, 10, 24, 0.54);
+  padding: 10px 14px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: 0.4px;
+}
+
+.pareto-grid {
+  display: block;
+  background: rgba(240, 216, 120, 0.1);
+}
+
+.pareto-plot {
+  min-width: 0;
+  background: rgba(0, 10, 24, 0.78);
+}
+
+.pareto-plot {
+  position: relative;
+  min-height: 500px;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 82% 20%, rgba(30, 130, 255, 0.1), transparent 34%),
+    rgba(0, 10, 24, 0.78);
+  background-size: 100% 20%, 12.5% 100%, auto, auto;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pareto-plot::before {
+  position: absolute;
+  inset: 12% 7% 12% 7%;
+  content: "";
+  border-left: 1px solid rgba(240, 216, 120, 0.26);
+  border-bottom: 1px solid rgba(240, 216, 120, 0.26);
+  pointer-events: none;
+}
+
+.axis-label,
+.axis-tick {
+  position: absolute;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.y-axis {
+  top: 18px;
+  left: 18px;
+}
+
+.x-axis {
+  right: 18px;
+  bottom: 18px;
+}
+
+.x-start {
+  left: 7%;
+  bottom: 8%;
+}
+
+.x-end {
+  right: 7%;
+  bottom: 8%;
+}
+
+.y-start {
+  left: 18px;
+  bottom: 12%;
+}
+
+.y-end {
+  left: 18px;
+  top: 12%;
+}
+
+.frontier-line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.frontier-line path {
+  fill: none;
+  stroke: rgba(240, 216, 120, 0.7);
+  stroke-width: 0.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px rgba(240, 216, 120, 0.35));
+}
+
+.pareto-point {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transform: translate(-13px, -13px);
+}
+
+.pareto-point .company-mark {
+  flex: 0 0 auto;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--mark-color) 30%, transparent);
+}
+
+.pareto-point.is-frontier .company-mark {
+  border-color: var(--gold);
+  box-shadow: 0 0 22px rgba(240, 216, 120, 0.36);
+}
+
+.point-label {
+  flex: 0 0 auto;
+  max-width: 156px;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.72);
+  overflow-wrap: normal;
+  word-break: normal;
+  line-height: 1.18;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pareto-point.is-right-edge {
+  flex-direction: row-reverse;
+  transform: translate(calc(-100% + 13px), -13px);
+}
+
+.pareto-point.is-right-edge .point-label {
+  transform: translateY(-20px);
+  width: 174px;
+  max-width: 174px;
+  text-align: right;
+}
+
+.pareto-point.is-right-edge .point-tooltip {
+  right: 0;
+  left: auto;
+}
+
+.pareto-point.is-frontier .point-label {
+  color: var(--gold);
+}
+
+.point-tooltip {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 8px);
+  z-index: 5;
+  display: none;
+  min-width: 190px;
+  border: 1px solid rgba(240, 216, 120, 0.3);
+  background: rgba(0, 10, 24, 0.96);
+  box-shadow: 0 0 24px rgba(10, 80, 200, 0.22);
+  padding: 10px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.point-tooltip strong,
+.point-tooltip span {
+  display: block;
+}
+
+.point-tooltip strong {
+  color: var(--text-strong);
+}
+
+.pareto-point:hover {
+  z-index: 6;
+}
+
+.pareto-point:hover .point-tooltip {
+  display: block;
 }
 
 .breakdown-grid {
@@ -1004,11 +1209,17 @@ h1 {
   align-items: start;
 }
 
+.modal-panel header > div {
+  min-width: 0;
+}
+
 .modal-panel h2 {
   color: var(--text-strong);
   text-transform: uppercase;
   letter-spacing: 3px;
-  font-size: 34px;
+  overflow-wrap: anywhere;
+  font-size: clamp(24px, 6vw, 34px);
+  line-height: 1.05;
   font-weight: 400;
 }
 
@@ -1112,6 +1323,11 @@ h1 {
   .signal-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .pareto-plot {
+    min-height: 360px;
+  }
+
 }
 
 @media (max-width: 720px) {
@@ -1159,6 +1375,30 @@ h1 {
   .panel-header {
     align-items: flex-start;
     grid-template-columns: 1fr;
+  }
+
+  .breakdown-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pareto-plot {
+    min-height: 340px;
+  }
+
+  .point-label {
+    max-width: 126px;
+    font-size: 11px;
+  }
+
+  .pareto-point.is-right-edge .point-label {
+    transform: translateY(-16px);
+    width: 132px;
+    max-width: 132px;
+  }
+
+  .axis-label,
+  .axis-tick {
+    font-size: 10px;
   }
 
 }

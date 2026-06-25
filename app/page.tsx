@@ -38,6 +38,20 @@ type RankedRow = {
   metrics: Submission["metrics"];
   members: Submission[];
 };
+type CostProfile = {
+  submissionId: string;
+  label: string;
+  text: boolean;
+  v2v: boolean;
+  i2v: boolean;
+  size: string;
+  fps: number;
+  resolution: string;
+  seedControl: boolean;
+  price: number;
+  llmCost?: number;
+  costBasis?: string;
+};
 
 type FilterState = {
   query: string;
@@ -55,6 +69,97 @@ const initialFilters: FilterState = {
   llmSupported: "all"
 };
 
+const costProfiles: CostProfile[] = [
+  {
+    submissionId: "grok-imagine-video",
+    label: "Grok Imagine Video",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "n.d.",
+    fps: 24,
+    resolution: "1280x720",
+    seedControl: false,
+    price: 0.352
+  },
+  {
+    submissionId: "hunyuan-video-15",
+    label: "HunyuanV-1.5",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "8.3B",
+    fps: 24,
+    resolution: "848x480",
+    seedControl: true,
+    price: 0.4
+  },
+  {
+    submissionId: "p-video",
+    label: "P-Video",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "n.d.",
+    fps: 24,
+    resolution: "1280x704",
+    seedControl: true,
+    price: 0.1
+  },
+  {
+    submissionId: "sora-2",
+    label: "Sora-2",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "n.d.",
+    fps: 30,
+    resolution: "1280x720",
+    seedControl: false,
+    price: 0.8
+  },
+  {
+    submissionId: "wan-22",
+    label: "Wan 2.2",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "14B",
+    fps: 16,
+    resolution: "1280x720",
+    seedControl: true,
+    price: 0.11
+  },
+  {
+    submissionId: "cosmos3-nano-bpp-opus",
+    label: "Cosmos3-Nano",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "16B",
+    fps: 24,
+    resolution: "1280x720",
+    seedControl: true,
+    price: 0.333,
+    llmCost: 0.101,
+    costBasis: "$4/H200-hour at 5 min per generation"
+  },
+  {
+    submissionId: "cosmos3-super-image2video",
+    label: "Cosmos3-Super-Image2Video",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "n.d.",
+    fps: 24,
+    resolution: "1280x720",
+    seedControl: true,
+    price: 0.722,
+    llmCost: 0.101,
+    costBasis: "$3.25/GPU-hour, 4 GPUs, 3 min 20 sec per generation"
+  }
+];
+
 function formatScore(value: number) {
   return value.toFixed(1);
 }
@@ -62,6 +167,27 @@ function formatScore(value: number) {
 function formatSignedScore(value: number) {
   const sign = value > 0 ? "+" : "";
   return `${sign}${value.toFixed(1)}`;
+}
+
+function formatPrice(value: number) {
+  return `$${value.toFixed(3)}`;
+}
+
+function getResolutionWidth(resolution: string) {
+  const width = Number(resolution.toLowerCase().split("x")[0]);
+  return Number.isFinite(width) && width > 0 ? width : 1280;
+}
+
+function getNormalizedCost(profile: CostProfile) {
+  const baseCost = profile.price + (profile.llmCost ?? 0);
+  const fpsFactor = 24 / profile.fps;
+  const resolutionFactor = 1280 / getResolutionWidth(profile.resolution);
+  return {
+    baseCost,
+    fpsFactor,
+    resolutionFactor,
+    effectiveCost: baseCost * fpsFactor * resolutionFactor
+  };
 }
 
 function unique<T>(values: T[]) {
@@ -355,6 +481,8 @@ export default function Home() {
 
       <MetricBreakdown rows={rows} />
 
+      <ParetoFrontier />
+
       {mobileFiltersOpen && (
         <div className="drawer" role="dialog" aria-modal="true" aria-label="Filters">
           <button className="drawer-scrim" onClick={() => setMobileFiltersOpen(false)} />
@@ -605,6 +733,102 @@ function MetricBreakdown({ rows }: { rows: RankedRow[] }) {
           );
         })}
       </div>
+    </section>
+  );
+}
+
+function ParetoFrontier() {
+  const points = costProfiles
+    .map((profile) => {
+      const submission = submissions.find((item) => item.id === profile.submissionId);
+      if (!submission) return null;
+      return {
+        ...profile,
+        ...getNormalizedCost(profile),
+        model: submission.model,
+        company: submission.company,
+        performance: submission.metrics.physIq.mean,
+        std: submission.metrics.physIq.std
+      };
+    })
+    .filter((point): point is NonNullable<typeof point> => Boolean(point));
+
+  const minPrice = 0;
+  const maxPrice = Math.max(...points.map((point) => point.effectiveCost));
+  const minPerformance = 15;
+  const maxPerformance = 50;
+  const priceRange = Math.max(0.001, maxPrice - minPrice);
+  const performanceRange = Math.max(1, maxPerformance - minPerformance);
+  const plotX = (price: number) => 7 + ((price - minPrice) / priceRange) * 86;
+  const plotY = (performance: number) =>
+    88 - ((performance - minPerformance) / performanceRange) * 76;
+  const frontier = points
+    .filter((candidate) =>
+      points.every(
+        (other) =>
+          other === candidate ||
+          other.effectiveCost > candidate.effectiveCost ||
+          other.performance < candidate.performance ||
+          (other.effectiveCost === candidate.effectiveCost && other.performance === candidate.performance)
+      )
+    )
+    .sort((a, b) => a.effectiveCost - b.effectiveCost);
+  const frontierPath = frontier
+    .map((point, index) => `${index === 0 ? "M" : "L"} ${plotX(point.effectiveCost)} ${plotY(point.performance)}`)
+    .join(" ");
+
+  return (
+    <section className="pareto-panel" aria-label="Cost performance frontier">
+      <div className="panel-header">
+        <div>
+          <p className="section-kicker">Cost Frontier</p>
+          <h2>Score vs Cost ($)</h2>
+        </div>
+      </div>
+      <div className="pareto-grid">
+        <div className="pareto-plot" role="img" aria-label="Normalized effective cost against Phys-IQ verified score">
+          <div className="axis-label y-axis">Phys-IQ verified</div>
+          <div className="axis-label x-axis">Effective cost</div>
+          <svg className="frontier-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <path d={frontierPath} />
+          </svg>
+          {points.map((point) => {
+            const isFrontier = frontier.some((item) => item.submissionId === point.submissionId);
+            const x = plotX(point.effectiveCost);
+            return (
+              <div
+                className={[
+                  "pareto-point",
+                  isFrontier ? "is-frontier" : "",
+                  x > 74 ? "is-right-edge" : ""
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                key={point.submissionId}
+                style={{ left: `${x}%`, top: `${plotY(point.performance)}%` }}
+              >
+                <CompanyMark company={point.company} />
+                <span className="point-label">{point.model}</span>
+                <span className="point-tooltip">
+                  <strong>{point.model}</strong>
+                  <span>{point.company}</span>
+                  <span>Effective cost {formatPrice(point.effectiveCost)}</span>
+                </span>
+              </div>
+            );
+          })}
+          <div className="axis-tick x-start">{formatPrice(minPrice)}</div>
+          <div className="axis-tick x-end">{formatPrice(maxPrice)}</div>
+          <div className="axis-tick y-start">{minPerformance}%</div>
+          <div className="axis-tick y-end">{maxPerformance}%</div>
+        </div>
+      </div>
+      <p className="frontier-note">
+        * Price via leading API providers or estimated via GPU market rate, May 2026. Effective
+        cost normalizes to 24 FPS and 1280-wide output, with separate LLM prompt overhead where used.
+        n.d. denotes values not publicly disclosed by the model provider. GPU implementations were
+        done to the best of our knowledge and as close as possible to the recommended setup.
+      </p>
     </section>
   );
 }

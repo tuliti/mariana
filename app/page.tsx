@@ -402,6 +402,9 @@ export default function Home() {
         <a href="https://arxiv.org/abs/2606.18943" target="_blank" rel="noreferrer">
           Full paper
         </a>
+        <a href="/dataset-fixes/">
+          Dataset fixes and visual audit
+        </a>
       </section>
 
       <section className="control-band" aria-label="Leaderboard controls">
@@ -812,6 +815,9 @@ function ParetoFrontier() {
                 <span className="point-tooltip">
                   <strong>{point.model}</strong>
                   <span>{point.company}</span>
+                  <span>
+                    Score: {formatScore(point.performance)} ±{formatScore(point.std)}
+                  </span>
                   <span>Effective cost {formatPrice(point.effectiveCost)}</span>
                 </span>
               </div>

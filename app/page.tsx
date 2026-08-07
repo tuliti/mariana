@@ -5,8 +5,11 @@ import {
   ArrowUp,
   Check,
   ChevronDown,
+  Database,
   ExternalLink,
+  FileText,
   Filter,
+  Github,
   Search,
   SlidersHorizontal,
   X
@@ -396,14 +399,20 @@ export default function Home() {
       </section>
 
       <section className="notice-band">
-        <a href="https://github.com/google-deepmind/physics-IQ-benchmark" target="_blank" rel="noreferrer">
-          GitHub repo
+        <a className="resource-card" href="https://github.com/google-deepmind/physics-IQ-benchmark" target="_blank" rel="noreferrer">
+          <span>GitHub repo</span>
+          <Github size={38} strokeWidth={1.5} aria-hidden="true" />
+          <small>Code &amp; benchmark</small>
         </a>
-        <a href="https://arxiv.org/abs/2606.18943" target="_blank" rel="noreferrer">
-          Full paper
+        <a className="resource-card" href="https://arxiv.org/abs/2606.18943" target="_blank" rel="noreferrer">
+          <span>Full paper</span>
+          <FileText size={38} strokeWidth={1.5} aria-hidden="true" />
+          <small>Methods &amp; results</small>
         </a>
-        <a href="/dataset-fixes/">
-          Dataset fixes and visual audit
+        <a className="resource-card" href="/dataset-fixes/">
+          <span>Dataset audit</span>
+          <Database size={38} strokeWidth={1.5} aria-hidden="true" />
+          <small>Fixes &amp; visual evidence</small>
         </a>
       </section>
 

@@ -19,10 +19,10 @@ export type Submission = {
   runs?: number[];
   metrics: {
     physIq: MetricScore;
-    sp: MetricScore;
-    st: MetricScore;
-    ws: MetricScore;
-    mse: MetricScore;
+    sp?: MetricScore;
+    st?: MetricScore;
+    ws?: MetricScore;
+    mse?: MetricScore;
   };
 };
 
@@ -35,6 +35,19 @@ export const metricLabels = {
 } as const;
 
 export const submissions: Submission[] = [
+  {
+    id: "kandinsky-wm-10-general-physics",
+    model: "Kandinsky-WM 1.0 General Physics",
+    inputType: "i2v",
+    protocol: "BPP",
+    dateAdded: "2026-08-07",
+    company: "Kandinsky Lab",
+    availability: "Open source",
+    llmSupported: "Yes",
+    metrics: {
+      physIq: { mean: 30.8, std: 0.9 }
+    }
+  },
   {
     id: "grok-imagine-video",
     model: "Grok Imagine Video",

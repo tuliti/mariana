@@ -707,17 +707,20 @@ function MetricBreakdown({ rows }: { rows: RankedRow[] }) {
       </div>
       <div className="breakdown-grid">
         {metrics.map((metric) => {
-          const leaders = [...rows]
-            .sort((a, b) => b.metrics[metric.key].mean - a.metrics[metric.key].mean)
+          const leaders = rows
+            .flatMap((row) => {
+              const score = row.metrics[metric.key];
+              return score ? [{ row, score }] : [];
+            })
+            .sort((a, b) => b.score.mean - a.score.mean)
             .slice(0, 5);
-          const max = Math.max(...leaders.map((row) => row.metrics[metric.key].mean), 1);
+          const max = Math.max(...leaders.map(({ score }) => score.mean), 1);
 
           return (
             <article className="breakdown-card" key={metric.key}>
               <h3>{metric.label}</h3>
               <ol>
-                {leaders.map((row) => {
-                  const score = row.metrics[metric.key];
+                {leaders.map(({ row, score }) => {
                   return (
                     <li key={`${metric.key}-${row.id}`}>
                       <span className="breakdown-name">{row.model}</span>
@@ -849,7 +852,9 @@ function getCompanyIconSrc(company: string) {
     "nvidia": "/icons/nvidia.svg",
     "google": "/icons/google.svg",
     "sand ai": "/icons/sand-ai.png",
-    "magi": "/icons/magi.png"
+    "magi": "/icons/magi.png",
+    "kandinsky": "/icons/kandinsky.svg",
+    "kandinsky lab": "/icons/kandinsky.svg"
   };
 
   return icons[company.toLowerCase()] ?? null;

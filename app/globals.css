@@ -1669,6 +1669,27 @@ h1 {
   min-width: 148px;
 }
 
+.track-control {
+  border-color: rgba(240, 216, 120, 0.42);
+}
+
+.track-control button {
+  min-width: 180px;
+  color: rgba(255, 255, 255, 0.42);
+  font-weight: 900;
+}
+
+.track-control button small {
+  margin-left: 5px;
+  font-size: 9px;
+  opacity: 0.68;
+}
+
+.track-control button:hover,
+.track-control button[aria-pressed="true"] {
+  color: var(--gold);
+}
+
 .segmented button + button {
   border-left: 1px solid rgba(240, 216, 120, 0.18);
 }
@@ -1810,6 +1831,44 @@ h1 {
   min-width: 0;
 }
 
+.track-switch-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  border-bottom: 1px solid rgba(240, 216, 120, 0.16);
+  background: rgba(0, 10, 24, 0.72);
+  padding: 14px 20px;
+}
+
+.track-switch-row > span {
+  position: absolute;
+  left: 20px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .track-switch-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .track-switch-row .track-control button {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .track-switch-row > span {
+    position: static;
+    text-align: center;
+  }
+}
+
 .panel-header {
   display: grid;
   grid-template-columns: 290px minmax(0, 1fr);
@@ -1839,6 +1898,13 @@ h1 {
 
 .pareto-panel .panel-header {
   grid-template-columns: minmax(320px, auto) minmax(0, 1fr);
+}
+
+.track-empty-state {
+  margin: 0;
+  padding: 42px 20px;
+  color: var(--muted);
+  text-align: center;
 }
 
 .table-wrap {

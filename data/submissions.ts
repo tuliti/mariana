@@ -36,6 +36,32 @@ export const metricLabels = {
 
 export const submissions: Submission[] = [
   {
+    id: "magi-1-24b-geophys-bon-op-v2v",
+    model: "Magi-1 24B + GeoPhys (BoN) (op)",
+    inputType: "v2v",
+    protocol: "BoN",
+    dateAdded: "2026-06-19",
+    company: "Sand AI",
+    availability: "Open source",
+    llmSupported: "Yes",
+    metrics: {
+      physIq: { mean: 58.2, std: 1.8 }
+    }
+  },
+  {
+    id: "magi-1-24b-op-v2v",
+    model: "Magi-1 24B (op)",
+    inputType: "v2v",
+    protocol: "V2V",
+    dateAdded: "2026-06-19",
+    company: "Sand AI",
+    availability: "Open source",
+    llmSupported: "Yes",
+    metrics: {
+      physIq: { mean: 48.4, std: 1.1 }
+    }
+  },
+  {
     id: "magi-1-24b-geophys-bon-op",
     model: "Magi-1 24B + GeoPhys (BoN) (op)",
     inputType: "i2v",

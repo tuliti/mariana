@@ -23,11 +23,12 @@ import {
   useReactTable
 } from "@tanstack/react-table";
 import type { CSSProperties } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { submissions, type MetricScore, type Submission } from "../data/submissions";
 
 type ViewMode = "models" | "companies";
 type ScoreMode = "verified" | "net";
+type BenchmarkTrack = "i2v" | "v2v";
 type RankedRow = {
   id: string;
   rank: number;
@@ -59,7 +60,6 @@ type CostProfile = {
 type FilterState = {
   query: string;
   companies: string[];
-  inputTypes: string[];
   availability: string[];
   llmSupported: "all" | "yes" | "no";
 };
@@ -67,7 +67,6 @@ type FilterState = {
 const initialFilters: FilterState = {
   query: "",
   companies: [],
-  inputTypes: [],
   availability: [],
   llmSupported: "all"
 };
@@ -230,15 +229,17 @@ function passesFilters(row: RankedRow, filters: FilterState) {
   return (
     (!query || searchable.includes(query)) &&
     optionMatch(filters.companies, row.company) &&
-    optionMatch(filters.inputTypes, row.inputType) &&
     optionMatch(filters.availability, row.availability) &&
     (filters.llmSupported === "all" ||
       (filters.llmSupported === "yes" ? hasLlmSupport(row.llmSupported) : !hasLlmSupport(row.llmSupported)))
   );
 }
 
-function makeRows(viewMode: ViewMode, filters: FilterState) {
-  const modelRows = submissions.map(scoreSubmission).filter((row) => passesFilters(row, filters));
+function makeRows(viewMode: ViewMode, filters: FilterState, benchmarkTrack: BenchmarkTrack) {
+  const modelRows = submissions
+    .filter((submission) => submission.inputType === benchmarkTrack)
+    .map(scoreSubmission)
+    .filter((row) => passesFilters(row, filters));
 
   if (viewMode === "models") {
     return modelRows
@@ -276,12 +277,41 @@ export default function Home() {
   const [filters, setFilters] = useState<FilterState>(initialFilters);
   const [viewMode, setViewMode] = useState<ViewMode>("models");
   const [scoreMode, setScoreMode] = useState<ScoreMode>("verified");
+  const [benchmarkTrack, setBenchmarkTrack] = useState<BenchmarkTrack>("i2v");
   const [sorting, setSorting] = useState<SortingState>([{ id: "physIq", desc: true }]);
   const [selected, setSelected] = useState<RankedRow | null>(null);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const rows = useMemo(() => makeRows(viewMode, filters), [viewMode, filters]);
-  const allModelRows = useMemo(() => submissions.map(scoreSubmission), []);
+  useEffect(() => {
+    const readTrack = () => {
+      const track = new URL(window.location.href).searchParams.get("track");
+      setBenchmarkTrack(track === "v2v" ? "v2v" : "i2v");
+    };
+    readTrack();
+    window.addEventListener("popstate", readTrack);
+    return () => window.removeEventListener("popstate", readTrack);
+  }, []);
+
+  const changeBenchmarkTrack = (track: BenchmarkTrack) => {
+    setBenchmarkTrack(track);
+    setFilters(initialFilters);
+    setSelected(null);
+    const url = new URL(window.location.href);
+    url.searchParams.set("track", track);
+    window.history.replaceState({}, "", url);
+  };
+
+  const rows = useMemo(
+    () => makeRows(viewMode, filters, benchmarkTrack),
+    [benchmarkTrack, filters, viewMode]
+  );
+  const allModelRows = useMemo(
+    () =>
+      submissions
+        .filter((submission) => submission.inputType === benchmarkTrack)
+        .map(scoreSubmission),
+    [benchmarkTrack]
+  );
   const netBaseline = useMemo(
     () =>
       allModelRows.reduce((sum, row) => sum + row.metrics.physIq.mean, 0) /
@@ -297,7 +327,6 @@ export default function Home() {
   }, [netBaseline, rows]);
   const activeFilterCount =
     filters.companies.length +
-    filters.inputTypes.length +
     filters.availability.length +
     (filters.llmSupported === "all" ? 0 : 1) +
     (filters.query.trim() ? 1 : 0);
@@ -334,7 +363,16 @@ export default function Home() {
           scoreMode === "net"
             ? row.metrics.physIq.mean - netBaseline
             : row.metrics.physIq.mean,
-        header: scoreMode === "net" ? "Net Improvement" : "Phys-IQ",
+        header: () =>
+          scoreMode === "net" ? (
+            "Net Improvement"
+          ) : (
+            <>
+              Phys-IQ
+              <br />
+              Verified
+            </>
+          ),
         cell: ({ row }) => (
           <ScoreCell
             score={row.original.metrics.physIq}
@@ -422,7 +460,7 @@ export default function Home() {
           <input
             value={filters.query}
             onChange={(event) => setFilters({ ...filters, query: event.target.value })}
-            placeholder="Search model, company, input type"
+            placeholder="Search model or company"
             aria-label="Search leaderboard"
           />
         </div>
@@ -444,9 +482,13 @@ export default function Home() {
         </aside>
 
         <section className="leaderboard-panel">
+          <div className="track-switch-row">
+            <span>Benchmark track</span>
+            <BenchmarkTrackControl value={benchmarkTrack} onChange={changeBenchmarkTrack} />
+          </div>
           <div className="panel-header">
             <div>
-              <p className="section-kicker">Verified Ranking</p>
+              <p className="section-kicker">{benchmarkTrack.toUpperCase()} Verified Ranking</p>
               <h2>{viewMode === "models" ? "Model results" : "Company aggregate"}</h2>
             </div>
             <div className="panel-actions">
@@ -493,7 +535,7 @@ export default function Home() {
 
       <MetricBreakdown rows={rows} />
 
-      <ParetoFrontier />
+      <ParetoFrontier benchmarkTrack={benchmarkTrack} />
 
       {mobileFiltersOpen && (
         <div className="drawer" role="dialog" aria-modal="true" aria-label="Filters">
@@ -551,12 +593,6 @@ function Filters({
         options={unique(allRows.map((row) => row.company))}
         selected={filters.companies}
         onChange={(companies) => setFilters({ ...filters, companies })}
-      />
-      <OptionGroup
-        label="Input Type"
-        options={unique(allRows.map((row) => row.inputType))}
-        selected={filters.inputTypes}
-        onChange={(inputTypes) => setFilters({ ...filters, inputTypes })}
       />
       <OptionGroup
         label="Availability"
@@ -660,6 +696,25 @@ function SegmentedControl({
   );
 }
 
+function BenchmarkTrackControl({
+  value,
+  onChange
+}: {
+  value: BenchmarkTrack;
+  onChange: (value: BenchmarkTrack) => void;
+}) {
+  return (
+    <div className="segmented track-control" role="group" aria-label="Benchmark track">
+      <button aria-pressed={value === "i2v"} onClick={() => onChange("i2v")}>
+        Image-to-Video <small>I2V</small>
+      </button>
+      <button aria-pressed={value === "v2v"} onClick={() => onChange("v2v")}>
+        Video-to-Video <small>V2V</small>
+      </button>
+    </div>
+  );
+}
+
 function ScoreModeControl({
   value,
   onChange
@@ -705,6 +760,9 @@ function MetricBreakdown({ rows }: { rows: RankedRow[] }) {
     { key: "ws" as const, label: "Weighted Spatial" },
     { key: "mse" as const, label: "MSE" }
   ];
+  const hasSubmetrics = rows.some((row) =>
+    metrics.some((metric) => Boolean(row.metrics[metric.key]))
+  );
 
   return (
     <section className="metric-breakdown" aria-label="Metric breakdown">
@@ -714,7 +772,7 @@ function MetricBreakdown({ rows }: { rows: RankedRow[] }) {
           <h2>Submetric leaders</h2>
         </div>
       </div>
-      <div className="breakdown-grid">
+      {hasSubmetrics ? <div className="breakdown-grid">
         {metrics.map((metric) => {
           const leaders = rows
             .flatMap((row) => {
@@ -747,16 +805,20 @@ function MetricBreakdown({ rows }: { rows: RankedRow[] }) {
             </article>
           );
         })}
-      </div>
+      </div> : (
+        <p className="track-empty-state">
+          Component-level scores have not yet been reported for this benchmark track.
+        </p>
+      )}
     </section>
   );
 }
 
-function ParetoFrontier() {
+function ParetoFrontier({ benchmarkTrack }: { benchmarkTrack: BenchmarkTrack }) {
   const points = costProfiles
     .map((profile) => {
       const submission = submissions.find((item) => item.id === profile.submissionId);
-      if (!submission) return null;
+      if (!submission || submission.inputType !== benchmarkTrack) return null;
       return {
         ...profile,
         ...getNormalizedCost(profile),
@@ -767,6 +829,25 @@ function ParetoFrontier() {
       };
     })
     .filter((point): point is NonNullable<typeof point> => Boolean(point));
+
+  if (points.length === 0) {
+    return (
+      <section
+        className="pareto-panel"
+        aria-label={`${benchmarkTrack.toUpperCase()} cost performance frontier`}
+      >
+        <div className="panel-header">
+          <div>
+            <p className="section-kicker">{benchmarkTrack.toUpperCase()} Cost Frontier</p>
+            <h2>Score vs Cost ($)</h2>
+          </div>
+        </div>
+        <p className="track-empty-state">
+          Cost data has not yet been reported for this benchmark track.
+        </p>
+      </section>
+    );
+  }
 
   const minPrice = 0;
   const maxPrice = Math.max(...points.map((point) => point.effectiveCost));

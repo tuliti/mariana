@@ -36,6 +36,19 @@ export const metricLabels = {
 
 export const submissions: Submission[] = [
   {
+    id: "magi-1-24b-geophys-bon-op",
+    model: "Magi-1 24B + GeoPhys (BoN) (op)",
+    inputType: "i2v",
+    protocol: "BoN",
+    dateAdded: "2026-06-19",
+    company: "Sand AI",
+    availability: "Open source",
+    llmSupported: "Yes",
+    metrics: {
+      physIq: { mean: 33.7, std: 1.4 }
+    }
+  },
+  {
     id: "kandinsky-wm-10-general-physics",
     model: "Kandinsky-WM 1.0 General Physics",
     inputType: "i2v",

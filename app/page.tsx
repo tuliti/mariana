@@ -133,6 +133,21 @@ const costProfiles: CostProfile[] = [
     price: 0.11
   },
   {
+    submissionId: "kandinsky-wm-10-general-physics",
+    label: "Kandinsky-WM 1.0",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "2B",
+    fps: 24,
+    resolution: "768x512",
+    seedControl: false,
+    price: 0.1286868687,
+    llmCost: 0.0072632576,
+    costBasis:
+      "$3.25/H100-hour; measured 7.84 generation + 0.4425 prompt H100 GPU-hours across 198 videos"
+  },
+  {
     submissionId: "cosmos3-nano-bpp-opus",
     label: "Cosmos3-Nano",
     text: true,
@@ -365,7 +380,11 @@ export default function Home() {
             : row.metrics.physIq.mean,
         header: () =>
           scoreMode === "net" ? (
-            "Net Improvement"
+            <>
+              Net
+              <br />
+              Improvement
+            </>
           ) : (
             <>
               Phys-IQ

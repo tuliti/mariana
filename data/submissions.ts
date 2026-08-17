@@ -84,7 +84,11 @@ export const submissions: Submission[] = [
     availability: "Open source",
     llmSupported: "Yes",
     metrics: {
-      physIq: { mean: 30.8, std: 0.9 }
+      physIq: { mean: 30.82666741, std: 0.86452545 },
+      sp: { mean: 38.77262595, std: 2.57608967 },
+      st: { mean: 29.99809951, std: 2.67306074 },
+      ws: { mean: 27.40359302, std: 2.04300924 },
+      mse: { mean: 27.13235114, std: 1.48433183 }
     }
   },
   {
@@ -95,7 +99,7 @@ export const submissions: Submission[] = [
     dateAdded: "2026-06-17",
     company: "xAI",
     availability: "Proprietary",
-    llmSupported: "Likely",
+    llmSupported: "Yes",
     metrics: {
       physIq: { mean: 34.8, std: 0.6 },
       sp: { mean: 52.7, std: 0.9 },
@@ -146,7 +150,7 @@ export const submissions: Submission[] = [
     dateAdded: "2026-06-17",
     company: "OpenAI",
     availability: "Proprietary",
-    llmSupported: "Likely",
+    llmSupported: "Yes",
     metrics: {
       physIq: { mean: 26.5, std: 0.8 },
       sp: { mean: 37.3, std: 0.6 },

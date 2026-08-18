@@ -36,6 +36,24 @@ export const metricLabels = {
 
 export const submissions: Submission[] = [
   {
+    id: "cogvideox-5b-i2v-bpp",
+    model: "CogVideoX-5B-I2V",
+    inputType: "i2v",
+    protocol: "BPP",
+    dateAdded: "n.d.",
+    company: "Z.ai",
+    availability: "Open source",
+    llmSupported: "No",
+    runs: [33.08, 30.34, 32.97, 30.61],
+    metrics: {
+      physIq: { mean: 31.75, std: 1.47 },
+      sp: { mean: 37.77, std: 4.6 },
+      st: { mean: 35.45, std: 4.91 },
+      ws: { mean: 21.81, std: 1.89 },
+      mse: { mean: 31.97, std: 1.71 }
+    }
+  },
+  {
     id: "magi-1-24b-geophys-bon-op-v2v",
     model: "Magi-1 24B + GeoPhys (BoN) (op)",
     inputType: "v2v",

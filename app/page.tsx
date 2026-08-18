@@ -133,6 +133,20 @@ const costProfiles: CostProfile[] = [
     price: 0.11
   },
   {
+    submissionId: "cogvideox-5b-i2v-bpp",
+    label: "CogVideoX-5B-I2V",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "5B",
+    fps: 8,
+    resolution: "720x480",
+    seedControl: true,
+    price: 0.2354403409,
+    costBasis:
+      "$1.625/A100-hour; measured 114.75 GPU-hours across 792 videos (521.59 s/video)"
+  },
+  {
     submissionId: "kandinsky-wm-10-general-physics",
     label: "Kandinsky-WM 1.0",
     text: true,

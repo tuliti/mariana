@@ -8,6 +8,7 @@ Reference period: May 2026 GPU market rates.
 
 | GPU | Reference rate |
 | --- | ---: |
+| NVIDIA A100 | $1.625 per GPU-hour |
 | NVIDIA H100 80GB | $3.25 per GPU-hour |
 | NVIDIA H200 | $4.00 per GPU-hour |
 
@@ -28,6 +29,7 @@ If an input is not established, keep it explicitly unknown. Estimates must be la
 
 ## Existing assumptions
 
+- CogVideoX-5B-I2V: one NVIDIA A100 per shard job; measured allocation was 114.75 A100 GPU-hours across 792 videos. At $1.625/A100-hour, raw generation cost is $0.235440 per video. No prompt-upsampling cost is applied.
 - Cosmos3-Nano: $4.00/H200-hour, one H200, five minutes per generation; separate LLM cost recorded.
 - Cosmos3-Super-Image2Video: $3.25/GPU-hour, four GPUs, three minutes twenty seconds per generation; separate LLM cost recorded.
 - Kandinsky-WM 1.0: eight NVIDIA H100 80GB GPUs; measured allocation across 198 videos was 7.84 H100 GPU-hours for generation and 0.4425 H100 GPU-hours for Qwen3-VL prompt upsampling. At $3.25/H100-hour, raw costs are $0.128687 generation and $0.007263 prompt upsampling per video.

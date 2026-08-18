@@ -15,9 +15,12 @@ Reference period: May 2026 GPU market rates.
 
 ```text
 generation cost = GPU hourly rate × GPU count × generation time in seconds / 3600
-base cost = generation cost or API price + known LLM/prompt-upsampling cost
-effective cost = base cost × (24 / FPS) × (1280 / output width)
+normalized generation cost = generation cost or API price × (24 / FPS) × (1280 / output width)
+effective cost = normalized generation cost + known LLM/prompt-upsampling cost
 ```
+
+LLM and prompt-upsampling costs are independent of the generated video's FPS and resolution. Add
+them after normalization; never multiply them by the video normalization factors.
 
 Store the GPU model, GPU count, hourly rate, runtime per generation, and whether prompt-upsampling cost is included in `costBasis`.
 

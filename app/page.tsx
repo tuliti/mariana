@@ -196,14 +196,15 @@ function getResolutionWidth(resolution: string) {
 }
 
 function getNormalizedCost(profile: CostProfile) {
-  const baseCost = profile.price + (profile.llmCost ?? 0);
+  const promptCost = profile.llmCost ?? 0;
+  const baseCost = profile.price + promptCost;
   const fpsFactor = 24 / profile.fps;
   const resolutionFactor = 1280 / getResolutionWidth(profile.resolution);
   return {
     baseCost,
     fpsFactor,
     resolutionFactor,
-    effectiveCost: baseCost * fpsFactor * resolutionFactor
+    effectiveCost: profile.price * fpsFactor * resolutionFactor + promptCost
   };
 }
 

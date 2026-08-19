@@ -123,7 +123,7 @@ const costProfiles: CostProfile[] = [
   },
   {
     submissionId: "wan-22",
-    label: "Wan 2.2",
+    label: "Wan 2.2 14B",
     text: true,
     v2v: false,
     i2v: true,

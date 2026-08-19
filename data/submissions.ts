@@ -144,8 +144,25 @@ export const submissions: Submission[] = [
     }
   },
   {
+    id: "wan-22-5b",
+    model: "Wan 2.2 5B",
+    inputType: "i2v",
+    protocol: "OP",
+    dateAdded: "2026-08-18",
+    company: "Alibaba",
+    availability: "Open source",
+    llmSupported: "No",
+    metrics: {
+      physIq: { mean: 27.71, std: 0.91 },
+      sp: { mean: 35.89, std: 1.08 },
+      st: { mean: 26.44, std: 1.24 },
+      ws: { mean: 22.96, std: 1.74 },
+      mse: { mean: 25.54, std: 0.29 }
+    }
+  },
+  {
     id: "wan-22",
-    model: "Wan 2.2",
+    model: "Wan 2.2 14B",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-06-17",

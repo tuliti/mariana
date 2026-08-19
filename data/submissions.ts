@@ -39,7 +39,7 @@ export const metricLabels = {
 export const submissions: Submission[] = [
   {
     id: "cogvideox-5b-i2v-bpp",
-    model: "CogVideoX-5B-I2V",
+    model: "CogVideoX-5B",
     modelIdentifier: "zai-org/CogVideoX-5b-I2V",
     sourceUrl: "https://huggingface.co/zai-org/CogVideoX-5b-I2V",
     inputType: "i2v",
@@ -237,7 +237,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "cosmos3-nano-bpp-opus",
-    model: "Cosmos3-Nano",
+    model: "Cosmos3 Nano",
     modelIdentifier: "Cosmos3-Nano",
     sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Nano",
     inputType: "i2v",
@@ -257,7 +257,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "cosmos3-super-image2video",
-    model: "Cosmos3-Super-Image2Video",
+    model: "Cosmos3 Super",
     modelIdentifier: "Cosmos3-Super-Image2Video",
     sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Super-Image2Video",
     inputType: "i2v",

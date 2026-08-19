@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { House } from "lucide-react";
 
 type Media = {
   src: string;
@@ -286,6 +287,13 @@ export default function DatasetFixesPage() {
         <a className="brand" href="https://anates.ai" aria-label="Anates Labs">
           <OrbitalMark />
           <span>Anates Labs</span>
+        </a>
+        <a className="overview-return" href="/" aria-label="Return to the Physics-IQ Verified leaderboard overview">
+          <House size={38} strokeWidth={1.5} aria-hidden="true" />
+          <span>
+            <strong>Leaderboard overview</strong>
+            <small>Scores &amp; results</small>
+          </span>
         </a>
       </header>
 

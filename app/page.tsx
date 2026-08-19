@@ -134,6 +134,19 @@ const costProfiles: CostProfile[] = [
     price: 0.11
   },
   {
+    submissionId: "wan-22-5b",
+    label: "Wan 2.2 5B",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "5B",
+    fps: 24,
+    resolution: "1248x704",
+    seedControl: true,
+    price: 0.0874666667,
+    costBasis: "$0.60/RTX 4090-hour; official 524.8 s single-GPU I2V-5B reference benchmark"
+  },
+  {
     submissionId: "cogvideox-5b-i2v-bpp",
     label: "CogVideoX-5B-I2V",
     text: true,

@@ -9,6 +9,7 @@ Reference period: May 2026 GPU market rates.
 | GPU | Reference rate |
 | --- | ---: |
 | NVIDIA A100 | $1.625 per GPU-hour |
+| NVIDIA GeForce RTX 4090 | $0.60 per GPU-hour |
 | NVIDIA H100 80GB | $3.25 per GPU-hour |
 | NVIDIA H200 | $4.00 per GPU-hour |
 
@@ -35,6 +36,7 @@ If an input is not established, keep it explicitly unknown. Estimates must be la
 
 ## Existing assumptions
 
+- Wan 2.2 5B: one NVIDIA GeForce RTX 4090; official I2V-5B reference benchmark is 524.8 seconds per generation. At $0.60/RTX 4090-hour, raw generation cost is $0.087467 per video. No prompt-upsampling cost is applied.
 - CogVideoX-5B-I2V: one NVIDIA A100 per shard job; measured allocation was 114.75 A100 GPU-hours across 792 videos. At $1.625/A100-hour, raw generation cost is $0.235440 per video. No prompt-upsampling cost is applied.
 - Cosmos3-Nano: $4.00/H200-hour, one H200, five minutes per generation; separate LLM cost recorded.
 - Cosmos3-Super-Image2Video: $3.25/GPU-hour, four GPUs, three minutes twenty seconds per generation; separate LLM cost recorded.

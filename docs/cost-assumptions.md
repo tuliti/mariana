@@ -23,6 +23,12 @@ effective cost = normalized generation cost + known LLM/prompt-upsampling cost
 LLM and prompt-upsampling costs are independent of the generated video's FPS and resolution. Add
 them after normalization; never multiply them by the video normalization factors.
 
+## Website comparison modes
+
+- **Normalized:** generation cost × FPS factor × width factor, plus prompt cost.
+- **FPS only:** generation cost × FPS factor, plus prompt cost; native resolution is retained.
+- **Unnormalized:** raw generation cost plus prompt cost at the model's native settings.
+
 Store the GPU model, GPU count, hourly rate, runtime per generation, and whether prompt-upsampling cost is included in `costBasis`.
 
 If an input is not established, keep it explicitly unknown. Estimates must be labelled as estimates. Do not treat an omitted LLM or prompt-upsampling cost as zero without noting that it is excluded.

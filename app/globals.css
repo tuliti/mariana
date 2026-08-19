@@ -1900,6 +1900,48 @@ h1 {
   grid-template-columns: minmax(320px, auto) minmax(0, 1fr);
 }
 
+.cost-view-control {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 10px;
+}
+
+.cost-view-control > span {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.cost-view-control select {
+  min-height: 40px;
+  border: 1px solid rgba(240, 216, 120, 0.28);
+  border-radius: 0;
+  background: rgba(0, 10, 24, 0.9);
+  padding: 0 36px 0 12px;
+  color: var(--gold);
+  font-size: 12px;
+}
+
+.cost-view-control select:focus-visible {
+  border-color: var(--gold);
+  outline: none;
+}
+
+@media (max-width: 760px) {
+  .pareto-panel .panel-header {
+    grid-template-columns: 1fr;
+  }
+
+  .cost-view-control {
+    align-items: stretch;
+    justify-self: stretch;
+    flex-direction: column;
+  }
+}
+
 .track-empty-state {
   margin: 0;
   padding: 42px 20px;

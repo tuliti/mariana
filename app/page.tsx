@@ -29,6 +29,7 @@ import { submissions, type MetricScore, type Submission } from "../data/submissi
 type ViewMode = "models" | "companies";
 type ScoreMode = "verified" | "net";
 type BenchmarkTrack = "i2v" | "v2v";
+type CostView = "normalized" | "fps" | "raw";
 type RankedRow = {
   id: string;
   rank: number;
@@ -209,11 +210,12 @@ function getResolutionWidth(resolution: string) {
   return Number.isFinite(width) && width > 0 ? width : 1280;
 }
 
-function getNormalizedCost(profile: CostProfile) {
+function getComparisonCost(profile: CostProfile, costView: CostView) {
   const promptCost = profile.llmCost ?? 0;
   const baseCost = profile.price + promptCost;
-  const fpsFactor = 24 / profile.fps;
-  const resolutionFactor = 1280 / getResolutionWidth(profile.resolution);
+  const fpsFactor = costView === "raw" ? 1 : 24 / profile.fps;
+  const resolutionFactor =
+    costView === "normalized" ? 1280 / getResolutionWidth(profile.resolution) : 1;
   return {
     baseCost,
     fpsFactor,
@@ -849,13 +851,14 @@ function MetricBreakdown({ rows }: { rows: RankedRow[] }) {
 }
 
 function ParetoFrontier({ benchmarkTrack }: { benchmarkTrack: BenchmarkTrack }) {
+  const [costView, setCostView] = useState<CostView>("normalized");
   const points = costProfiles
     .map((profile) => {
       const submission = submissions.find((item) => item.id === profile.submissionId);
       if (!submission || submission.inputType !== benchmarkTrack) return null;
       return {
         ...profile,
-        ...getNormalizedCost(profile),
+        ...getComparisonCost(profile, costView),
         model: submission.model,
         company: submission.company,
         performance: submission.metrics.physIq.mean,
@@ -875,6 +878,7 @@ function ParetoFrontier({ benchmarkTrack }: { benchmarkTrack: BenchmarkTrack }) 
             <p className="section-kicker">{benchmarkTrack.toUpperCase()} Cost Frontier</p>
             <h2>Score vs Cost ($)</h2>
           </div>
+          <CostViewControl value={costView} onChange={setCostView} />
         </div>
         <p className="track-empty-state">
           Cost data has not yet been reported for this benchmark track.
@@ -914,11 +918,16 @@ function ParetoFrontier({ benchmarkTrack }: { benchmarkTrack: BenchmarkTrack }) 
           <p className="section-kicker">Cost Frontier</p>
           <h2>Score vs Cost ($)</h2>
         </div>
+        <CostViewControl value={costView} onChange={setCostView} />
       </div>
       <div className="pareto-grid">
-        <div className="pareto-plot" role="img" aria-label="Normalized effective cost against Phys-IQ verified score">
+        <div
+          className="pareto-plot"
+          role="img"
+          aria-label={`${getCostViewLabel(costView)} against Phys-IQ verified score`}
+        >
           <div className="axis-label y-axis">Phys-IQ verified</div>
-          <div className="axis-label x-axis">Effective cost</div>
+          <div className="axis-label x-axis">{getCostViewLabel(costView)}</div>
           <svg className="frontier-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             <path d={frontierPath} />
           </svg>
@@ -945,7 +954,7 @@ function ParetoFrontier({ benchmarkTrack }: { benchmarkTrack: BenchmarkTrack }) 
                   <span>
                     Score: {formatScore(point.performance)} ±{formatScore(point.std)}
                   </span>
-                  <span>Effective cost {formatPrice(point.effectiveCost)}</span>
+                  <span>{getCostViewLabel(costView)} {formatPrice(point.effectiveCost)}</span>
                 </span>
               </div>
             );
@@ -957,13 +966,44 @@ function ParetoFrontier({ benchmarkTrack }: { benchmarkTrack: BenchmarkTrack }) 
         </div>
       </div>
       <p className="frontier-note">
-        * Price via leading API providers or estimated via GPU market rate, May 2026. Effective
-        cost normalizes to 24 FPS and 1280-wide output, with separate LLM prompt overhead where used.
+        * Price via leading API providers or estimated via GPU market rate, May 2026. {getCostViewNote(costView)}
+        {" "}Separate LLM prompt overhead is added after video normalization where used.
         n.d. denotes values not publicly disclosed by the model provider. GPU implementations were
         done to the best of our knowledge and as close as possible to the recommended setup.
       </p>
     </section>
   );
+}
+
+function CostViewControl({
+  value,
+  onChange
+}: {
+  value: CostView;
+  onChange: (value: CostView) => void;
+}) {
+  return (
+    <label className="cost-view-control">
+      <span>Cost view</span>
+      <select value={value} onChange={(event) => onChange(event.target.value as CostView)}>
+        <option value="normalized">Cost vs performance (FPS + resolution normalized)</option>
+        <option value="fps">Cost vs performance (FPS normalized)</option>
+        <option value="raw">Cost vs performance (native generation cost)</option>
+      </select>
+    </label>
+  );
+}
+
+function getCostViewLabel(costView: CostView) {
+  if (costView === "raw") return "Raw cost";
+  if (costView === "fps") return "FPS-normalized cost";
+  return "Normalized cost";
+}
+
+function getCostViewNote(costView: CostView) {
+  if (costView === "raw") return "Raw cost uses the reported native generation settings.";
+  if (costView === "fps") return "Generation cost is normalized to 24 FPS; resolution is unchanged.";
+  return "Generation cost is normalized to 24 FPS and 1280-wide output.";
 }
 
 function getCompanyIconSrc(company: string) {

@@ -40,7 +40,7 @@ export const submissions: Submission[] = [
     model: "CogVideoX-5B-I2V",
     inputType: "i2v",
     protocol: "BPP",
-    dateAdded: "n.d.",
+    dateAdded: "2026-08-18",
     company: "Z.ai",
     availability: "Open source",
     llmSupported: "No",

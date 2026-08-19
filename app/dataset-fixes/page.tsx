@@ -288,21 +288,23 @@ export default function DatasetFixesPage() {
           <OrbitalMark />
           <span>Anates Labs</span>
         </a>
-        <a className="overview-return" href="/" aria-label="Return to the Physics-IQ Verified leaderboard overview">
-          <House size={38} strokeWidth={1.5} aria-hidden="true" />
-          <span>
-            <strong>Leaderboard overview</strong>
-            <small>Scores &amp; results</small>
-          </span>
-        </a>
       </header>
 
       <section className="visual-hero variants-hero">
-        <p className="section-kicker">Physics-IQ Verified</p>
-        <h1>Dataset-fix visual overview</h1>
-        <p>
-          Visual examples of the applied fixes behind Physics-IQ Verified.
-        </p>
+        <div className="variants-hero-layout">
+          <a className="overview-resource" href="/" aria-label="Return to the Physics-IQ Verified leaderboard overview">
+            <span>Leaderboard</span>
+            <House size={38} strokeWidth={1.5} aria-hidden="true" />
+            <small>Scores &amp; results</small>
+          </a>
+          <div className="variants-hero-copy">
+            <p className="section-kicker">Physics-IQ Verified</p>
+            <h1>Dataset-fix visual overview</h1>
+            <p>
+              Visual examples of the applied fixes behind Physics-IQ Verified.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section className="prompt-quality-section" id="prompt-quality">

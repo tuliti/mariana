@@ -34,6 +34,8 @@ type RankedRow = {
   id: string;
   rank: number;
   model: string;
+  modelIdentifier?: string;
+  sourceUrl?: string;
   company: string;
   availability: string;
   inputType: string;
@@ -254,6 +256,8 @@ function scoreSubmission(submission: Submission): RankedRow {
     id: submission.id,
     rank: 0,
     model: submission.model,
+    modelIdentifier: submission.modelIdentifier,
+    sourceUrl: submission.sourceUrl,
     company: submission.company,
     availability: submission.availability,
     inputType: submission.inputType,
@@ -304,6 +308,8 @@ function makeRows(viewMode: ViewMode, filters: FilterState, benchmarkTrack: Benc
         id: `company-${company}`,
         rank: 0,
         model: company,
+        modelIdentifier: best.modelIdentifier,
+        sourceUrl: best.sourceUrl,
         company: best.model,
         availability: best.availability,
         inputType: best.inputType,
@@ -874,6 +880,7 @@ function ParetoFrontier({ benchmarkTrack }: { benchmarkTrack: BenchmarkTrack }) 
         ...getComparisonCost(profile, costView),
         model: submission.model,
         company: submission.company,
+        sourceUrl: submission.sourceUrl,
         performance: submission.metrics.physIq.mean,
         std: submission.metrics.physIq.std
       };
@@ -968,6 +975,11 @@ function ParetoFrontier({ benchmarkTrack }: { benchmarkTrack: BenchmarkTrack }) 
                     Score: {formatScore(point.performance)} ±{formatScore(point.std)}
                   </span>
                   <span>{getCostViewLabel(costView)} {formatPrice(point.effectiveCost)}</span>
+                  {point.sourceUrl && (
+                    <a href={point.sourceUrl} target="_blank" rel="noreferrer">
+                      Model source <ExternalLink size={11} />
+                    </a>
+                  )}
                 </span>
               </div>
             );
@@ -1184,6 +1196,28 @@ function DetailDialog({ row, onClose }: { row: RankedRow; onClose: () => void })
           <span>{formatScore(row.metrics.physIq.mean)}</span>
           <small>Phys-IQ verified / std ±{formatScore(row.metrics.physIq.std)}</small>
         </div>
+        {(row.modelIdentifier || row.sourceUrl) && (
+          <div className="detail-reference">
+            {row.modelIdentifier && (
+              <span className="detail-model-id">
+                <small>Model ID</small>
+                <span>
+                  <code>{row.modelIdentifier}</code>
+                  {row.sourceUrl && (
+                    <a href={row.sourceUrl} target="_blank" rel="noreferrer">
+                      Model source <ExternalLink size={13} />
+                    </a>
+                  )}
+                </span>
+              </span>
+            )}
+            {!row.modelIdentifier && row.sourceUrl && (
+              <a href={row.sourceUrl} target="_blank" rel="noreferrer">
+                Model source <ExternalLink size={13} />
+              </a>
+            )}
+          </div>
+        )}
         <div className="detail-meta">
           <span>{row.inputType}</span>
           <span>{row.protocol}</span>

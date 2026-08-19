@@ -2424,6 +2424,15 @@ h1 {
   display: block;
 }
 
+.point-tooltip a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 7px;
+  color: var(--gold);
+  text-decoration: none;
+}
+
 .point-tooltip strong {
   color: var(--text-strong);
 }
@@ -2834,7 +2843,7 @@ h1 {
 .fix-heading {
   display: grid;
   grid-template-columns: minmax(230px, 0.42fr) minmax(0, 1fr) minmax(240px, 0.36fr);
-  align-items: end;
+  align-items: flex-end;
   gap: 20px;
   border-bottom: 1px solid rgba(240, 216, 120, 0.15);
   padding: clamp(20px, 3vw, 30px);
@@ -4375,6 +4384,51 @@ h1 {
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 12px;
+}
+
+.detail-reference {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  border-top: 1px solid rgba(240, 216, 120, 0.14);
+  padding-top: 16px;
+}
+
+.detail-model-id {
+  min-width: 0;
+}
+
+.detail-reference small {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-size: 10px;
+}
+
+.detail-reference code {
+  color: var(--text-strong);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.detail-model-id > span {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.detail-reference a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .detail-meta span,

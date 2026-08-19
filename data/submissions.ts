@@ -10,6 +10,8 @@ export type MetricScore = {
 export type Submission = {
   id: string;
   model: string;
+  modelIdentifier?: string;
+  sourceUrl?: string;
   inputType: InputType;
   protocol: string;
   dateAdded: string;
@@ -38,6 +40,8 @@ export const submissions: Submission[] = [
   {
     id: "cogvideox-5b-i2v-bpp",
     model: "CogVideoX-5B-I2V",
+    modelIdentifier: "zai-org/CogVideoX-5b-I2V",
+    sourceUrl: "https://huggingface.co/zai-org/CogVideoX-5b-I2V",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-08-18",
@@ -56,6 +60,8 @@ export const submissions: Submission[] = [
   {
     id: "magi-1-24b-geophys-bon-op-v2v",
     model: "Magi-1 24B + GeoPhys (BoN) (op)",
+    modelIdentifier: "Magi-1 24B",
+    sourceUrl: "https://github.com/SandAI-org/MAGI-1",
     inputType: "v2v",
     protocol: "BoN",
     dateAdded: "2026-06-19",
@@ -69,6 +75,8 @@ export const submissions: Submission[] = [
   {
     id: "magi-1-24b-op-v2v",
     model: "Magi-1 24B (op)",
+    modelIdentifier: "Magi-1 24B",
+    sourceUrl: "https://github.com/SandAI-org/MAGI-1",
     inputType: "v2v",
     protocol: "V2V",
     dateAdded: "2026-06-19",
@@ -82,6 +90,8 @@ export const submissions: Submission[] = [
   {
     id: "magi-1-24b-geophys-bon-op",
     model: "Magi-1 24B + GeoPhys (BoN) (op)",
+    modelIdentifier: "Magi-1 24B",
+    sourceUrl: "https://github.com/SandAI-org/MAGI-1",
     inputType: "i2v",
     protocol: "BoN",
     dateAdded: "2026-06-19",
@@ -94,7 +104,9 @@ export const submissions: Submission[] = [
   },
   {
     id: "kandinsky-wm-10-general-physics",
-    model: "Kandinsky-WM 1.0 General Physics",
+    model: "Kandinsky-WM 1.0",
+    modelIdentifier: "Kandinsky-WM-1.0-I2V-5s-PH",
+    sourceUrl: "https://github.com/kandinskylab/kandinsky-wm",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-08-07",
@@ -112,6 +124,8 @@ export const submissions: Submission[] = [
   {
     id: "grok-imagine-video",
     model: "Grok Imagine Video",
+    modelIdentifier: "Grok Imagine Video",
+    sourceUrl: "https://grok.com/imagine",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-06-17",
@@ -129,6 +143,8 @@ export const submissions: Submission[] = [
   {
     id: "hunyuan-video-15",
     model: "Hunyuan Video 1.5",
+    modelIdentifier: "HunyuanVideo-1.5",
+    sourceUrl: "https://github.com/Tencent-Hunyuan/HunyuanVideo-1.5",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-06-17",
@@ -146,6 +162,8 @@ export const submissions: Submission[] = [
   {
     id: "wan-22-5b",
     model: "Wan 2.2 5B",
+    modelIdentifier: "Wan2.2-TI2V-5B",
+    sourceUrl: "https://huggingface.co/Wan-AI/Wan2.2-TI2V-5B",
     inputType: "i2v",
     protocol: "OP",
     dateAdded: "2026-08-18",
@@ -163,6 +181,8 @@ export const submissions: Submission[] = [
   {
     id: "wan-22",
     model: "Wan 2.2 14B",
+    modelIdentifier: "Wan2.2-I2V-A14B",
+    sourceUrl: "https://github.com/Wan-Video/Wan2.2",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-06-17",
@@ -180,6 +200,8 @@ export const submissions: Submission[] = [
   {
     id: "sora-2",
     model: "Sora 2",
+    modelIdentifier: "Sora 2",
+    sourceUrl: "https://openai.com/index/sora-2/",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-06-17",
@@ -197,6 +219,8 @@ export const submissions: Submission[] = [
   {
     id: "p-video",
     model: "P-Video",
+    modelIdentifier: "P-Video",
+    sourceUrl: "https://www.pruna.ai/p-video",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-06-17",
@@ -214,6 +238,8 @@ export const submissions: Submission[] = [
   {
     id: "cosmos3-nano-bpp-opus",
     model: "Cosmos3-Nano",
+    modelIdentifier: "Cosmos3-Nano",
+    sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Nano",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-06-18",
@@ -232,6 +258,8 @@ export const submissions: Submission[] = [
   {
     id: "cosmos3-super-image2video",
     model: "Cosmos3-Super-Image2Video",
+    modelIdentifier: "Cosmos3-Super-Image2Video",
+    sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Super-Image2Video",
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-06-18",

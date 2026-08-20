@@ -2975,12 +2975,12 @@ h1 {
 }
 
 .variants-hero {
-  max-width: 1260px;
+  max-width: 1480px;
 }
 
 .variants-hero-layout {
   display: grid;
-  grid-template-columns: minmax(190px, 0.23fr) minmax(0, 1fr);
+  grid-template-columns: minmax(240px, 0.25fr) minmax(0, 1fr);
   gap: 1px;
   border: 1px solid rgba(240, 216, 120, 0.18);
   background: rgba(240, 216, 120, 0.18);
@@ -3010,7 +3010,7 @@ h1 {
 .variants-hero h1 {
   margin-top: 10px;
   font-size: clamp(34px, 5vw, 68px);
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .prompt-quality-section {
@@ -4225,10 +4225,6 @@ h1 {
 
   .overview-resource {
     min-height: 142px;
-  }
-
-  .variants-hero h1 {
-    white-space: normal;
   }
 
   .visual-stat-row {

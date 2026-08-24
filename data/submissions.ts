@@ -38,6 +38,26 @@ export const metricLabels = {
 
 export const submissions: Submission[] = [
   {
+    id: "minimax-h3-fl2va-bpp-opus",
+    model: "MiniMax H3 FL2VA",
+    modelIdentifier: "MiniMaxAI/MiniMax-H3",
+    sourceUrl: "https://huggingface.co/MiniMaxAI/MiniMax-H3",
+    inputType: "i2v",
+    protocol: "BPP",
+    dateAdded: "2026-08-24",
+    company: "MiniMax",
+    availability: "Open source",
+    llmSupported: "Yes",
+    runs: [39.95, 39.95, 39.99, 39.26],
+    metrics: {
+      physIq: { mean: 39.79, std: 0.35 },
+      sp: { mean: 58.9, std: 0.78 },
+      st: { mean: 22.8, std: 0.55 },
+      ws: { mean: 40.47, std: 0.78 },
+      mse: { mean: 36.98, std: 0.7 }
+    }
+  },
+  {
     id: "cogvideox-5b-i2v-bpp",
     model: "CogVideoX-5B",
     modelIdentifier: "zai-org/CogVideoX-5b-I2V",

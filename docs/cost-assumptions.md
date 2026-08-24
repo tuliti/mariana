@@ -38,6 +38,7 @@ If an input is not established, keep it explicitly unknown. Estimates must be la
 
 - Wan 2.2 5B: one NVIDIA GeForce RTX 4090; official I2V-5B reference benchmark is 524.8 seconds per generation. At $0.60/RTX 4090-hour, raw generation cost is $0.087467 per video. No prompt-upsampling cost is applied.
 - CogVideoX-5B-I2V: one NVIDIA A100 per shard job; measured allocation was 114.75 A100 GPU-hours across 792 videos. At $1.625/A100-hour, raw generation cost is $0.235440 per video. No prompt-upsampling cost is applied.
+- MiniMax H3 FL2VA: four NVIDIA H100 80GB GPUs; measured mean generation time is 98 seconds per video. At $3.25/H100-hour, raw generation cost is $0.353889 per video. Claude Opus 4.8 prompt upsampling is assigned the same separate $0.101 per-video cost used for Cosmos3 Super, by explicit shared-assumption decision.
 - Cosmos3-Nano: $4.00/H200-hour, one H200, five minutes per generation; separate LLM cost recorded.
 - Cosmos3-Super-Image2Video: $3.25/GPU-hour, four GPUs, three minutes twenty seconds per generation; separate LLM cost recorded.
 - Kandinsky-WM 1.0: eight NVIDIA H100 80GB GPUs; measured allocation across 198 videos was 7.84 H100 GPU-hours for generation and 0.4425 H100 GPU-hours for Qwen3-VL prompt upsampling. At $3.25/H100-hour, raw costs are $0.128687 generation and $0.007263 prompt upsampling per video.

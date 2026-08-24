@@ -163,6 +163,21 @@ const costProfiles: CostProfile[] = [
       "$1.625/A100-hour; measured 114.75 GPU-hours across 792 videos (521.59 s/video)"
   },
   {
+    submissionId: "minimax-h3-fl2va-bpp-opus",
+    label: "MiniMax H3 FL2VA",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "33B",
+    fps: 24,
+    resolution: "1344x768",
+    seedControl: true,
+    price: 0.3538888889,
+    llmCost: 0.101,
+    costBasis:
+      "$3.25/H100-hour; measured 4 H100 GPUs × 98 s per generation; $0.101 Claude Opus prompt cost assumed equal to Cosmos3 Super"
+  },
+  {
     submissionId: "kandinsky-wm-10-general-physics",
     label: "Kandinsky-WM 1.0",
     text: true,
@@ -1042,6 +1057,7 @@ function getCompanyIconSrc(company: string) {
     "google": "/icons/google.svg",
     "sand ai": "/icons/sand-ai.png",
     "magi": "/icons/magi.png",
+    "minimax": "/icons/minimax.svg",
     "kandinsky": "/icons/kandinsky.svg",
     "kandinsky lab": "/icons/kandinsky.svg"
   };
@@ -1090,6 +1106,11 @@ function getCompanyMarkStyle(company: string): CSSProperties {
       color: "rgba(255, 255, 255, 0.95)",
       bg: "rgba(240, 216, 120, 0.14)",
       border: "rgba(240, 216, 120, 0.38)"
+    },
+    "minimax": {
+      color: "rgba(254, 96, 60, 0.98)",
+      bg: "rgba(226, 22, 126, 0.15)",
+      border: "rgba(254, 96, 60, 0.42)"
     }
   };
   const colors = companyColors[company.toLowerCase()] ?? {

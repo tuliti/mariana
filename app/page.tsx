@@ -164,7 +164,7 @@ const costProfiles: CostProfile[] = [
   },
   {
     submissionId: "minimax-h3-fl2va-bpp-opus",
-    label: "MiniMax H3 FL2VA",
+    label: "MiniMax H3",
     text: true,
     v2v: false,
     i2v: true,

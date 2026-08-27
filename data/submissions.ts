@@ -64,8 +64,8 @@ export const submissions: Submission[] = [
   },
   {
     id: "minimax-h3-fl2va-bpp-opus",
-    model: "MiniMax H3 FL2VA",
-    modelIdentifier: "MiniMaxAI/MiniMax-H3",
+    model: "MiniMax H3",
+    modelIdentifier: "MiniMax H3 FL2VA",
     sourceUrl: "https://huggingface.co/MiniMaxAI/MiniMax-H3",
     inputType: "i2v",
     protocol: "BPP",

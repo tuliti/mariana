@@ -178,6 +178,21 @@ const costProfiles: CostProfile[] = [
       "$3.25/H100-hour; measured 4 H100 GPUs × 98 s per generation; $0.101 Claude Opus prompt cost assumed equal to Cosmos3 Super"
   },
   {
+    submissionId: "minimax-h3-max-i2v-bpp-opus-balanced",
+    label: "MiniMax H3 Max",
+    text: true,
+    v2v: false,
+    i2v: true,
+    size: "33B",
+    fps: 24,
+    resolution: "1344x768",
+    seedControl: true,
+    price: 0.4,
+    llmCost: 0.101,
+    costBasis:
+      "$0.08/second fal.ai API price × 5 seconds; $0.101 prompt cost assumed equal to MiniMax H3 FL2VA and Cosmos3 Super"
+  },
+  {
     submissionId: "kandinsky-wm-10-general-physics",
     label: "Kandinsky-WM 1.0",
     text: true,
@@ -866,7 +881,7 @@ function MetricBreakdown({ rows }: { rows: RankedRow[] }) {
                       </span>
                       <span className="breakdown-score">
                         {formatScore(score.mean)}
-                        <small>±{formatScore(score.std)}</small>
+                        {score.std !== undefined && <small>±{formatScore(score.std)}</small>}
                       </span>
                     </li>
                   );
@@ -1058,6 +1073,7 @@ function getCompanyIconSrc(company: string) {
     "sand ai": "/icons/sand-ai.png",
     "magi": "/icons/magi.png",
     "minimax": "/icons/minimax.svg",
+    "fal.ai": "/icons/minimax.svg",
     "kandinsky": "/icons/kandinsky.svg",
     "kandinsky lab": "/icons/kandinsky.svg"
   };
@@ -1108,6 +1124,11 @@ function getCompanyMarkStyle(company: string): CSSProperties {
       border: "rgba(240, 216, 120, 0.38)"
     },
     "minimax": {
+      color: "rgba(254, 96, 60, 0.98)",
+      bg: "rgba(226, 22, 126, 0.15)",
+      border: "rgba(254, 96, 60, 0.42)"
+    },
+    "fal.ai": {
       color: "rgba(254, 96, 60, 0.98)",
       bg: "rgba(226, 22, 126, 0.15)",
       border: "rgba(254, 96, 60, 0.42)"

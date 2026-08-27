@@ -7,6 +7,11 @@ export type MetricScore = {
   std: number;
 };
 
+export type MetricComponent = {
+  mean: number;
+  std?: number;
+};
+
 export type Submission = {
   id: string;
   model: string;
@@ -21,10 +26,10 @@ export type Submission = {
   runs?: number[];
   metrics: {
     physIq: MetricScore;
-    sp?: MetricScore;
-    st?: MetricScore;
-    ws?: MetricScore;
-    mse?: MetricScore;
+    sp?: MetricComponent;
+    st?: MetricComponent;
+    ws?: MetricComponent;
+    mse?: MetricComponent;
   };
 };
 
@@ -37,6 +42,26 @@ export const metricLabels = {
 } as const;
 
 export const submissions: Submission[] = [
+  {
+    id: "minimax-h3-max-i2v-bpp-opus-balanced",
+    model: "MiniMax H3 Max",
+    modelIdentifier: "minimax/h3-max/image-to-video",
+    sourceUrl: "https://fal.ai/models/minimax/h3-max/image-to-video",
+    inputType: "i2v",
+    protocol: "BPP",
+    dateAdded: "2026-08-27",
+    company: "fal.ai",
+    availability: "Proprietary",
+    llmSupported: "Yes",
+    runs: [35.4, 36.91, 36.57, 35.94],
+    metrics: {
+      physIq: { mean: 36.21, std: 0.67 },
+      sp: { mean: 54.9 },
+      st: { mean: 24.5 },
+      ws: { mean: 38.19 },
+      mse: { mean: 27.23 }
+    }
+  },
   {
     id: "minimax-h3-fl2va-bpp-opus",
     model: "MiniMax H3 FL2VA",

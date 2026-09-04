@@ -287,17 +287,17 @@ export const submissions: Submission[] = [
     sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Nano",
     inputType: "i2v",
     protocol: "BPP",
-    dateAdded: "2026-06-18",
+    dateAdded: "2026-09-04",
     company: "NVIDIA",
     availability: "Open source",
     llmSupported: "Yes",
-    runs: [30.22, 30.07, 29.55, 31.24],
+    runs: [36.57, 37.74, 36.43, 38.24],
     metrics: {
-      physIq: { mean: 30.27, std: 0.61 },
-      sp: { mean: 44.48, std: 0.66 },
-      st: { mean: 20.87, std: 0.9 },
-      ws: { mean: 28.96, std: 0.76 },
-      mse: { mean: 26.76, std: 0.82 }
+      physIq: { mean: 37.25, std: 0.89 },
+      sp: { mean: 51.91, std: 2.26 },
+      st: { mean: 25.21, std: 1.33 },
+      ws: { mean: 36.3, std: 1.13 },
+      mse: { mean: 35.56, std: 0.78 }
     }
   },
   {
@@ -307,16 +307,36 @@ export const submissions: Submission[] = [
     sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Super-Image2Video",
     inputType: "i2v",
     protocol: "BPP",
-    dateAdded: "2026-06-18",
+    dateAdded: "2026-09-04",
     company: "NVIDIA",
     availability: "Open source",
     llmSupported: "Yes",
     metrics: {
-      physIq: { mean: 39.49, std: 0.82 },
-      sp: { mean: 53.56, std: 1.45 },
-      st: { mean: 29.96, std: 1.82 },
-      ws: { mean: 38.58, std: 1.41 },
-      mse: { mean: 35.85, std: 0.58 }
+      physIq: { mean: 42.68, std: 0.76 },
+      sp: { mean: 57.41, std: 1.51 },
+      st: { mean: 32.48, std: 0.97 },
+      ws: { mean: 42.98, std: 1.47 },
+      mse: { mean: 37.84, std: 0.41 }
+    }
+  },
+  {
+    id: "cosmos3-edge-bpp",
+    model: "Cosmos3 Edge",
+    modelIdentifier: "Cosmos3-Edge",
+    sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Edge",
+    inputType: "i2v",
+    protocol: "BPP",
+    dateAdded: "2026-08-31",
+    company: "NVIDIA",
+    availability: "Open source",
+    llmSupported: "Yes",
+    runs: [33.42, 31.78, 33.85, 31.9],
+    metrics: {
+      physIq: { mean: 32.74, std: 1.05 },
+      sp: { mean: 46.85, std: 1.66 },
+      st: { mean: 29.89, std: 2.16 },
+      ws: { mean: 31.91, std: 1.63 },
+      mse: { mean: 22.29, std: 0.54 }
     }
   }
 ];

@@ -210,7 +210,7 @@ export const submissions: Submission[] = [
     modelIdentifier: "Wan2.2-TI2V-5B",
     sourceUrl: "https://huggingface.co/Wan-AI/Wan2.2-TI2V-5B",
     inputType: "i2v",
-    protocol: "OP",
+    protocol: "BPP",
     dateAdded: "2026-08-18",
     company: "Alibaba",
     availability: "Open source",

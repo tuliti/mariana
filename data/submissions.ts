@@ -412,7 +412,33 @@ export const submissions: Submission[] = [
     company: "NVIDIA",
     availability: "Open source",
     llmSupported: "No",
-    runs: [42.4169, 41.6556, 41.9558, 45.9908],
     metrics: { physIq: { mean: 43.0, std: 2.0 }, sp: { mean: 54.2, std: 1.1 }, st: { mean: 36.5, std: 3.7 }, ws: { mean: 41.5, std: 1.9 }, mse: { mean: 39.8, std: 1.7 } }
+  },
+  {
+    id: "physis-lang-cosmos3-nano-i2v-custom",
+    model: "Physis-Lang (Cosmos3 Nano)",
+    modelIdentifier: "physics-iq-verified-20260925",
+    sourceUrl: "https://github.com/Physis-Intelligence/Physis-Lang",
+    inputType: "i2v",
+    protocol: "Custom",
+    dateAdded: "2026-09-25",
+    company: "NVIDIA",
+    availability: "Open source",
+    llmSupported: "Yes",
+    runs: [42.4169, 41.6556, 41.9558, 45.9908],
+    metrics: { physIq: { mean: 43.29, std: 1.52 }, sp: { mean: 56.17, std: 1.76 }, st: { mean: 31.01, std: 2.16 }, ws: { mean: 43.39, std: 2.16 }, mse: { mean: 42.58, std: 0.85 } }
+  },
+  {
+    id: "physis-lang-cosmos3-super-i2v-custom",
+    model: "Physis-Lang (Cosmos3 Super)",
+    modelIdentifier: "physics-iq-verified-20260925",
+    sourceUrl: "https://github.com/Physis-Intelligence/Physis-Lang",
+    inputType: "i2v",
+    protocol: "Custom",
+    dateAdded: "2026-09-25",
+    company: "NVIDIA",
+    availability: "Open source",
+    llmSupported: "Yes",
+    metrics: { physIq: { mean: 48.23, std: 1.43 }, sp: { mean: 59.87, std: 1.43 }, st: { mean: 41.57, std: 3.11 }, ws: { mean: 48.53, std: 1.06 }, mse: { mean: 42.96, std: 1.29 } }
   }
 ];

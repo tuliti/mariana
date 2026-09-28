@@ -386,5 +386,33 @@ export const submissions: Submission[] = [
     inputType: "i2v", protocol: "BPP", dateAdded: "2026-09-28", company: "Google", availability: "Proprietary", llmSupported: "Yes",
     runs: [29.90, 29.38, 29.88, 30.67],
     metrics: { physIq: { mean: 29.96, std: 0.53 }, sp: { mean: 46.70, std: 0.81 }, st: { mean: 15.95, std: 0.80 }, ws: { mean: 29.37, std: 0.48 }, mse: { mean: 27.83, std: 0.50 } }
+  },
+  {
+    id: "cosmos3-super-v2v-bpp",
+    model: "Cosmos3 Super V2V",
+    modelIdentifier: "cosmos3_32b",
+    sourceUrl: "https://www.nvidia.com/en-us/ai/cosmos/",
+    inputType: "v2v",
+    protocol: "BPP",
+    dateAdded: "2026-09-18",
+    company: "NVIDIA",
+    availability: "Open source",
+    llmSupported: "No",
+    runs: [49.4386, 49.8991, 49.7743, 54.1509],
+    metrics: { physIq: { mean: 50.8, std: 2.2 }, sp: { mean: 61.1, std: 1.9 }, st: { mean: 48.0, std: 4.1 }, ws: { mean: 49.8, std: 2.4 }, mse: { mean: 44.4, std: 1.9 } }
+  },
+  {
+    id: "cosmos3-nano-v2v-bpp",
+    model: "Cosmos3 Nano V2V",
+    modelIdentifier: "cosmos3_8b",
+    sourceUrl: "https://www.nvidia.com/en-us/ai/cosmos/",
+    inputType: "v2v",
+    protocol: "BPP",
+    dateAdded: "2026-09-18",
+    company: "NVIDIA",
+    availability: "Open source",
+    llmSupported: "No",
+    runs: [42.4169, 41.6556, 41.9558, 45.9908],
+    metrics: { physIq: { mean: 43.0, std: 2.0 }, sp: { mean: 54.2, std: 1.1 }, st: { mean: 36.5, std: 3.7 }, ws: { mean: 41.5, std: 1.9 }, mse: { mean: 39.8, std: 1.7 } }
   }
 ];

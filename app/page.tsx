@@ -240,6 +240,8 @@ const costProfiles: CostProfile[] = [
   { submissionId: "veo-31-fast-i2v-bpp", label: "Veo 3.1 Fast", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "1280x720", seedControl: false, price: 0.60, costBasis: "$0.60/video reported benchmark cost; GPU/provider runtime inputs not supplied" },
   { submissionId: "veo-31-lite-i2v-bpp", label: "Veo 3.1 Lite", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "1280x720", seedControl: false, price: 0.30, costBasis: "$0.30/video reported benchmark cost; GPU/provider runtime inputs not supplied" },
   { submissionId: "seedance-25-i2v-bpp", label: "Seedance 2.5", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "n.d.", seedControl: false, price: 2.838, costBasis: "≈$2.838/video reported benchmark cost for 5 s; GPU/provider runtime inputs not supplied" }
+  ,{ submissionId: "cosmos3-super-v2v-bpp", label: "Cosmos3 Super V2V", text: false, v2v: true, i2v: false, size: "32B", fps: 24, resolution: "1280x720", seedControl: true, price: 0.631340, costBasis: "$1.00/H200-hour; 2 H200 GPUs × 2,272.824141 GPU-seconds per generation" }
+  ,{ submissionId: "cosmos3-nano-v2v-bpp", label: "Cosmos3 Nano V2V", text: false, v2v: true, i2v: false, size: "8B", fps: 24, resolution: "1280x720", seedControl: true, price: 0.081763, costBasis: "$1.00/H200-hour; 1 H200 × 294.347948 seconds per generation" }
 ];
 
 function formatScore(value: number) {

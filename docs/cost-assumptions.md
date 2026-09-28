@@ -43,3 +43,7 @@ If an input is not established, keep it explicitly unknown. Estimates must be la
 - Cosmos3-Nano: $4.00/H200-hour, one H200, five minutes per generation; separate LLM cost recorded.
 - Cosmos3-Super-Image2Video: $3.25/GPU-hour, four GPUs, three minutes twenty seconds per generation; separate LLM cost recorded.
 - Kandinsky-WM 1.0: eight NVIDIA H100 80GB GPUs; measured allocation across 198 videos was 7.84 H100 GPU-hours for generation and 0.4425 H100 GPU-hours for Qwen3-VL prompt upsampling. At $3.25/H100-hour, raw costs are $0.128687 generation and $0.007263 prompt upsampling per video.
+- Gemini Omni Flash Preview and Gemini Omni 1.1 Flash: reported four-run cost is $482.063616 across 792 videos, or $0.608666/video. This consists of $481.662720 output-token cost ($17.50/M; 5,792 tokens/s × 6 s) and $0.400896 input-token cost ($1.50/M; measured 337.45 tokens/video). No external prompt expansion was used.
+- Veo 3.1 Fast: reported cost is $0.60/video for a six-second generation; GPU/provider runtime inputs were not supplied.
+- Veo 3.1 Lite: reported cost is $0.30/video for a six-second generation; GPU/provider runtime inputs were not supplied.
+- Seedance 2.5: reported cost is approximately $2.838/video for a five-second generation; GPU/provider runtime inputs were not supplied.

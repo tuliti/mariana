@@ -338,5 +338,53 @@ export const submissions: Submission[] = [
       ws: { mean: 31.91, std: 1.63 },
       mse: { mean: 22.29, std: 0.54 }
     }
+  },
+  {
+    id: "seedance-25-i2v-bpp",
+    model: "Seedance 2.5",
+    modelIdentifier: "bytedance/seedance-2.5/us/image-to-video",
+    sourceUrl: "https://fal.ai/models/bytedance/seedance-2.5/us/image-to-video",
+    inputType: "i2v",
+    protocol: "BPP",
+    dateAdded: "2026-09-28",
+    company: "Seedance",
+    availability: "Proprietary",
+    llmSupported: "Yes",
+    runs: [42.35, 42.92, 43.05, 41.38],
+    metrics: { physIq: { mean: 42.43, std: 0.76 }, sp: { mean: 57.16, std: 0.70 }, st: { mean: 28.50, std: 1.26 }, ws: { mean: 42.69, std: 0.90 }, mse: { mean: 41.34, std: 1.01 } }
+  },
+  {
+    id: "gemini-omni-11-flash-i2v-bpp",
+    model: "Gemini Omni 1.1 Flash",
+    modelIdentifier: "Gemini Omni 1.1 Flash",
+    sourceUrl: "https://ai.google.dev/gemini-api/docs",
+    inputType: "i2v", protocol: "BPP", dateAdded: "2026-09-28", company: "Google", availability: "Proprietary", llmSupported: "Yes",
+    metrics: { physIq: { mean: 35.34, std: 0.44 }, sp: { mean: 56.14, std: 0.69 }, st: { mean: 18.41, std: 0.46 }, ws: { mean: 36.66, std: 0.85 }, mse: { mean: 30.14, std: 0.27 } }
+  },
+  {
+    id: "gemini-omni-flash-preview-i2v-bpp",
+    model: "Gemini Omni Flash",
+    modelIdentifier: "Gemini Omni Flash Preview",
+    sourceUrl: "https://ai.google.dev/gemini-api/docs",
+    inputType: "i2v", protocol: "BPP", dateAdded: "2026-09-28", company: "Google", availability: "Proprietary", llmSupported: "Yes",
+    runs: [33.29, 33.13, 33.49, 33.54],
+    metrics: { physIq: { mean: 33.36, std: 0.19 }, sp: { mean: 53.85, std: 0.59 }, st: { mean: 18.06, std: 1.34 }, ws: { mean: 33.34, std: 0.22 }, mse: { mean: 28.20, std: 0.37 } }
+  },
+  {
+    id: "veo-31-lite-i2v-bpp",
+    model: "Veo 3.1 Lite",
+    modelIdentifier: "Veo 3.1 Lite",
+    sourceUrl: "https://deepmind.google/models/veo/",
+    inputType: "i2v", protocol: "BPP", dateAdded: "2026-09-28", company: "Google", availability: "Proprietary", llmSupported: "Yes",
+    metrics: { physIq: { mean: 31.83, std: 0.32 }, sp: { mean: 49.14, std: 0.50 }, st: { mean: 16.13, std: 0.56 }, ws: { mean: 31.89, std: 0.26 }, mse: { mean: 30.15, std: 0.40 } }
+  },
+  {
+    id: "veo-31-fast-i2v-bpp",
+    model: "Veo 3.1 Fast",
+    modelIdentifier: "Veo 3.1 Fast",
+    sourceUrl: "https://deepmind.google/models/veo/",
+    inputType: "i2v", protocol: "BPP", dateAdded: "2026-09-28", company: "Google", availability: "Proprietary", llmSupported: "Yes",
+    runs: [29.90, 29.38, 29.88, 30.67],
+    metrics: { physIq: { mean: 29.96, std: 0.53 }, sp: { mean: 46.70, std: 0.81 }, st: { mean: 15.95, std: 0.80 }, ws: { mean: 29.37, std: 0.48 }, mse: { mean: 27.83, std: 0.50 } }
   }
 ];

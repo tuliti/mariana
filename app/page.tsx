@@ -234,7 +234,12 @@ const costProfiles: CostProfile[] = [
     price: 0.722,
     llmCost: 0.101,
     costBasis: "$3.25/GPU-hour, 4 GPUs, 3 min 20 sec per generation"
-  }
+  },
+  { submissionId: "gemini-omni-flash-preview-i2v-bpp", label: "Gemini Omni Flash Preview", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "1280x720", seedControl: false, price: 0.60816, llmCost: 0.000506, costBasis: "$17.50/M output tokens; $1.50/M input tokens; measured token accounting" },
+  { submissionId: "gemini-omni-11-flash-i2v-bpp", label: "Gemini Omni 1.1 Flash", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "1280x720", seedControl: false, price: 0.60816, llmCost: 0.000506, costBasis: "$17.50/M output tokens; $1.50/M input tokens; measured token accounting" },
+  { submissionId: "veo-31-fast-i2v-bpp", label: "Veo 3.1 Fast", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "1280x720", seedControl: false, price: 0.60, costBasis: "$0.60/video reported benchmark cost; GPU/provider runtime inputs not supplied" },
+  { submissionId: "veo-31-lite-i2v-bpp", label: "Veo 3.1 Lite", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "1280x720", seedControl: false, price: 0.30, costBasis: "$0.30/video reported benchmark cost; GPU/provider runtime inputs not supplied" },
+  { submissionId: "seedance-25-i2v-bpp", label: "Seedance 2.5", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "n.d.", seedControl: false, price: 2.838, costBasis: "≈$2.838/video reported benchmark cost for 5 s; GPU/provider runtime inputs not supplied" }
 ];
 
 function formatScore(value: number) {
@@ -1070,6 +1075,7 @@ function getCompanyIconSrc(company: string) {
     "pruna ai": "/icons/pruna-ai.svg",
     "nvidia": "/icons/nvidia.svg",
     "google": "/icons/google.svg",
+    "seedance": "/icons/seedance.webp",
     "sand ai": "/icons/sand-ai.png",
     "magi": "/icons/magi.png",
     "minimax": "/icons/minimax.svg",

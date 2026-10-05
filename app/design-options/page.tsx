@@ -174,16 +174,16 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
         </div>
       </section>
       <section className="preview-controls">
-        <div className="listing-tabs" role="group" aria-label="Choose model listing">
-          <button className={listing === "leaderboard" ? "on" : ""} onClick={() => setListing("leaderboard")} aria-pressed={listing === "leaderboard"}>Leaderboard</button>
-          <button className={listing === "all" ? "on" : ""} onClick={() => setListing("all")} aria-pressed={listing === "all"}>All</button>
-          <span className="listing-help" tabIndex={0} aria-label={allModelsTooltip} title={allModelsTooltip}><CircleHelp size={14} strokeWidth={1.7} aria-hidden="true" /><span className="listing-tooltip" role="tooltip">{allModelsTooltip}</span></span>
-        </div>
         <div className="preview-tabs" aria-label="Choose benchmark track"><button className={track === "i2v" ? "on" : ""} onClick={() => setTrack("i2v")}>Image to video</button><button className={track === "v2v" ? "on" : ""} onClick={() => setTrack("v2v")}>Video to video</button></div>
         <div className="score-mode-tabs" aria-label="Choose score view"><button className={scoreMode === "verified" ? "on" : ""} onClick={() => setScoreMode("verified")}>Verified score</button><button className={scoreMode === "relative" ? "on" : ""} onClick={() => setScoreMode("relative")}>Net improvement</button></div>
         <div className="sampling-tabs" aria-label="Filter by sampling method">
           <span>Sampling</span>
           {([ ["all", "All"], ["single", "Single generation"], ["bon", "BoN"] ] as const).map(([mode, label]) => <button key={mode} className={samplingMode === mode ? "on" : ""} onClick={() => setSamplingMode(mode)} aria-pressed={samplingMode === mode}>{label}<small>{mode === "all" ? listingRows.length : listingRows.filter((row) => mode === "bon" ? isBon(row) : !isBon(row)).length}</small></button>)}
+        </div>
+        <div className="listing-tabs" role="group" aria-label="Choose model listing">
+          <button className={listing === "leaderboard" ? "on" : ""} onClick={() => setListing("leaderboard")} aria-pressed={listing === "leaderboard"}>Leaderboard</button>
+          <button className={listing === "all" ? "on" : ""} onClick={() => setListing("all")} aria-pressed={listing === "all"}>All</button>
+          <span className="listing-help" tabIndex={0} aria-label={allModelsTooltip} title={allModelsTooltip}><CircleHelp size={12} strokeWidth={1.5} aria-hidden="true" /><span className="listing-tooltip" role="tooltip">{allModelsTooltip}</span></span>
         </div>
       </section>
       <div className="preview-workspace">

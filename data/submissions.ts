@@ -201,7 +201,7 @@ export const submissions: Submission[] = [
     dateAdded: "2026-06-17",
     company: "Tencent",
     availability: "Open source",
-    llmSupported: "No",
+    llmSupported: "Yes",
     metrics: {
       physIq: { mean: 33.4, std: 0.8 },
       sp: { mean: 47.1, std: 1.2 },

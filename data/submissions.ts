@@ -19,6 +19,10 @@ export type Submission = {
   sourceUrl?: string;
   inputType: InputType;
   protocol: string;
+  sampling?: {
+    candidatesPerPrompt: number;
+    selector: string;
+  };
   dateAdded: string;
   company: string;
   availability: Availability;
@@ -50,7 +54,7 @@ export const submissions: Submission[] = [
     inputType: "i2v",
     protocol: "BPP",
     dateAdded: "2026-08-27",
-    company: "fal.ai",
+    company: "fal",
     availability: "Proprietary",
     llmSupported: "Yes",
     runs: [35.4, 36.91, 36.57, 35.94],
@@ -109,6 +113,7 @@ export const submissions: Submission[] = [
     sourceUrl: "https://github.com/SandAI-org/MAGI-1",
     inputType: "v2v",
     protocol: "BoN",
+    sampling: { candidatesPerPrompt: 16, selector: "GeoPhys" },
     dateAdded: "2026-06-19",
     company: "Sand AI",
     availability: "Open source",
@@ -139,6 +144,7 @@ export const submissions: Submission[] = [
     sourceUrl: "https://github.com/SandAI-org/MAGI-1",
     inputType: "i2v",
     protocol: "BoN",
+    sampling: { candidatesPerPrompt: 16, selector: "GeoPhys" },
     dateAdded: "2026-06-19",
     company: "Sand AI",
     availability: "Open source",
@@ -286,7 +292,7 @@ export const submissions: Submission[] = [
     modelIdentifier: "Cosmos3-Nano",
     sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Nano",
     inputType: "i2v",
-    protocol: "BPP",
+    protocol: "Custom",
     dateAdded: "2026-09-04",
     company: "NVIDIA",
     availability: "Open source",
@@ -306,7 +312,7 @@ export const submissions: Submission[] = [
     modelIdentifier: "Cosmos3-Super-Image2Video",
     sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Super-Image2Video",
     inputType: "i2v",
-    protocol: "BPP",
+    protocol: "Custom",
     dateAdded: "2026-09-04",
     company: "NVIDIA",
     availability: "Open source",
@@ -393,7 +399,7 @@ export const submissions: Submission[] = [
     modelIdentifier: "cosmos3_32b",
     sourceUrl: "https://www.nvidia.com/en-us/ai/cosmos/",
     inputType: "v2v",
-    protocol: "BPP",
+    protocol: "Custom",
     dateAdded: "2026-09-18",
     company: "NVIDIA",
     availability: "Open source",
@@ -407,7 +413,7 @@ export const submissions: Submission[] = [
     modelIdentifier: "cosmos3_8b",
     sourceUrl: "https://www.nvidia.com/en-us/ai/cosmos/",
     inputType: "v2v",
-    protocol: "BPP",
+    protocol: "Custom",
     dateAdded: "2026-09-18",
     company: "NVIDIA",
     availability: "Open source",

@@ -49,3 +49,4 @@ If an input is not established, keep it explicitly unknown. Estimates must be la
 - Seedance 2.5: reported cost is approximately $2.838/video for a five-second generation; GPU/provider runtime inputs were not supplied.
 - Cosmos3 Super V2V: $1.00/H200-hour assumption; two H200 GPUs and 2,272.824141 GPU-seconds per generation, yielding $0.631340/video. No prompt-upsampling cost is applied.
 - Cosmos3 Nano V2V: $1.00/H200-hour assumption; one H200 and 294.347948 seconds per generation, yielding $0.081763/video. No prompt-upsampling cost is applied.
+- Physis-Lang (Cosmos3 Nano): estimated at $1.625/A100-hour; the submission card reports 860.71 aggregate A100 GPU-seconds per video, yielding $0.388515/video. GPT-5.5 API prompt-upsampling cost is unknown and excluded.

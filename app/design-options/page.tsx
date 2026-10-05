@@ -218,7 +218,6 @@ function Preview({ track, setTrack, scoreMode, setScoreMode, samplingMode, setSa
           })}
         </div>
       </section>
-      <footer className="preview-foot"><span><i /> VERIFIED GROUND TRUTH</span><span>Cost/video · FLOPs not yet reported</span><span>{scoreMode === "relative" ? `Net improvement vs full track mean ${baseline.toFixed(2)}` : "Mean ± sample SD across independent runs"}</span></footer>
       <footer className="preview-credit">Brought to you with love 💛 from <a href="https://anates.ai" target="_blank" rel="noreferrer">Anates Labs</a></footer>
     </article>
   );

@@ -158,7 +158,9 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
   return (
     <article className="leader-preview preview-ledger">
       <header className="preview-topbar">
-        <div className="preview-brand"><BrandMark /><span>ANATES LABS</span></div>
+        <a className="preview-brand" href="https://anates.ai" target="_blank" rel="noreferrer" aria-label="Anates Labs home">
+          <BrandMark /><span>ANATES LABS</span>
+        </a>
       </header>
       <section className="preview-heading">
         <div className="preview-title-wrap">

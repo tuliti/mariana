@@ -212,7 +212,7 @@
 .preview-cost-control { display: flex; align-items: center; gap: 9px; color: var(--p-muted); font-size: 8px; }
 .preview-cost-control select { max-width: min(330px,55vw); min-height: 32px; border: 1px solid var(--p-rule); border-radius: 3px; background: var(--p-bg); padding: 0 9px; color: var(--p-gold); font: inherit; }
 .preview-cost-control select:focus-visible { outline: 1px solid var(--p-gold); }
-.preview-pareto-plot { position: relative; width: min(100%,1100px); min-height: 350px; margin: 0 auto; overflow: hidden; background: linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),radial-gradient(ellipse at 75% 18%,rgba(60,100,140,.11),transparent 38%),rgba(0,7,17,.42); background-size: 100% 20%,12.5% 100%,auto,auto; }
+.preview-pareto-plot { position: relative; width: min(100%,1100px); min-height: 350px; margin: 0; overflow: hidden; background: linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),radial-gradient(ellipse at 75% 18%,rgba(60,100,140,.11),transparent 38%),rgba(0,7,17,.42); background-size: 100% 20%,12.5% 100%,auto,auto; }
 .preview-pareto-plot::before { position: absolute; inset: 12% 7% 12%; border-left: 1px solid rgba(216,203,166,.24); border-bottom: 1px solid rgba(216,203,166,.24); content: ""; pointer-events: none; }
 .preview-frontier-line { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .preview-frontier-line path { fill: none; stroke: rgba(216,203,166,.78); stroke-width: .45; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 4px rgba(216,203,166,.35)); }

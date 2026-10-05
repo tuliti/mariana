@@ -195,6 +195,7 @@
 .leader-table th:nth-child(n+4), .leader-table td:nth-child(n+4) { text-align: center; }
 .leader-table td.score-col { min-width: 390px; padding: 5px 24px 5px 12px; }
 .unscored-cell { display: block; padding: 10px 16px; color: var(--p-muted); text-align: center; }
+.spread-not-reported { display: grid; min-height: 28px; grid-column: 2; place-items: center; border: 1px dashed rgba(216,203,166,.14); color: var(--p-muted); font-size: 8px; }
 .preview-score-cell { display: grid; grid-template-columns: 84px minmax(220px,1fr); align-items: center; gap: 12px; }
 .preview-score-readout { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
 .preview-score-number { color: var(--p-text); font-family: Roboto,Arial,sans-serif; font-size: 17px; font-variant-numeric: tabular-nums; white-space: nowrap; }

@@ -31,6 +31,8 @@ const companyIcons: Record<string, string> = {
   "kandinsky lab": "/icons/kandinsky.svg",
   "seedance": "/icons/seedance.webp",
   "black forest labs": "/icons/bfl.png",
+  awomo: "/icons/awomo.svg",
+  "microsoft research asia": "/icons/microsoft-research-asia.png",
   fal: "/icons/fal.svg"
 };
 const allModelsTooltip = "Includes benchmarked models and models known from preprints or announcements, even if public access is unavailable or no release date is confirmed.";
@@ -101,7 +103,7 @@ function ParetoCostCurves({ rows, costView, setCostView }: { rows: Submission[];
         const x = plotX(effectiveCost);
         return <ModelLink submission={submission} className={`preview-pareto-point ${isFrontier ? "is-frontier" : ""} ${x > 74 ? "is-right-edge" : ""}`} key={submission.id} style={{ left: `${x}%`, top: `${plotY(score.mean)}%` }} ariaLabel={`${submission.model}: ${score.mean.toFixed(2)}% verified, ${formatPrice(effectiveCost)} ${getCostViewLabel(costView)}`}>
           <CompanyIcon company={submission.company} /><span className="preview-pareto-label">{submission.model}</span>
-          <span className="preview-pareto-tooltip"><strong>{submission.model}</strong><span>{submission.company}</span><span>Score: {score.mean.toFixed(2)} ± {score.std.toFixed(2)}</span><span>{getCostViewLabel(costView)}: {formatPrice(effectiveCost)}</span></span>
+          <span className="preview-pareto-tooltip"><strong>{submission.model}</strong><span>{submission.company}</span><span>Score: {score.mean.toFixed(2)}{score.std === undefined ? "" : ` ± ${score.std.toFixed(2)}`}</span><span>{getCostViewLabel(costView)}: {formatPrice(effectiveCost)}</span></span>
         </ModelLink>;
       })}
       {costTicks.map((tick) => <span className="preview-cost-tick" key={tick} style={{ left: `${plotX(tick)}%` }}>{formatPrice(tick)}</span>)}<span className="preview-pareto-tick y-start">{minPerformance}%</span><span className="preview-pareto-tick y-end">{maxPerformance}%</span>
@@ -139,7 +141,7 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
   const scoredTrackRows = listingRows.filter((row) => row.metrics.physIq);
   const scoredShownRows = shownRows.filter((row) => row.metrics.physIq);
   const baseline = scoredTrackRows.reduce((sum, row) => sum + row.metrics.physIq!.mean, 0) / Math.max(scoredTrackRows.length, 1);
-  const relativeDomain = Math.max(5, Math.ceil(Math.max(...scoredShownRows.map((row) => Math.abs(row.metrics.physIq!.mean - baseline) + row.metrics.physIq!.std), 5) / 5) * 5);
+  const relativeDomain = Math.max(5, Math.ceil(Math.max(...scoredShownRows.map((row) => Math.abs(row.metrics.physIq!.mean - baseline) + (row.metrics.physIq!.std ?? 0)), 5) / 5) * 5);
   const verifiedDomain = 100;
   const scoreOf = (row: Submission) => scoreMode === "verified" ? row.metrics.physIq!.mean : row.metrics.physIq!.mean - baseline;
   const rankById = new Map(scoredShownRows.map((row, index) => [row.id, index + 1]));
@@ -204,7 +206,7 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
           <tbody>{shownRows.map((row) => <tr key={row.id}>
             <td className="rank-col">{rankById.has(row.id) ? String(rankById.get(row.id)).padStart(2, "0") : "—"}</td>
             <td className="model-col"><ModelLink submission={row} className="preview-model-mark"><CompanyIcon company={row.company} /><div className="preview-model-copy"><span className="model-name">{row.model}{row.sampling && <em className="model-tag" title={row.sampling.selector}>BoN ×{row.sampling.candidatesPerPrompt}</em>}</span><small>{row.company === row.model ? row.availability.toUpperCase() : `${row.company} · ${row.availability.toUpperCase()}`}</small></div></ModelLink></td>
-            <td className="score-col">{row.metrics.physIq ? <div className="preview-score-cell"><div className="preview-score-readout"><span className="preview-score-number">{format(scoreOf(row))}<small>{scoreMode === "relative" ? " pp" : "%"}</small></span><span className="preview-score-uncertainty">± {row.metrics.physIq.std.toFixed(2)}{scoreMode === "relative" ? " pp" : ""}</span></div><ScoreSpread mean={scoreOf(row)} std={row.metrics.physIq.std} relative={scoreMode === "relative"} domain={scoreMode === "relative" ? relativeDomain : verifiedDomain} /></div> : <span className="unscored-cell">—</span>}</td>
+            <td className="score-col">{row.metrics.physIq ? <div className="preview-score-cell"><div className="preview-score-readout"><span className="preview-score-number">{format(scoreOf(row))}<small>{scoreMode === "relative" ? " pp" : "%"}</small></span>{row.metrics.physIq.std !== undefined && <span className="preview-score-uncertainty">± {row.metrics.physIq.std.toFixed(2)}{scoreMode === "relative" ? " pp" : ""}</span>}</div>{row.metrics.physIq.std !== undefined ? <ScoreSpread mean={scoreOf(row)} std={row.metrics.physIq.std} relative={scoreMode === "relative"} domain={scoreMode === "relative" ? relativeDomain : verifiedDomain} /> : <span className="spread-not-reported">SD not reported</span>}</div> : <span className="unscored-cell">—</span>}</td>
             <td className={`llm-cell ${row.llmSupported === "Yes" ? "is-yes" : ""}`}>{row.llmSupported}</td>
             <td><span className="prompt-label" title={row.promptDetails}>{row.protocol}</span></td>
             <td className="num output-fps-cell">{row.outputFps ?? outputFpsBySubmission.get(row.id) ?? "n.d."}</td>

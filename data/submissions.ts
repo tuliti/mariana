@@ -1,10 +1,10 @@
 export type InputType = "i2v" | "t2v" | "v2v";
-export type Availability = "Proprietary" | "Open source" | "Not yet available";
+export type Availability = "Proprietary" | "Open source" | "Not yet available" | "Access unknown";
 export type LlmSupport = "Yes" | "Likely" | "No" | "Unknown";
 
 export type MetricScore = {
   mean: number;
-  std: number;
+  std?: number;
 };
 
 export type MetricComponent = {
@@ -354,6 +354,7 @@ export const submissions: Submission[] = [
     protocol: "BPP",
     dateAdded: "2026-08-31",
     company: "NVIDIA",
+    outputFps: 24,
     availability: "Open source",
     llmSupported: "Yes",
     runs: [33.42, 31.78, 33.85, 31.9],
@@ -457,6 +458,7 @@ export const submissions: Submission[] = [
     protocol: "Custom",
     dateAdded: "2026-09-25",
     company: "NVIDIA",
+    outputFps: 24,
     availability: "Open source",
     llmSupported: "Yes",
     runs: [42.4169, 41.6556, 41.9558, 45.9908],
@@ -553,5 +555,63 @@ export const submissions: Submission[] = [
     llmSupported: "Yes",
     sampling: { candidatesPerPrompt: 8, selector: "WMReward + consensus" },
     metrics: { physIq: { mean: 46.95, std: 0.35 } }
+  },
+  {
+    id: "microsoft-research-asia__physical-registry-i2v__2026-10-05",
+    listing: "all",
+    model: "Physical Registry",
+    modelIdentifier: "Physical Registry",
+    inputType: "i2v",
+    protocol: "n.d.",
+    dateAdded: "2026-10-05",
+    company: "Microsoft Research Asia",
+    availability: "Access unknown",
+    llmSupported: "Yes",
+    outputFps: 24,
+    metrics: { physIq: { mean: 44.00, std: 0.60 } }
+  },
+  {
+    id: "microsoft-research-asia__physical-registry-v2v__2026-10-05",
+    listing: "all",
+    model: "Physical Registry",
+    modelIdentifier: "Physical Registry",
+    inputType: "v2v",
+    protocol: "n.d.",
+    dateAdded: "2026-10-05",
+    company: "Microsoft Research Asia",
+    availability: "Access unknown",
+    llmSupported: "Yes",
+    outputFps: 24,
+    metrics: { physIq: { mean: 50.17, std: 0.72 } }
+  },
+  {
+    id: "microsoft-research-asia__physical-registry-prs-bon4-i2v__2026-10-05",
+    listing: "all",
+    model: "Physical Registry + PRS",
+    modelIdentifier: "Physical Registry + PRS",
+    inputType: "i2v",
+    protocol: "n.d.",
+    dateAdded: "2026-10-05",
+    company: "Microsoft Research Asia",
+    availability: "Access unknown",
+    llmSupported: "Yes",
+    outputFps: 24,
+    sampling: { candidatesPerPrompt: 4, selector: "PRS" },
+    metrics: { physIq: { mean: 46.08 } }
+  },
+  {
+    id: "microsoft-research-asia__physical-registry-prs-bon4-v2v__2026-10-05",
+    listing: "all",
+    model: "Physical Registry + PRS",
+    modelIdentifier: "Physical Registry + PRS",
+    inputType: "v2v",
+    protocol: "n.d.",
+    dateAdded: "2026-10-05",
+    company: "Microsoft Research Asia",
+    availability: "Access unknown",
+    llmSupported: "Yes",
+    outputFps: 24,
+    sampling: { candidatesPerPrompt: 4, selector: "PRS" },
+    metrics: { physIq: { mean: 52.61 } }
   }
 ];

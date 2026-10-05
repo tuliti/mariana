@@ -136,7 +136,7 @@
 .preview-resources a svg { color: var(--p-gold); }
 .preview-resources a:hover { color: var(--p-gold); }
 .preview-controls { display: flex; align-items: center; gap: 22px; min-height: 48px; border-top: 1px solid var(--p-rule); border-bottom: 1px solid var(--p-rule); padding: 0 22px; }
-.listing-tabs { position: relative; display: flex; align-items: center; gap: 2px; margin-left: auto; padding: 3px; border: 1px solid var(--p-rule); background: rgba(0,0,0,.12); }
+.listing-tabs { position: relative; display: flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid var(--p-rule); background: rgba(0,0,0,.12); }
 .listing-tabs button { border: 0; background: transparent; padding: 6px 8px; color: var(--p-muted); font: inherit; font-size: 8px; cursor: pointer; white-space: nowrap; }
 .listing-tabs button.on { background: rgba(216,203,166,.14); color: var(--p-gold); }
 .listing-help { position: relative; display: inline-flex; align-items: center; margin: 0 3px; color: var(--p-muted); cursor: help; }

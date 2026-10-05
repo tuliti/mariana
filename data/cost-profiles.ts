@@ -9,7 +9,7 @@ export type CostProfile = {
   size: string;
   fps: number;
   resolution: string;
-  seedControl: boolean;
+  seedControl?: boolean;
   price: number;
   llmCost?: number;
   costBasis?: string;
@@ -36,7 +36,11 @@ export const costProfiles: CostProfile[] = [
   { submissionId: "seedance-25-i2v-bpp", label: "Seedance 2.5", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "n.d.", seedControl: false, price: 2.838, costBasis: "≈$2.838/video reported benchmark cost for 5 s; GPU/provider runtime inputs not supplied" },
   { submissionId: "cosmos3-super-v2v-bpp", label: "Cosmos3 Super V2V", text: false, v2v: true, i2v: false, size: "32B", fps: 24, resolution: "1280x720", seedControl: true, price: 0.631340, costBasis: "$1.00/H200-hour; 2 H200 GPUs × 2,272.824141 GPU-seconds per generation", computeGpuSeconds: 4545.648282 },
   { submissionId: "cosmos3-nano-v2v-bpp", label: "Cosmos3 Nano V2V", text: false, v2v: true, i2v: false, size: "8B", fps: 24, resolution: "1280x720", seedControl: true, price: 0.081763, costBasis: "$1.00/H200-hour; 1 H200 × 294.347948 seconds per generation", computeGpuSeconds: 294.347948 },
-  { submissionId: "physis-lang-cosmos3-nano-i2v-custom", label: "Physis-Lang (Cosmos3 Nano)", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "1280x720", seedControl: false, price: 0.388515, costBasis: "Estimated: $1.625/A100-hour; 860.71 aggregate A100 GPU-seconds per video; GPT-5.5 API prompt-upsampling cost unknown and excluded", computeGpuSeconds: 860.71 }
+  { submissionId: "physis-lang-cosmos3-nano-i2v-custom", label: "Physis-Lang (Cosmos3 Nano)", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "1280x720", seedControl: false, price: 0.388515, costBasis: "Estimated: $1.625/A100-hour; 860.71 aggregate A100 GPU-seconds per video; GPT-5.5 API prompt-upsampling cost unknown and excluded", computeGpuSeconds: 860.71 },
+  { submissionId: "bfl__flux3-large-i2v-bpp-bon1__2026-10-04", label: "FLUX 3 [large] I2V", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "n.d.", price: 0.85, costBasis: "$0.17/s × 5 s per video; output resolution not provided, so no width normalization; Qwen3-VL-32B prompt-rewrite cost not provided and excluded" },
+  { submissionId: "bfl__flux3-large-v2v-bpp-bon1__2026-10-04", label: "FLUX 3 [large] V2V", text: false, v2v: true, i2v: false, size: "n.d.", fps: 24, resolution: "n.d.", price: 2.05, costBasis: "$0.41/s × 5 s per video; output resolution not provided, so no width normalization; Qwen3-VL-32B prompt-rewrite cost not provided and excluded" },
+  { submissionId: "bfl__flux3-large-i2v-bpp-bon8__2026-10-04", label: "FLUX 3 [large] I2V BoN×8", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "n.d.", price: 6.80, costBasis: "8 × ($0.17/s × 5 s); output resolution not provided, so no width normalization; Qwen3-VL-32B prompt-rewrite cost not provided and excluded" },
+  { submissionId: "bfl__flux3-large-v2v-bpp-bon8__2026-10-04", label: "FLUX 3 [large] V2V BoN×8", text: false, v2v: true, i2v: false, size: "n.d.", fps: 24, resolution: "n.d.", price: 16.40, costBasis: "8 × ($0.41/s × 5 s); output resolution not provided, so no width normalization; unchanged BPP prompts, no LLM prompt rewrite" }
 ];
 
 export function formatPrice(value: number) {

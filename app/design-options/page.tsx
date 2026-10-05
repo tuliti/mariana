@@ -30,6 +30,7 @@ const companyIcons: Record<string, string> = {
   "sand ai": "/icons/sand-ai.png",
   "kandinsky lab": "/icons/kandinsky.svg",
   "seedance": "/icons/seedance.webp",
+  "black forest labs": "/icons/bfl.png",
   fal: "/icons/fal.svg"
 };
 const allModelsTooltip = "Includes benchmarked models and models known from preprints or announcements, even if public access is unavailable or no release date is confirmed.";
@@ -135,7 +136,7 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
   const listingRows = listing === "all" ? trackRows : trackRows.filter((submission) => submission.listing === "leaderboard");
   const shownRows = listingRows.filter((submission) => samplingMode === "all" || (samplingMode === "bon" ? isBon(submission) : !isBon(submission)));
   const boardLabCount = new Set(boardRows.map((submission) => submission.company)).size;
-  const scoredTrackRows = trackRows.filter((row) => row.metrics.physIq);
+  const scoredTrackRows = listingRows.filter((row) => row.metrics.physIq);
   const scoredShownRows = shownRows.filter((row) => row.metrics.physIq);
   const baseline = scoredTrackRows.reduce((sum, row) => sum + row.metrics.physIq!.mean, 0) / Math.max(scoredTrackRows.length, 1);
   const relativeDomain = Math.max(5, Math.ceil(Math.max(...scoredShownRows.map((row) => Math.abs(row.metrics.physIq!.mean - baseline) + row.metrics.physIq!.std), 5) / 5) * 5);
@@ -143,6 +144,7 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
   const scoreOf = (row: Submission) => scoreMode === "verified" ? row.metrics.physIq!.mean : row.metrics.physIq!.mean - baseline;
   const rankById = new Map(scoredShownRows.map((row, index) => [row.id, index + 1]));
   const costBySubmission = new Map(costProfiles.map((profile) => [profile.submissionId, getComparisonCost(profile, costView).effectiveCost]));
+  const outputFpsBySubmission = new Map(costProfiles.map((profile) => [profile.submissionId, profile.fps]));
   const scoreLabel = scoreMode === "verified" ? "PHYSICS-IQ VERIFIED" : "NET IMPROVEMENT";
   const format = (value: number) => scoreMode === "relative" ? `${value > 0 ? "+" : ""}${value.toFixed(2)}` : value.toFixed(2);
   const submetrics = [
@@ -195,15 +197,17 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
             <th className="score-col">{scoreLabel}<small>{scoreMode === "relative" ? "VS TRACK MEAN · PP" : "MEAN ± SAMPLE SD"}</small></th>
             <th>LLM <small>USAGE</small></th>
             <th>PROMPT <small>SOURCE</small></th>
+            <th className="num output-fps-head">OUTPUT FPS</th>
             <th className="num compute-head">COST / VIDEO <small>{getCostViewLabel(costView)}</small></th>
             <th className="num compute-head">FLOPs</th>
           </tr></thead>
           <tbody>{shownRows.map((row) => <tr key={row.id}>
             <td className="rank-col">{rankById.has(row.id) ? String(rankById.get(row.id)).padStart(2, "0") : "—"}</td>
-            <td className="model-col"><ModelLink submission={row} className="preview-model-mark"><CompanyIcon company={row.company} /><div className="preview-model-copy"><span className="model-name">{row.model}</span><small>{row.company} · {row.availability.toUpperCase()}</small></div></ModelLink></td>
+            <td className="model-col"><ModelLink submission={row} className="preview-model-mark"><CompanyIcon company={row.company} /><div className="preview-model-copy"><span className="model-name">{row.model}{row.sampling && <em className="model-tag" title={row.sampling.selector}>BoN ×{row.sampling.candidatesPerPrompt}</em>}</span><small>{row.company === row.model ? row.availability.toUpperCase() : `${row.company} · ${row.availability.toUpperCase()}`}</small></div></ModelLink></td>
             <td className="score-col">{row.metrics.physIq ? <div className="preview-score-cell"><div className="preview-score-readout"><span className="preview-score-number">{format(scoreOf(row))}<small>{scoreMode === "relative" ? " pp" : "%"}</small></span><span className="preview-score-uncertainty">± {row.metrics.physIq.std.toFixed(2)}{scoreMode === "relative" ? " pp" : ""}</span></div><ScoreSpread mean={scoreOf(row)} std={row.metrics.physIq.std} relative={scoreMode === "relative"} domain={scoreMode === "relative" ? relativeDomain : verifiedDomain} /></div> : <span className="unscored-cell">—</span>}</td>
             <td className={`llm-cell ${row.llmSupported === "Yes" ? "is-yes" : ""}`}>{row.llmSupported}</td>
-            <td><span className="prompt-label">{row.protocol}</span></td>
+            <td><span className="prompt-label" title={row.promptDetails}>{row.protocol}</span></td>
+            <td className="num output-fps-cell">{row.outputFps ?? outputFpsBySubmission.get(row.id) ?? "n.d."}</td>
             <td className="num compute-cell">{costBySubmission.has(row.id) ? formatPrice(costBySubmission.get(row.id)!) : "n.d."}</td>
             <td className="num compute-cell">—</td>
           </tr>)}</tbody>

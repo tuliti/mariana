@@ -184,6 +184,7 @@
 .model-tag { margin-left: 7px; border: 1px solid rgba(216,203,166,.32); padding: 2px 4px; color: var(--p-gold); font-size: 6px; letter-spacing: .09em; vertical-align: 1px; }
 .leader-table .num { padding-right: 12px; text-align: right; font-variant-numeric: tabular-nums; }
 .leader-table th.num { text-align: right; }
+.leader-table .output-fps-head,.leader-table .output-fps-cell { width: 88px; min-width: 88px; padding-inline: 8px; font-variant-numeric: tabular-nums; }
 .leader-table .compute-head { text-align: right; }
 .leader-table .score-col { width: 390px; padding-right: 20px; text-align: right; }
 .leader-table .score-col strong { color: var(--p-text); font-family: Roboto,Arial,sans-serif; font-size: 15px; font-weight: 400; }

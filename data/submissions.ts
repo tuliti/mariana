@@ -1,6 +1,6 @@
 export type InputType = "i2v" | "t2v" | "v2v";
-export type Availability = "Proprietary" | "Open source";
-export type LlmSupport = "Yes" | "Likely" | "No";
+export type Availability = "Proprietary" | "Open source" | "Not yet available";
+export type LlmSupport = "Yes" | "Likely" | "No" | "Unknown";
 
 export type MetricScore = {
   mean: number;
@@ -19,8 +19,10 @@ export type Submission = {
   model: string;
   modelIdentifier?: string;
   sourceUrl?: string;
+  outputFps?: number;
   inputType: InputType;
   protocol: string;
+  promptDetails?: string;
   sampling?: {
     candidatesPerPrompt: number;
     selector: string;
@@ -427,7 +429,7 @@ export const submissions: Submission[] = [
     dateAdded: "2026-09-18",
     company: "NVIDIA",
     availability: "Open source",
-    llmSupported: "No",
+    llmSupported: "Yes",
     runs: [49.4386, 49.8991, 49.7743, 54.1509],
     metrics: { physIq: { mean: 50.8, std: 2.2 }, sp: { mean: 61.1, std: 1.9 }, st: { mean: 48.0, std: 4.1 }, ws: { mean: 49.8, std: 2.4 }, mse: { mean: 44.4, std: 1.9 } }
   },
@@ -442,7 +444,7 @@ export const submissions: Submission[] = [
     dateAdded: "2026-09-18",
     company: "NVIDIA",
     availability: "Open source",
-    llmSupported: "No",
+    llmSupported: "Yes",
     metrics: { physIq: { mean: 43.0, std: 2.0 }, sp: { mean: 54.2, std: 1.1 }, st: { mean: 36.5, std: 3.7 }, ws: { mean: 41.5, std: 1.9 }, mse: { mean: 39.8, std: 1.7 } }
   },
   {
@@ -473,5 +475,83 @@ export const submissions: Submission[] = [
     availability: "Open source",
     llmSupported: "Yes",
     metrics: { physIq: { mean: 48.23, std: 1.43 }, sp: { mean: 59.87, std: 1.43 }, st: { mean: 41.57, std: 3.11 }, ws: { mean: 48.53, std: 1.06 }, mse: { mean: 42.96, std: 1.29 } }
+  },
+  {
+    id: "strucphysvideo-ti2v-bpp",
+    listing: "all",
+    model: "StrucPhysVideo-TI2V",
+    modelIdentifier: "strucphysvideo-ti2v-bpp",
+    inputType: "i2v",
+    protocol: "BPP",
+    promptDetails: "BPP with a static-camera constraint; temporal prompt expansion with Qwen3.5-27B.",
+    dateAdded: "2026-10-05",
+    company: "Awomo",
+    availability: "Not yet available",
+    llmSupported: "Yes",
+    outputFps: 15,
+    runs: [45.44, 45.17, 45.30, 46.17],
+    metrics: { physIq: { mean: 45.5, std: 0.4 } }
+  },
+  {
+    id: "bfl__flux3-large-v2v-bpp-bon1__2026-10-04",
+    listing: "leaderboard",
+    model: "Flux 3",
+    modelIdentifier: "FLUX.3 [large]",
+    sourceUrl: "https://bfl.ai/models/flux-3-video",
+    inputType: "v2v",
+    protocol: "BPP",
+    dateAdded: "2026-10-04",
+    company: "Black Forest Labs",
+    outputFps: 24,
+    availability: "Proprietary",
+    llmSupported: "Yes",
+    metrics: { physIq: { mean: 53.89, std: 0.85 } }
+  },
+  {
+    id: "bfl__flux3-large-i2v-bpp-bon1__2026-10-04",
+    listing: "leaderboard",
+    model: "Flux 3",
+    modelIdentifier: "FLUX.3 [large]",
+    sourceUrl: "https://bfl.ai/models/flux-3-video",
+    inputType: "i2v",
+    protocol: "BPP",
+    dateAdded: "2026-10-04",
+    company: "Black Forest Labs",
+    outputFps: 24,
+    availability: "Proprietary",
+    llmSupported: "Yes",
+    metrics: { physIq: { mean: 43.39, std: 0.40 } }
+  },
+  {
+    id: "bfl__flux3-large-v2v-bpp-bon8__2026-10-04",
+    listing: "leaderboard",
+    model: "Flux 3",
+    modelIdentifier: "FLUX.3 [large]",
+    sourceUrl: "https://bfl.ai/models/flux-3-video",
+    inputType: "v2v",
+    protocol: "BPP",
+    dateAdded: "2026-10-04",
+    company: "Black Forest Labs",
+    outputFps: 24,
+    availability: "Proprietary",
+    llmSupported: "Yes",
+    sampling: { candidatesPerPrompt: 8, selector: "WMReward + consensus" },
+    metrics: { physIq: { mean: 58.43, std: 0.47 } }
+  },
+  {
+    id: "bfl__flux3-large-i2v-bpp-bon8__2026-10-04",
+    listing: "leaderboard",
+    model: "Flux 3",
+    modelIdentifier: "FLUX.3 [large]",
+    sourceUrl: "https://bfl.ai/models/flux-3-video",
+    inputType: "i2v",
+    protocol: "BPP",
+    dateAdded: "2026-10-04",
+    company: "Black Forest Labs",
+    outputFps: 24,
+    availability: "Proprietary",
+    llmSupported: "Yes",
+    sampling: { candidatesPerPrompt: 8, selector: "WMReward + consensus" },
+    metrics: { physIq: { mean: 46.95, std: 0.35 } }
   }
 ];

@@ -14,6 +14,8 @@ export type MetricComponent = {
 
 export type Submission = {
   id: string;
+  /** "leaderboard" entries have benchmark scores; "all" is for catalog-only models. */
+  listing: "leaderboard" | "all";
   model: string;
   modelIdentifier?: string;
   sourceUrl?: string;
@@ -29,7 +31,7 @@ export type Submission = {
   llmSupported: LlmSupport;
   runs?: number[];
   metrics: {
-    physIq: MetricScore;
+    physIq?: MetricScore;
     sp?: MetricComponent;
     st?: MetricComponent;
     ws?: MetricComponent;
@@ -48,6 +50,7 @@ export const metricLabels = {
 export const submissions: Submission[] = [
   {
     id: "minimax-h3-max-i2v-bpp-opus-balanced",
+    listing: "leaderboard",
     model: "MiniMax H3 Max",
     modelIdentifier: "minimax/h3-max/image-to-video",
     sourceUrl: "https://fal.ai/models/minimax/h3-max/image-to-video",
@@ -68,6 +71,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "minimax-h3-fl2va-bpp-opus",
+    listing: "leaderboard",
     model: "MiniMax H3",
     modelIdentifier: "MiniMax H3 FL2VA",
     sourceUrl: "https://huggingface.co/MiniMaxAI/MiniMax-H3",
@@ -88,6 +92,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "cogvideox-5b-i2v-bpp",
+    listing: "leaderboard",
     model: "CogVideoX-5B",
     modelIdentifier: "zai-org/CogVideoX-5b-I2V",
     sourceUrl: "https://huggingface.co/zai-org/CogVideoX-5b-I2V",
@@ -108,6 +113,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "magi-1-24b-geophys-bon-op-v2v",
+    listing: "leaderboard",
     model: "Magi-1 24B + GeoPhys (BoN) (op)",
     modelIdentifier: "Magi-1 24B",
     sourceUrl: "https://github.com/SandAI-org/MAGI-1",
@@ -124,6 +130,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "magi-1-24b-op-v2v",
+    listing: "leaderboard",
     model: "Magi-1 24B (op)",
     modelIdentifier: "Magi-1 24B",
     sourceUrl: "https://github.com/SandAI-org/MAGI-1",
@@ -139,6 +146,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "magi-1-24b-geophys-bon-op",
+    listing: "leaderboard",
     model: "Magi-1 24B + GeoPhys (BoN) (op)",
     modelIdentifier: "Magi-1 24B",
     sourceUrl: "https://github.com/SandAI-org/MAGI-1",
@@ -155,6 +163,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "kandinsky-wm-10-general-physics",
+    listing: "leaderboard",
     model: "Kandinsky-WM 1.0",
     modelIdentifier: "Kandinsky-WM-1.0-I2V-5s-PH",
     sourceUrl: "https://github.com/kandinskylab/kandinsky-wm",
@@ -174,6 +183,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "grok-imagine-video",
+    listing: "leaderboard",
     model: "Grok Imagine Video",
     modelIdentifier: "Grok Imagine Video",
     sourceUrl: "https://grok.com/imagine",
@@ -193,6 +203,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "hunyuan-video-15",
+    listing: "leaderboard",
     model: "Hunyuan Video 1.5",
     modelIdentifier: "HunyuanVideo-1.5",
     sourceUrl: "https://github.com/Tencent-Hunyuan/HunyuanVideo-1.5",
@@ -212,6 +223,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "wan-22-5b",
+    listing: "leaderboard",
     model: "Wan 2.2 5B",
     modelIdentifier: "Wan2.2-TI2V-5B",
     sourceUrl: "https://huggingface.co/Wan-AI/Wan2.2-TI2V-5B",
@@ -231,6 +243,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "wan-22",
+    listing: "leaderboard",
     model: "Wan 2.2 14B",
     modelIdentifier: "Wan2.2-I2V-A14B",
     sourceUrl: "https://github.com/Wan-Video/Wan2.2",
@@ -250,6 +263,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "sora-2",
+    listing: "leaderboard",
     model: "Sora 2",
     modelIdentifier: "Sora 2",
     sourceUrl: "https://openai.com/index/sora-2/",
@@ -269,6 +283,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "p-video",
+    listing: "leaderboard",
     model: "P-Video",
     modelIdentifier: "P-Video",
     sourceUrl: "https://www.pruna.ai/p-video",
@@ -288,6 +303,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "cosmos3-nano-bpp-opus",
+    listing: "leaderboard",
     model: "Cosmos3 Nano",
     modelIdentifier: "Cosmos3-Nano",
     sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Nano",
@@ -308,6 +324,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "cosmos3-super-image2video",
+    listing: "leaderboard",
     model: "Cosmos3 Super",
     modelIdentifier: "Cosmos3-Super-Image2Video",
     sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Super-Image2Video",
@@ -327,6 +344,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "cosmos3-edge-bpp",
+    listing: "leaderboard",
     model: "Cosmos3 Edge",
     modelIdentifier: "Cosmos3-Edge",
     sourceUrl: "https://huggingface.co/nvidia/Cosmos3-Edge",
@@ -347,6 +365,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "seedance-25-i2v-bpp",
+    listing: "leaderboard",
     model: "Seedance 2.5",
     modelIdentifier: "bytedance/seedance-2.5/us/image-to-video",
     sourceUrl: "https://fal.ai/models/bytedance/seedance-2.5/us/image-to-video",
@@ -361,6 +380,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "gemini-omni-11-flash-i2v-bpp",
+    listing: "leaderboard",
     model: "Gemini Omni 1.1 Flash",
     modelIdentifier: "Gemini Omni 1.1 Flash",
     sourceUrl: "https://ai.google.dev/gemini-api/docs",
@@ -369,6 +389,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "gemini-omni-flash-preview-i2v-bpp",
+    listing: "leaderboard",
     model: "Gemini Omni Flash",
     modelIdentifier: "Gemini Omni Flash Preview",
     sourceUrl: "https://ai.google.dev/gemini-api/docs",
@@ -378,6 +399,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "veo-31-lite-i2v-bpp",
+    listing: "leaderboard",
     model: "Veo 3.1 Lite",
     modelIdentifier: "Veo 3.1 Lite",
     sourceUrl: "https://deepmind.google/models/veo/",
@@ -386,6 +408,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "veo-31-fast-i2v-bpp",
+    listing: "leaderboard",
     model: "Veo 3.1 Fast",
     modelIdentifier: "Veo 3.1 Fast",
     sourceUrl: "https://deepmind.google/models/veo/",
@@ -395,7 +418,8 @@ export const submissions: Submission[] = [
   },
   {
     id: "cosmos3-super-v2v-bpp",
-    model: "Cosmos3 Super V2V",
+    listing: "leaderboard",
+    model: "Cosmos3 Super",
     modelIdentifier: "cosmos3_32b",
     sourceUrl: "https://www.nvidia.com/en-us/ai/cosmos/",
     inputType: "v2v",
@@ -409,7 +433,8 @@ export const submissions: Submission[] = [
   },
   {
     id: "cosmos3-nano-v2v-bpp",
-    model: "Cosmos3 Nano V2V",
+    listing: "leaderboard",
+    model: "Cosmos3 Nano",
     modelIdentifier: "cosmos3_8b",
     sourceUrl: "https://www.nvidia.com/en-us/ai/cosmos/",
     inputType: "v2v",
@@ -422,6 +447,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "physis-lang-cosmos3-nano-i2v-custom",
+    listing: "leaderboard",
     model: "Physis-Lang (Cosmos3 Nano)",
     modelIdentifier: "physics-iq-verified-20260925",
     sourceUrl: "https://github.com/Physis-Intelligence/Physis-Lang",
@@ -436,6 +462,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "physis-lang-cosmos3-super-i2v-custom",
+    listing: "leaderboard",
     model: "Physis-Lang (Cosmos3 Super)",
     modelIdentifier: "physics-iq-verified-20260925",
     sourceUrl: "https://github.com/Physis-Intelligence/Physis-Lang",

@@ -136,6 +136,13 @@
 .preview-resources a svg { color: var(--p-gold); }
 .preview-resources a:hover { color: var(--p-gold); }
 .preview-controls { display: flex; align-items: center; gap: 22px; min-height: 48px; border-top: 1px solid var(--p-rule); border-bottom: 1px solid var(--p-rule); padding: 0 22px; }
+.listing-tabs { position: relative; display: flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid var(--p-rule); background: rgba(0,0,0,.12); }
+.listing-tabs button { border: 0; background: transparent; padding: 6px 8px; color: var(--p-muted); font: inherit; font-size: 8px; cursor: pointer; white-space: nowrap; }
+.listing-tabs button.on { background: rgba(216,203,166,.14); color: var(--p-gold); }
+.listing-help { position: relative; display: inline-flex; align-items: center; margin: 0 4px; color: var(--p-gold); cursor: help; }
+.listing-help:focus-visible { outline: 1px solid var(--p-gold); outline-offset: 3px; }
+.listing-tooltip { position: absolute; top: calc(100% + 10px); left: 50%; z-index: 30; display: none; width: 260px; border: 1px solid var(--p-rule); background: rgba(3,11,22,.98); box-shadow: 0 8px 24px rgba(0,0,0,.35); padding: 10px 12px; color: var(--p-text); font-size: 10px; font-weight: 400; line-height: 1.5; letter-spacing: 0; text-transform: none; transform: translateX(-50%); white-space: normal; }
+.listing-help:hover .listing-tooltip,.listing-help:focus .listing-tooltip { display: block; }
 .preview-tabs { display: flex; align-self: stretch; gap: 17px; }
 .preview-tabs button,.preview-filter { border: 0; background: none; color: var(--p-muted); font: inherit; font-size: 9px; }
 .preview-tabs button { position: relative; padding: 0; }
@@ -186,6 +193,7 @@
 .leader-table th.score-col { padding-left: 12px; text-align: left; }
 .leader-table th:nth-child(n+4), .leader-table td:nth-child(n+4) { text-align: center; }
 .leader-table td.score-col { min-width: 390px; padding: 5px 24px 5px 12px; }
+.unscored-cell { display: block; padding: 10px 16px; color: var(--p-muted); text-align: center; }
 .preview-score-cell { display: grid; grid-template-columns: 84px minmax(220px,1fr); align-items: center; gap: 12px; }
 .preview-score-readout { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
 .preview-score-number { color: var(--p-text); font-family: Roboto,Arial,sans-serif; font-size: 17px; font-variant-numeric: tabular-nums; white-space: nowrap; }

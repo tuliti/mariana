@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
-import { Clapperboard, Database, FileText, FlaskConical, Github } from "lucide-react";
+import { CircleHelp, Clapperboard, Database, FileText, FlaskConical, Github } from "lucide-react";
 import { costProfiles, formatPrice, getComparisonCost, getCostViewLabel, getCostViewNote, type CostView } from "../../data/cost-profiles";
 import { submissions, type InputType, type Submission } from "../../data/submissions";
 import "./design-options.css";
@@ -32,6 +32,7 @@ const companyIcons: Record<string, string> = {
   "seedance": "/icons/seedance.webp",
   fal: "/icons/fal.svg"
 };
+const allModelsTooltip = "Includes benchmarked models and models known from preprints or announcements, even if public access is unavailable or no release date is confirmed.";
 
 function CompanyIcon({ company }: { company: string }) {
   const icon = companyIcons[company.toLowerCase()];
@@ -65,8 +66,9 @@ function ScoreSpread({ mean, std, relative, domain }: { mean: number; std: numbe
 function ParetoCostCurves({ rows, costView, setCostView }: { rows: Submission[]; costView: CostView; setCostView: (view: CostView) => void }) {
   const points = costProfiles.flatMap((profile) => {
     const submission = rows.find((row) => row.id === profile.submissionId);
-    if (!submission) return [];
-    return [{ submission, effectiveCost: getComparisonCost(profile, costView).effectiveCost }];
+    const score = submission?.metrics.physIq;
+    if (!submission || !score) return [];
+    return [{ submission, score, effectiveCost: getComparisonCost(profile, costView).effectiveCost }];
   });
   const minPrice = Math.min(0.05, ...points.map((point) => point.effectiveCost));
   const maxPrice = Math.max(...points.map((point) => point.effectiveCost), minPrice * 1.02);
@@ -79,9 +81,9 @@ function ParetoCostCurves({ rows, costView, setCostView }: { rows: Submission[];
   const plotY = (performance: number) => 88 - ((performance - minPerformance) / performanceRange) * 76;
   const costTicks = Array.from(new Set([minPrice, ...[0.1, 0.25, 0.5, 1, 2, 5].filter((value) => value > minPrice && value < maxPrice), maxPrice])).sort((a, b) => a - b);
   const frontier = points
-    .filter((candidate) => points.every((other) => other === candidate || other.effectiveCost > candidate.effectiveCost || other.submission.metrics.physIq.mean < candidate.submission.metrics.physIq.mean || (other.effectiveCost === candidate.effectiveCost && other.submission.metrics.physIq.mean === candidate.submission.metrics.physIq.mean)))
+    .filter((candidate) => points.every((other) => other === candidate || other.effectiveCost > candidate.effectiveCost || other.score.mean < candidate.score.mean || (other.effectiveCost === candidate.effectiveCost && other.score.mean === candidate.score.mean)))
     .sort((a, b) => a.effectiveCost - b.effectiveCost);
-  const frontierPath = frontier.map((point, index) => `${index === 0 ? "M" : "L"} ${plotX(point.effectiveCost)} ${plotY(point.submission.metrics.physIq.mean)}`).join(" ");
+  const frontierPath = frontier.map((point, index) => `${index === 0 ? "M" : "L"} ${plotX(point.effectiveCost)} ${plotY(point.score.mean)}`).join(" ");
   const title = `${getCostViewLabel(costView)} against Physics-IQ Verified score`;
 
   return <section className="preview-pareto" aria-label="Pareto cost-performance curves">
@@ -93,12 +95,12 @@ function ParetoCostCurves({ rows, costView, setCostView }: { rows: Submission[];
     {points.length ? <div className="preview-pareto-plot" role="group" aria-label={`${title}; logarithmic cost axis`}>
       <span className="preview-axis-label y">Physics-IQ Verified</span><span className="preview-axis-label x">{getCostViewLabel(costView)} · LOG SCALE</span>
       <svg className="preview-frontier-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d={frontierPath} /></svg>
-      {points.map(({ submission, effectiveCost }) => {
+      {points.map(({ submission, score, effectiveCost }) => {
         const isFrontier = frontier.some((item) => item.submission.id === submission.id);
         const x = plotX(effectiveCost);
-        return <ModelLink submission={submission} className={`preview-pareto-point ${isFrontier ? "is-frontier" : ""} ${x > 74 ? "is-right-edge" : ""}`} key={submission.id} style={{ left: `${x}%`, top: `${plotY(submission.metrics.physIq.mean)}%` }} ariaLabel={`${submission.model}: ${submission.metrics.physIq.mean.toFixed(2)}% verified, ${formatPrice(effectiveCost)} ${getCostViewLabel(costView)}`}>
+        return <ModelLink submission={submission} className={`preview-pareto-point ${isFrontier ? "is-frontier" : ""} ${x > 74 ? "is-right-edge" : ""}`} key={submission.id} style={{ left: `${x}%`, top: `${plotY(score.mean)}%` }} ariaLabel={`${submission.model}: ${score.mean.toFixed(2)}% verified, ${formatPrice(effectiveCost)} ${getCostViewLabel(costView)}`}>
           <CompanyIcon company={submission.company} /><span className="preview-pareto-label">{submission.model}</span>
-          <span className="preview-pareto-tooltip"><strong>{submission.model}</strong><span>{submission.company}</span><span>Score: {submission.metrics.physIq.mean.toFixed(2)} ± {submission.metrics.physIq.std.toFixed(2)}</span><span>{getCostViewLabel(costView)}: {formatPrice(effectiveCost)}</span></span>
+          <span className="preview-pareto-tooltip"><strong>{submission.model}</strong><span>{submission.company}</span><span>Score: {score.mean.toFixed(2)} ± {score.std.toFixed(2)}</span><span>{getCostViewLabel(costView)}: {formatPrice(effectiveCost)}</span></span>
         </ModelLink>;
       })}
       {costTicks.map((tick) => <span className="preview-cost-tick" key={tick} style={{ left: `${plotX(tick)}%` }}>{formatPrice(tick)}</span>)}<span className="preview-pareto-tick y-start">{minPerformance}%</span><span className="preview-pareto-tick y-end">{maxPerformance}%</span>
@@ -107,7 +109,9 @@ function ParetoCostCurves({ rows, costView, setCostView }: { rows: Submission[];
   </section>;
 }
 
-function Preview({ track, setTrack, scoreMode, setScoreMode, samplingMode, setSamplingMode, costView, setCostView }: {
+function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode, samplingMode, setSamplingMode, costView, setCostView }: {
+  listing: "leaderboard" | "all";
+  setListing: (listing: "leaderboard" | "all") => void;
   track: InputType;
   setTrack: (track: InputType) => void;
   scoreMode: "verified" | "relative";
@@ -121,13 +125,23 @@ function Preview({ track, setTrack, scoreMode, setScoreMode, samplingMode, setSa
   const boardRows = submissions.filter((submission) => !excludedPreviewSubmissionIds.has(submission.id));
   const trackRows = boardRows
     .filter((submission) => submission.inputType === track)
-    .sort((a, b) => b.metrics.physIq.mean - a.metrics.physIq.mean);
-  const shownRows = trackRows.filter((submission) => samplingMode === "all" || (samplingMode === "bon" ? isBon(submission) : !isBon(submission)));
+    .sort((a, b) => {
+      const aScore = a.metrics.physIq?.mean;
+      const bScore = b.metrics.physIq?.mean;
+      if (aScore === undefined) return bScore === undefined ? 0 : 1;
+      if (bScore === undefined) return -1;
+      return bScore - aScore;
+    });
+  const listingRows = listing === "all" ? trackRows : trackRows.filter((submission) => submission.listing === "leaderboard");
+  const shownRows = listingRows.filter((submission) => samplingMode === "all" || (samplingMode === "bon" ? isBon(submission) : !isBon(submission)));
   const boardLabCount = new Set(boardRows.map((submission) => submission.company)).size;
-  const baseline = trackRows.reduce((sum, row) => sum + row.metrics.physIq.mean, 0) / Math.max(trackRows.length, 1);
-  const relativeDomain = Math.max(5, Math.ceil(Math.max(...shownRows.map((row) => Math.abs(row.metrics.physIq.mean - baseline) + row.metrics.physIq.std), 5) / 5) * 5);
+  const scoredTrackRows = trackRows.filter((row) => row.metrics.physIq);
+  const scoredShownRows = shownRows.filter((row) => row.metrics.physIq);
+  const baseline = scoredTrackRows.reduce((sum, row) => sum + row.metrics.physIq!.mean, 0) / Math.max(scoredTrackRows.length, 1);
+  const relativeDomain = Math.max(5, Math.ceil(Math.max(...scoredShownRows.map((row) => Math.abs(row.metrics.physIq!.mean - baseline) + row.metrics.physIq!.std), 5) / 5) * 5);
   const verifiedDomain = 100;
-  const scoreOf = (row: Submission) => scoreMode === "verified" ? row.metrics.physIq.mean : row.metrics.physIq.mean - baseline;
+  const scoreOf = (row: Submission) => scoreMode === "verified" ? row.metrics.physIq!.mean : row.metrics.physIq!.mean - baseline;
+  const rankById = new Map(scoredShownRows.map((row, index) => [row.id, index + 1]));
   const costBySubmission = new Map(costProfiles.map((profile) => [profile.submissionId, getComparisonCost(profile, costView).effectiveCost]));
   const scoreLabel = scoreMode === "verified" ? "PHYSICS-IQ VERIFIED" : "NET IMPROVEMENT";
   const format = (value: number) => scoreMode === "relative" ? `${value > 0 ? "+" : ""}${value.toFixed(2)}` : value.toFixed(2);
@@ -160,11 +174,16 @@ function Preview({ track, setTrack, scoreMode, setScoreMode, samplingMode, setSa
         </div>
       </section>
       <section className="preview-controls">
+        <div className="listing-tabs" role="group" aria-label="Choose model listing">
+          <button className={listing === "leaderboard" ? "on" : ""} onClick={() => setListing("leaderboard")} aria-pressed={listing === "leaderboard"}>Leaderboard</button>
+          <button className={listing === "all" ? "on" : ""} onClick={() => setListing("all")} aria-pressed={listing === "all"}>All</button>
+          <span className="listing-help" tabIndex={0} aria-label={allModelsTooltip} title={allModelsTooltip}><CircleHelp size={14} strokeWidth={1.7} aria-hidden="true" /><span className="listing-tooltip" role="tooltip">{allModelsTooltip}</span></span>
+        </div>
         <div className="preview-tabs" aria-label="Choose benchmark track"><button className={track === "i2v" ? "on" : ""} onClick={() => setTrack("i2v")}>Image to video</button><button className={track === "v2v" ? "on" : ""} onClick={() => setTrack("v2v")}>Video to video</button></div>
         <div className="score-mode-tabs" aria-label="Choose score view"><button className={scoreMode === "verified" ? "on" : ""} onClick={() => setScoreMode("verified")}>Verified score</button><button className={scoreMode === "relative" ? "on" : ""} onClick={() => setScoreMode("relative")}>Net improvement</button></div>
         <div className="sampling-tabs" aria-label="Filter by sampling method">
           <span>Sampling</span>
-          {([ ["all", "All"], ["single", "Single generation"], ["bon", "BoN"] ] as const).map(([mode, label]) => <button key={mode} className={samplingMode === mode ? "on" : ""} onClick={() => setSamplingMode(mode)} aria-pressed={samplingMode === mode}>{label}<small>{mode === "all" ? trackRows.length : trackRows.filter((row) => mode === "bon" ? isBon(row) : !isBon(row)).length}</small></button>)}
+          {([ ["all", "All"], ["single", "Single generation"], ["bon", "BoN"] ] as const).map(([mode, label]) => <button key={mode} className={samplingMode === mode ? "on" : ""} onClick={() => setSamplingMode(mode)} aria-pressed={samplingMode === mode}>{label}<small>{mode === "all" ? listingRows.length : listingRows.filter((row) => mode === "bon" ? isBon(row) : !isBon(row)).length}</small></button>)}
         </div>
       </section>
       <div className="preview-workspace">
@@ -179,10 +198,10 @@ function Preview({ track, setTrack, scoreMode, setScoreMode, samplingMode, setSa
             <th className="num compute-head">COST / VIDEO <small>{getCostViewLabel(costView)}</small></th>
             <th className="num compute-head">FLOPs</th>
           </tr></thead>
-          <tbody>{shownRows.map((row, index) => <tr key={row.id}>
-            <td className="rank-col">{String(index + 1).padStart(2, "0")}</td>
+          <tbody>{shownRows.map((row) => <tr key={row.id}>
+            <td className="rank-col">{rankById.has(row.id) ? String(rankById.get(row.id)).padStart(2, "0") : "—"}</td>
             <td className="model-col"><ModelLink submission={row} className="preview-model-mark"><CompanyIcon company={row.company} /><div className="preview-model-copy"><span className="model-name">{row.model}</span><small>{row.company} · {row.availability.toUpperCase()}</small></div></ModelLink></td>
-            <td className="score-col"><div className="preview-score-cell"><div className="preview-score-readout"><span className="preview-score-number">{format(scoreOf(row))}<small>{scoreMode === "relative" ? " pp" : "%"}</small></span><span className="preview-score-uncertainty">± {row.metrics.physIq.std.toFixed(2)}{scoreMode === "relative" ? " pp" : ""}</span></div><ScoreSpread mean={scoreOf(row)} std={row.metrics.physIq.std} relative={scoreMode === "relative"} domain={scoreMode === "relative" ? relativeDomain : verifiedDomain} /></div></td>
+            <td className="score-col">{row.metrics.physIq ? <div className="preview-score-cell"><div className="preview-score-readout"><span className="preview-score-number">{format(scoreOf(row))}<small>{scoreMode === "relative" ? " pp" : "%"}</small></span><span className="preview-score-uncertainty">± {row.metrics.physIq.std.toFixed(2)}{scoreMode === "relative" ? " pp" : ""}</span></div><ScoreSpread mean={scoreOf(row)} std={row.metrics.physIq.std} relative={scoreMode === "relative"} domain={scoreMode === "relative" ? relativeDomain : verifiedDomain} /></div> : <span className="unscored-cell">—</span>}</td>
             <td className={`llm-cell ${row.llmSupported === "Yes" ? "is-yes" : ""}`}>{row.llmSupported}</td>
             <td><span className="prompt-label">{row.protocol}</span></td>
             <td className="num compute-cell">{costBySubmission.has(row.id) ? formatPrice(costBySubmission.get(row.id)!) : "n.d."}</td>
@@ -224,6 +243,7 @@ function Preview({ track, setTrack, scoreMode, setScoreMode, samplingMode, setSa
 }
 
 export default function DesignOptionsPage() {
+  const [listing, setListing] = useState<"leaderboard" | "all">("leaderboard");
   const [track, setTrack] = useState<InputType>("i2v");
   const [scoreMode, setScoreMode] = useState<"verified" | "relative">("relative");
   const [samplingMode, setSamplingMode] = useState<"all" | "single" | "bon">("single");
@@ -232,10 +252,12 @@ export default function DesignOptionsPage() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    const requestedListing = params.get("listing");
     const requestedTrack = params.get("track");
     const requestedScore = params.get("score");
     const requestedSampling = params.get("sampling");
     const requestedCost = params.get("cost");
+    if (requestedListing === "leaderboard" || requestedListing === "all") setListing(requestedListing);
     if (requestedTrack === "i2v" || requestedTrack === "v2v") setTrack(requestedTrack);
     if (requestedScore === "verified" || requestedScore === "relative") setScoreMode(requestedScore);
     if (requestedSampling === "all" || requestedSampling === "single" || requestedSampling === "bon") setSamplingMode(requestedSampling);
@@ -247,16 +269,17 @@ export default function DesignOptionsPage() {
     if (!urlReady) return;
     const url = new URL(window.location.href);
     url.searchParams.delete("design");
+    url.searchParams.set("listing", listing);
     url.searchParams.set("track", track);
     url.searchParams.set("score", scoreMode);
     url.searchParams.set("sampling", samplingMode);
     url.searchParams.set("cost", costView);
     window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
-  }, [costView, samplingMode, scoreMode, track, urlReady]);
+  }, [costView, listing, samplingMode, scoreMode, track, urlReady]);
 
   return (
     <main className="design-options-page">
-      <Preview track={track} setTrack={setTrack} scoreMode={scoreMode} setScoreMode={setScoreMode} samplingMode={samplingMode} setSamplingMode={setSamplingMode} costView={costView} setCostView={setCostView} />
+      <Preview listing={listing} setListing={setListing} track={track} setTrack={setTrack} scoreMode={scoreMode} setScoreMode={setScoreMode} samplingMode={samplingMode} setSamplingMode={setSamplingMode} costView={costView} setCostView={setCostView} />
     </main>
   );
 }

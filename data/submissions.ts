@@ -503,13 +503,13 @@ export const submissions: Submission[] = [
     sourceUrl: "https://bfl.ai/models/flux-3-video",
     inputType: "v2v",
     protocol: "Custom",
-    promptDetails: "Qwen3-VL-32B rewrites the prompt using only the initial state.",
+    promptDetails: "Custom prompt rewrite.",
     dateAdded: "2026-10-04",
     company: "Black Forest Labs",
     outputFps: 24,
     availability: "Proprietary",
     llmSupported: "Yes",
-    metrics: { physIq: { mean: 61.11, std: 0.55 } }
+    metrics: { physIq: { mean: 61.11, std: 0.55 }, sp: { mean: 67.97, std: 0.65 }, ws: { mean: 60.17, std: 0.71 }, st: { mean: 61.64, std: 1.06 }, mse: { mean: 54.66, std: 0.55 } }
   },
   {
     id: "bfl__flux3-large-i2v-bpp-bon1__2026-10-04",
@@ -519,13 +519,13 @@ export const submissions: Submission[] = [
     sourceUrl: "https://bfl.ai/models/flux-3-video",
     inputType: "i2v",
     protocol: "Custom",
-    promptDetails: "Qwen3-VL-32B rewrites the prompt using only the initial state.",
+    promptDetails: "Custom prompt rewrite.",
     dateAdded: "2026-10-04",
     company: "Black Forest Labs",
     outputFps: 24,
     availability: "Proprietary",
     llmSupported: "Yes",
-    metrics: { physIq: { mean: 51.11, std: 0.44 } }
+    metrics: { physIq: { mean: 51.11, std: 0.44 }, sp: { mean: 64.36, std: 0.59 }, ws: { mean: 53.25, std: 0.91 }, st: { mean: 41.27, std: 0.99 }, mse: { mean: 45.55, std: 0.55 } }
   },
   {
     id: "bfl__flux3-large-v2v-bpp-bon8__2026-10-04",
@@ -542,7 +542,7 @@ export const submissions: Submission[] = [
     availability: "Proprietary",
     llmSupported: "Yes",
     sampling: { candidatesPerPrompt: 8, selector: "WMReward + consensus" },
-    metrics: { physIq: { mean: 58.43, std: 0.47 } }
+    metrics: { physIq: { mean: 64.35, std: 0.22 }, sp: { mean: 70.60, std: 0.59 }, ws: { mean: 63.30, std: 0.58 }, st: { mean: 66.12, std: 0.69 }, mse: { mean: 57.39, std: 0.48 } }
   },
   {
     id: "bfl__flux3-large-i2v-bpp-bon8__2026-10-04",
@@ -552,14 +552,14 @@ export const submissions: Submission[] = [
     sourceUrl: "https://bfl.ai/models/flux-3-video",
     inputType: "i2v",
     protocol: "Custom",
-    promptDetails: "Qwen3-VL-32B rewrites the prompt using only the initial state.",
+    promptDetails: "Custom prompt rewrite.",
     dateAdded: "2026-10-04",
     company: "Black Forest Labs",
     outputFps: 24,
     availability: "Proprietary",
     llmSupported: "Yes",
     sampling: { candidatesPerPrompt: 8, selector: "WMReward + consensus" },
-    metrics: { physIq: { mean: 54.70, std: 0.41 } }
+    metrics: { physIq: { mean: 54.70, std: 0.41 }, sp: { mean: 67.33, std: 0.62 }, ws: { mean: 56.37, std: 0.74 }, st: { mean: 47.43, std: 0.85 }, mse: { mean: 47.65, std: 0.35 } }
   },
   {
     id: "microsoft-research-asia__physical-registry-i2v__2026-10-05",

@@ -31,6 +31,7 @@ const companyIcons: Record<string, string> = {
   "kandinsky lab": "/icons/kandinsky.svg",
   "seedance": "/icons/seedance.webp",
   "black forest labs": "/icons/bfl.png",
+  odyssey: "/icons/odyssey.svg",
   awomo: "/icons/awomo.svg",
   "microsoft research asia": "/icons/microsoft-research-asia.png",
   fal: "/icons/fal.svg"
@@ -40,7 +41,8 @@ const allModelsTooltip = "Includes benchmarked models and models known from prep
 function CompanyIcon({ company }: { company: string }) {
   const icon = companyIcons[company.toLowerCase()];
   const initials = company.split(/\s+/).filter(Boolean).map((part) => part[0]).join("").slice(0, 2).toUpperCase();
-  return <span className="preview-company-icon" title={company} aria-label={company}>{icon ? <img src={icon} alt="" /> : <small>{initials}</small>}</span>;
+  const iconClass = company.toLowerCase() === "odyssey" ? "odyssey-company-logo" : undefined;
+  return <span className="preview-company-icon" title={company} aria-label={company}>{icon ? <img className={iconClass} src={icon} alt="" /> : <small>{initials}</small>}</span>;
 }
 
 function ModelLink({ submission, className, children, style, ariaLabel }: { submission: Submission; className: string; children: ReactNode; style?: CSSProperties; ariaLabel?: string }) {
@@ -48,20 +50,24 @@ function ModelLink({ submission, className, children, style, ariaLabel }: { subm
   return <a className={className} href={submission.sourceUrl} target="_blank" rel="noreferrer" style={style} aria-label={ariaLabel} title={`Open ${submission.model} model page`}>{children}</a>;
 }
 
-function ScoreSpread({ mean, std, relative, domain }: { mean: number; std: number; relative: boolean; domain: number }) {
+function ScoreSpread({ mean, std, relative, domain }: { mean: number; std?: number; relative: boolean; domain: number }) {
   const valuePosition = relative
     ? Math.max(0, Math.min(100, 50 + (mean / domain) * 50))
     : Math.max(0, Math.min(100, (mean / domain) * 100));
-  const low = relative ? 50 + ((mean - std) / domain) * 50 : ((mean - std) / domain) * 100;
-  const high = relative ? 50 + ((mean + std) / domain) * 50 : ((mean + std) / domain) * 100;
-  const ciStart = Math.max(0, Math.min(100, low));
-  const ciEnd = Math.max(ciStart, Math.min(100, high));
   const fillStart = relative ? Math.min(50, valuePosition) : 0;
   const fillWidth = relative ? Math.max(1, Math.abs(valuePosition - 50)) : valuePosition;
-  return <div className={`preview-spread ${relative ? "is-relative" : ""}`} role="img" aria-label={`${relative ? "Relative improvement" : "Verified score"} ${mean > 0 && relative ? "+" : ""}${mean.toFixed(2)} plus or minus ${std.toFixed(2)} percentage points`}>
+  const errorBar = std === undefined ? null : (() => {
+    const low = relative ? 50 + ((mean - std) / domain) * 50 : ((mean - std) / domain) * 100;
+    const high = relative ? 50 + ((mean + std) / domain) * 50 : ((mean + std) / domain) * 100;
+    const ciStart = Math.max(0, Math.min(100, low));
+    const ciEnd = Math.max(ciStart, Math.min(100, high));
+    return <i className="spread-whisker" style={{ left: `${ciStart}%`, width: `${Math.max(1.2, ciEnd - ciStart)}%` }} />;
+  })();
+  const accessibleScore = `${relative ? "Relative improvement" : "Verified score"} ${mean > 0 && relative ? "+" : ""}${mean.toFixed(2)}${std === undefined ? " percentage points" : ` plus or minus ${std.toFixed(2)} percentage points`}`;
+  return <div className={`preview-spread ${relative ? "is-relative" : ""}`} role="img" aria-label={accessibleScore}>
     {relative && <i className="spread-zero" />}
     <i className={`spread-fill ${relative && mean < 0 ? "is-negative" : ""}`} style={{ left: `${fillStart}%`, width: `${fillWidth}%` }} />
-    <i className="spread-whisker" style={{ left: `${ciStart}%`, width: `${Math.max(1.2, ciEnd - ciStart)}%` }} />
+    {errorBar}
     <i className="spread-marker" style={{ left: `${valuePosition}%` }} />
   </div>;
 }
@@ -212,7 +218,7 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
           <tbody>{shownRows.map((row) => <tr key={row.id}>
             <td className="rank-col">{rankById.has(row.id) ? String(rankById.get(row.id)).padStart(2, "0") : "—"}</td>
             <td className="model-col"><ModelLink submission={row} className="preview-model-mark"><CompanyIcon company={row.company} /><div className="preview-model-copy"><span className="model-name">{row.model}{row.sampling && <em className="model-tag" title={row.sampling.selector}>BoN ×{row.sampling.candidatesPerPrompt}</em>}</span><small>{row.company === row.model ? row.availability.toUpperCase() : `${row.company} · ${row.availability.toUpperCase()}`}</small></div></ModelLink></td>
-            <td className="score-col">{row.metrics.physIq ? <div className="preview-score-cell"><div className="preview-score-readout"><span className="preview-score-number">{format(scoreOf(row))}<small>{scoreMode === "relative" ? " pp" : "%"}</small></span>{row.metrics.physIq.std !== undefined && <span className="preview-score-uncertainty">± {row.metrics.physIq.std.toFixed(2)}{scoreMode === "relative" ? " pp" : ""}</span>}</div>{row.metrics.physIq.std !== undefined ? <ScoreSpread mean={scoreOf(row)} std={row.metrics.physIq.std} relative={scoreMode === "relative"} domain={scoreMode === "relative" ? relativeDomain : verifiedDomain} /> : <span className="spread-not-reported">SD not reported</span>}</div> : <span className="unscored-cell">—</span>}</td>
+            <td className="score-col">{row.metrics.physIq ? <div className="preview-score-cell"><div className="preview-score-readout"><span className="preview-score-number">{format(scoreOf(row))}<small>{scoreMode === "relative" ? " pp" : "%"}</small></span>{row.metrics.physIq.std !== undefined && <span className="preview-score-uncertainty">± {row.metrics.physIq.std.toFixed(2)}{scoreMode === "relative" ? " pp" : ""}</span>}</div><ScoreSpread mean={scoreOf(row)} std={row.metrics.physIq.std} relative={scoreMode === "relative"} domain={scoreMode === "relative" ? relativeDomain : verifiedDomain} /></div> : <span className="unscored-cell">—</span>}</td>
             <td className={`llm-cell ${row.llmSupported === "Yes" ? "is-yes" : ""}`}>{row.llmSupported}</td>
             <td><span className="prompt-label" title={row.promptDetails}>{row.protocol}</span></td>
             <td className="num output-fps-cell">{row.outputFps ?? outputFpsBySubmission.get(row.id) ?? "n.d."}</td>

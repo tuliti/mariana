@@ -181,6 +181,7 @@
 .preview-model-mark[href]:hover .model-name { color: var(--p-gold); }
 .preview-company-icon { display: grid; width: 26px; height: 26px; flex: 0 0 26px; place-items: center; overflow: hidden; border: 1px solid rgba(216,203,166,.2); border-radius: 50%; background: rgba(5,13,25,.68); color: var(--p-gold); }
 .preview-company-icon img { display: block; width: 17px; height: 17px; object-fit: contain; }
+.preview-company-icon img.odyssey-company-logo { filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(516%) hue-rotate(7deg) brightness(91%) contrast(88%); }
 .preview-company-icon small { color: var(--p-gold); font-size: 8px; font-weight: 700; letter-spacing: .03em; }
 .preview-model-copy { min-width: 0; }
 .model-name { display: block; color: var(--p-text); font-size: 15px; font-weight: 500; line-height: 1.2; letter-spacing: -.015em; }

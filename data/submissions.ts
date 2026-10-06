@@ -509,7 +509,7 @@ export const submissions: Submission[] = [
     outputFps: 24,
     availability: "Proprietary",
     llmSupported: "Yes",
-    metrics: { physIq: { mean: 53.89, std: 0.85 } }
+    metrics: { physIq: { mean: 61.11, std: 0.55 } }
   },
   {
     id: "bfl__flux3-large-i2v-bpp-bon1__2026-10-04",
@@ -525,7 +525,7 @@ export const submissions: Submission[] = [
     outputFps: 24,
     availability: "Proprietary",
     llmSupported: "Yes",
-    metrics: { physIq: { mean: 43.39, std: 0.40 } }
+    metrics: { physIq: { mean: 51.11, std: 0.44 } }
   },
   {
     id: "bfl__flux3-large-v2v-bpp-bon8__2026-10-04",
@@ -534,13 +534,13 @@ export const submissions: Submission[] = [
     modelIdentifier: "FLUX.3 [large]",
     sourceUrl: "https://bfl.ai/models/flux-3-video",
     inputType: "v2v",
-    protocol: "BPP",
-    promptDetails: "Unmodified BPP descriptions; no LLM prompt rewrite.",
+    protocol: "Custom",
+    promptDetails: "Custom prompt rewrite.",
     dateAdded: "2026-10-04",
     company: "Black Forest Labs",
     outputFps: 24,
     availability: "Proprietary",
-    llmSupported: "No",
+    llmSupported: "Yes",
     sampling: { candidatesPerPrompt: 8, selector: "WMReward + consensus" },
     metrics: { physIq: { mean: 58.43, std: 0.47 } }
   },
@@ -559,7 +559,7 @@ export const submissions: Submission[] = [
     availability: "Proprietary",
     llmSupported: "Yes",
     sampling: { candidatesPerPrompt: 8, selector: "WMReward + consensus" },
-    metrics: { physIq: { mean: 46.95, std: 0.35 } }
+    metrics: { physIq: { mean: 54.70, std: 0.41 } }
   },
   {
     id: "microsoft-research-asia__physical-registry-i2v__2026-10-05",

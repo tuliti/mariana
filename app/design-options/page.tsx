@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
-import { CircleHelp, Clapperboard, Database, FileText, FlaskConical, Github } from "lucide-react";
+import { CircleHelp, Clapperboard, Database, FileText, FlaskConical, Github, Linkedin, Twitter } from "lucide-react";
 import { costProfiles, formatPrice, getComparisonCost, getCostViewLabel, getCostViewNote, type CostView } from "../../data/cost-profiles";
 import { submissions, type InputType, type Submission } from "../../data/submissions";
 import "./design-options.css";
@@ -161,6 +161,10 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
         <a className="preview-brand" href="https://anates.ai" target="_blank" rel="noreferrer" aria-label="Anates Labs home">
           <BrandMark /><span>ANATES LABS</span>
         </a>
+        <nav className="preview-social-links" aria-label="Anates Labs social media">
+          <a href="https://www.linkedin.com/company/anates-labs/?viewAsMember=true" target="_blank" rel="noreferrer" aria-label="Anates Labs on LinkedIn"><Linkedin size={13} strokeWidth={1.8} aria-hidden="true" /><span>LinkedIn</span></a>
+          <a href="https://x.com/Anates_Labs" target="_blank" rel="noreferrer" aria-label="Anates Labs on X/Twitter"><Twitter size={13} strokeWidth={1.8} aria-hidden="true" /><span>X/Twitter</span></a>
+        </nav>
       </header>
       <section className="preview-heading">
         <div className="preview-title-wrap">

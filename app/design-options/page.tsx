@@ -33,7 +33,7 @@ const companyIcons: Record<string, string> = {
   "kandinsky lab": "/icons/kandinsky.svg",
   "seedance": "/icons/seedance.webp",
   "black forest labs": "/icons/bfl.png",
-  odyssey: "/icons/odyssey.svg",
+  odyssey: "/icons/odyssey.png",
   awomo: "/icons/awomo.svg",
   "microsoft research asia": "/icons/microsoft-research-asia.png",
   fal: "/icons/fal.svg"
@@ -43,8 +43,7 @@ const allModelsTooltip = "Includes benchmarked models and models known from prep
 function CompanyIcon({ company }: { company: string }) {
   const icon = companyIcons[company.toLowerCase()];
   const initials = company.split(/\s+/).filter(Boolean).map((part) => part[0]).join("").slice(0, 2).toUpperCase();
-  const iconClass = company.toLowerCase() === "odyssey" ? "odyssey-company-logo" : undefined;
-  return <span className="preview-company-icon" title={company} aria-label={company}>{icon ? <img className={iconClass} src={icon} alt="" /> : <small>{initials}</small>}</span>;
+  return <span className="preview-company-icon" title={company} aria-label={company}>{icon ? <img src={icon} alt="" /> : <small>{initials}</small>}</span>;
 }
 
 function ModelLink({ submission, className, children, style, ariaLabel }: { submission: Submission; className: string; children: ReactNode; style?: CSSProperties; ariaLabel?: string }) {
@@ -211,8 +210,7 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
             <th>LLM <small>USAGE</small></th>
             <th>PROMPT <small>SOURCE</small></th>
             <th className="num output-fps-head">OUTPUT FPS</th>
-            <th className="num compute-head">COST / VIDEO <small>{getCostViewLabel(costView)}</small></th>
-            <th className="num compute-head">FLOPs</th>
+            <th className="num cost-head">COST / VIDEO <small>{getCostViewLabel(costView)}</small></th>
           </tr></thead>
           <tbody>{shownRows.map((row) => <tr key={row.id}>
             <td className="rank-col">{rankById.has(row.id) ? String(rankById.get(row.id)).padStart(2, "0") : "—"}</td>
@@ -221,8 +219,7 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
             <td className={`llm-cell ${row.llmSupported === "Yes" ? "is-yes" : ""}`}>{row.llmSupported}</td>
             <td><span className="prompt-label" title={row.promptDetails}>{row.protocol}</span></td>
             <td className="num output-fps-cell">{row.outputFps ?? outputFpsBySubmission.get(row.id) ?? "n.d."}</td>
-            <td className="num compute-cell">{costBySubmission.has(row.id) ? formatPrice(costBySubmission.get(row.id)!) : "n.d."}</td>
-            <td className="num compute-cell">—</td>
+            <td className="num cost-cell">{costBySubmission.has(row.id) ? formatPrice(costBySubmission.get(row.id)!) : "n.d."}</td>
           </tr>)}</tbody>
         </table>
         </div>

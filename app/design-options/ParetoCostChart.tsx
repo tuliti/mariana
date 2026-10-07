@@ -37,7 +37,7 @@ export default function ParetoCostChart({ points, costView }: { points: ParetoPo
       ...point,
       value: [point.effectiveCost, point.score],
       itemStyle: {
-        color: point.company.toLowerCase() === "odyssey" ? palette.gold : "rgba(5,13,25,.92)",
+        color: "rgba(5,13,25,.92)",
         borderColor: point.isFrontier ? palette.gold : "rgba(216,203,166,.38)",
         borderWidth: point.isFrontier ? 1.6 : 1
       }

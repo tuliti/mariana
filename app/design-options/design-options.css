@@ -190,7 +190,6 @@
 .preview-model-mark[href]:hover .model-name { color: var(--p-gold); }
 .preview-company-icon { display: grid; width: 26px; height: 26px; flex: 0 0 26px; place-items: center; overflow: hidden; border: 1px solid rgba(216,203,166,.2); border-radius: 50%; background: rgba(5,13,25,.68); color: var(--p-gold); }
 .preview-company-icon img { display: block; width: 17px; height: 17px; object-fit: contain; }
-.preview-company-icon img.odyssey-company-logo { filter: brightness(0) saturate(100%) invert(84%) sepia(14%) saturate(516%) hue-rotate(7deg) brightness(91%) contrast(88%); }
 .preview-company-icon small { color: var(--p-gold); font-size: 8px; font-weight: 700; letter-spacing: .03em; }
 .preview-model-copy { min-width: 0; }
 .model-name { display: block; color: var(--p-text); font-size: 15px; font-weight: 500; line-height: 1.2; letter-spacing: -.015em; }
@@ -201,7 +200,7 @@
 .leader-table .num { padding-right: 12px; text-align: right; font-variant-numeric: tabular-nums; }
 .leader-table th.num { text-align: right; }
 .leader-table .output-fps-head,.leader-table .output-fps-cell { width: 88px; min-width: 88px; padding-inline: 8px; font-variant-numeric: tabular-nums; }
-.leader-table .compute-head { text-align: right; }
+.leader-table .cost-head { text-align: right; }
 .leader-table .score-col { width: 390px; padding-right: 20px; text-align: right; }
 .leader-table .score-col strong { color: var(--p-text); font-family: Roboto,Arial,sans-serif; font-size: 15px; font-weight: 400; }
 .leader-table .score-col small { display: inline; margin-left: 5px; color: var(--p-muted); font-size: 8px; }
@@ -229,7 +228,7 @@
 .metric-cell { color: #c3c9cd !important; text-align: right; font-variant-numeric: tabular-nums; }
 .prompt-label { color: var(--p-gold); }
 .selection-cell { color: #92968a !important; }
-.compute-cell { color: #c2c4b8 !important; font-family: Roboto,Arial,sans-serif; font-size: 11px; }
+.cost-cell { color: #c2c4b8 !important; font-family: Roboto,Arial,sans-serif; font-size: 11px; }
 .row-submission .model-name { color: #f0ece1; }
 .preview-pareto { margin-top: 12px; border: 1px solid var(--p-rule); background: rgba(3,11,22,.24); }
 .preview-pareto-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--p-rule); padding: 14px 17px; }
@@ -291,7 +290,7 @@
 .preview-archive .leader-table .score-col small { color: #74766d; }
 .preview-archive .leader-table .rank-col,.preview-archive .model-col small { color: #84857b; }
 .preview-archive .selection-cell { color: #686a61 !important; }
-.preview-archive .compute-cell { color: #41443d !important; }
+.preview-archive .cost-cell { color: #41443d !important; }
 .preview-archive .preview-foot { background: #f2efe7; }
 
 /* 03 — restrained observatory grid and luminous evidence accents. */

@@ -588,7 +588,7 @@ export const submissions: Submission[] = [
     outputFps: 16,
     availability: "Proprietary",
     llmSupported: "Yes",
-    metrics: { physIq: { mean: 60.64, std: 1.15 }, sp: { mean: 67.24, std: 0.90 }, ws: { mean: 59.35, std: 1.31 }, st: { mean: 62.76, std: 2.26 }, mse: { mean: 53.23, std: 0.50 } }
+    metrics: { physIq: { mean: 61.56, std: 1.20 }, sp: { mean: 68.15, std: 0.84 }, ws: { mean: 60.16, std: 1.38 }, st: { mean: 64.15, std: 2.57 }, mse: { mean: 53.76, std: 0.62 } }
   },
   {
     id: "odyssey-3-v2v-bon8-rank-sum",
@@ -604,7 +604,7 @@ export const submissions: Submission[] = [
     outputFps: 16,
     availability: "Proprietary",
     llmSupported: "Yes",
-    metrics: { physIq: { mean: 63.31 }, sp: { mean: 69.05 }, ws: { mean: 61.10 }, st: { mean: 69.50 }, mse: { mean: 53.59 } }
+    metrics: { physIq: { mean: 64.43 }, sp: { mean: 70.23 }, ws: { mean: 62.20 }, st: { mean: 70.44 }, mse: { mean: 54.83 } }
   },
   {
     id: "odyssey-3-i2v-bpp",
@@ -618,7 +618,7 @@ export const submissions: Submission[] = [
     outputFps: 16,
     availability: "Proprietary",
     llmSupported: "No",
-    metrics: { physIq: { mean: 38.86, std: 1.23 }, sp: { mean: 49.66, std: 1.87 }, ws: { mean: 36.82, std: 1.41 }, st: { mean: 31.98, std: 1.11 }, mse: { mean: 36.99, std: 1.20 } }
+    metrics: { physIq: { mean: 40.99, std: 0.84 }, sp: { mean: 49.17, std: 1.11 }, ws: { mean: 37.81, std: 1.29 }, st: { mean: 37.40, std: 1.25 }, mse: { mean: 39.59, std: 0.78 } }
   },
   {
     id: "odyssey-3-i2v-prompt-enhanced",
@@ -652,6 +652,68 @@ export const submissions: Submission[] = [
     metrics: { physIq: { mean: 52.83 }, sp: { mean: 60.87 }, ws: { mean: 51.25 }, st: { mean: 54.12 }, mse: { mean: 45.09 } }
   },
   {
+    id: "odyssey-3-pro-v2v-prompt-enhanced",
+    listing: "all",
+    model: "Odyssey 3 Pro",
+    sourceUrl: "https://odyssey.systems/",
+    inputType: "v2v",
+    protocol: "Custom",
+    promptDetails: "Custom prompts with LLM assistance.",
+    dateAdded: "2026-10-07",
+    company: "Odyssey",
+    outputFps: 16,
+    availability: "Proprietary",
+    llmSupported: "Yes",
+    metrics: { physIq: { mean: 63.37, std: 0.63 }, sp: { mean: 70.72, std: 0.45 }, ws: { mean: 63.19, std: 0.94 }, st: { mean: 64.17, std: 0.91 }, mse: { mean: 55.40, std: 0.85 } }
+  },
+  {
+    id: "odyssey-3-pro-v2v-bon8-rank-sum",
+    listing: "all",
+    model: "Odyssey 3 Pro",
+    sourceUrl: "https://odyssey.systems/",
+    inputType: "v2v",
+    protocol: "Custom",
+    promptDetails: "Custom prompts; rank-sum selection.",
+    sampling: { candidatesPerPrompt: 8, selector: "Rank-sum" },
+    dateAdded: "2026-10-07",
+    company: "Odyssey",
+    outputFps: 16,
+    availability: "Proprietary",
+    llmSupported: "Yes",
+    metrics: { physIq: { mean: 66.10 }, sp: { mean: 73.19 }, ws: { mean: 65.07 }, st: { mean: 70.33 }, mse: { mean: 55.81 } }
+  },
+  {
+    id: "odyssey-3-pro-i2v-prompt-enhanced",
+    listing: "all",
+    model: "Odyssey 3 Pro",
+    sourceUrl: "https://odyssey.systems/",
+    inputType: "i2v",
+    protocol: "Custom",
+    promptDetails: "Custom prompts with LLM assistance.",
+    dateAdded: "2026-10-07",
+    company: "Odyssey",
+    outputFps: 16,
+    availability: "Proprietary",
+    llmSupported: "Yes",
+    metrics: { physIq: { mean: 49.99, std: 0.42 }, sp: { mean: 61.78, std: 0.40 }, ws: { mean: 51.26, std: 0.36 }, st: { mean: 42.97, std: 1.78 }, mse: { mean: 43.96, std: 0.91 } }
+  },
+  {
+    id: "odyssey-3-pro-i2v-bon8-rank-sum",
+    listing: "all",
+    model: "Odyssey 3 Pro",
+    sourceUrl: "https://odyssey.systems/",
+    inputType: "i2v",
+    protocol: "Custom",
+    promptDetails: "Custom prompts; rank-sum selection.",
+    sampling: { candidatesPerPrompt: 8, selector: "Rank-sum" },
+    dateAdded: "2026-10-07",
+    company: "Odyssey",
+    outputFps: 16,
+    availability: "Proprietary",
+    llmSupported: "Yes",
+    metrics: { physIq: { mean: 54.69 }, sp: { mean: 64.71 }, ws: { mean: 55.59 }, st: { mean: 52.54 }, mse: { mean: 45.93 } }
+  },
+  {
     id: "microsoft-research-asia__physical-registry-i2v__2026-10-05",
     listing: "all",
     model: "Physical Registry",
@@ -660,7 +722,7 @@ export const submissions: Submission[] = [
     protocol: "n.d.",
     dateAdded: "2026-10-05",
     company: "Microsoft Research Asia",
-    availability: "Access unknown",
+    availability: "Not yet available",
     llmSupported: "Yes",
     outputFps: 24,
     metrics: { physIq: { mean: 44.00, std: 0.60 } }
@@ -674,7 +736,7 @@ export const submissions: Submission[] = [
     protocol: "n.d.",
     dateAdded: "2026-10-05",
     company: "Microsoft Research Asia",
-    availability: "Access unknown",
+    availability: "Not yet available",
     llmSupported: "Yes",
     outputFps: 24,
     metrics: { physIq: { mean: 50.17, std: 0.72 } }
@@ -688,7 +750,7 @@ export const submissions: Submission[] = [
     protocol: "n.d.",
     dateAdded: "2026-10-05",
     company: "Microsoft Research Asia",
-    availability: "Access unknown",
+    availability: "Not yet available",
     llmSupported: "Yes",
     outputFps: 24,
     sampling: { candidatesPerPrompt: 4, selector: "PRS" },
@@ -703,7 +765,7 @@ export const submissions: Submission[] = [
     protocol: "n.d.",
     dateAdded: "2026-10-05",
     company: "Microsoft Research Asia",
-    availability: "Access unknown",
+    availability: "Not yet available",
     llmSupported: "Yes",
     outputFps: 24,
     sampling: { candidatesPerPrompt: 4, selector: "PRS" },

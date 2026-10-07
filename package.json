@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lobehub/icons": "^5.23.0",
     "@tanstack/react-table": "^8.21.3",
     "echarts": "^6.1.0",
     "lucide-react": "^0.468.0",

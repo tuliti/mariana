@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { CircleHelp, Clapperboard, Database, FileText, FlaskConical, Github, Linkedin, Twitter } from "lucide-react";
+import { DeepMind } from "@lobehub/icons";
 import { costProfiles, formatPrice, getComparisonCost, getCostViewLabel, getCostViewNote, type CostView } from "../../data/cost-profiles";
 import { submissions, type InputType, type Submission } from "../../data/submissions";
 import ParetoCostChart, { type ParetoPoint } from "./ParetoCostChart";
@@ -152,9 +153,6 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
   return (
     <article className="leader-preview preview-ledger">
       <header className="preview-topbar">
-        <a className="preview-brand" href="https://anates.ai" target="_blank" rel="noreferrer" aria-label="Anates Labs home">
-          <BrandMark /><span>ANATES LABS</span>
-        </a>
         <nav className="preview-social-links" aria-label="Anates Labs social media">
           <a href="https://www.linkedin.com/company/anates-labs/?viewAsMember=true" target="_blank" rel="noreferrer" aria-label="Anates Labs on LinkedIn"><Linkedin size={13} strokeWidth={1.8} aria-hidden="true" /><span>LinkedIn</span></a>
           <a href="https://x.com/Anates_Labs" target="_blank" rel="noreferrer" aria-label="Anates Labs on X/Twitter"><Twitter size={13} strokeWidth={1.8} aria-hidden="true" /><span>X/Twitter</span></a>
@@ -162,7 +160,20 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
       </header>
       <section className="preview-heading">
         <div className="preview-title-wrap">
-          <h2>Physics-IQ Verified</h2>
+          <div className="preview-title-row">
+            <h2>Physics-IQ Verified</h2>
+            <div className="preview-brand-cluster">
+              <span className="preview-brand-source" aria-hidden="true">from</span>
+              <a className="preview-brand preview-brand-heading" href="https://anates.ai" target="_blank" rel="noreferrer" aria-label="Anates Labs home">
+                <BrandMark /><span>ANATES LABS</span>
+              </a>
+              <span className="preview-brand-join" aria-hidden="true">&amp;</span>
+              <span className="preview-deepmind-mark" role="img" aria-label="Google DeepMind">
+                <DeepMind size={44} aria-hidden="true" />
+                <DeepMind.Text size={44} aria-hidden="true" />
+              </span>
+            </div>
+          </div>
           <p className="preview-description">Dynamic ranking of video models by how well they understand physical principles.</p>
           <div className="preview-summary-row">
             <div className="preview-population" aria-label={`${boardRows.length} models from ${boardLabCount} labs`}>

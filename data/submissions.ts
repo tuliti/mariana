@@ -563,7 +563,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "odyssey-3-v2v-bpp",
-    listing: "all",
+    listing: "leaderboard",
     model: "Odyssey 3",
     sourceUrl: "https://odyssey.systems/",
     inputType: "v2v",
@@ -577,7 +577,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "odyssey-3-v2v-prompt-enhanced",
-    listing: "all",
+    listing: "leaderboard",
     model: "Odyssey 3",
     sourceUrl: "https://odyssey.systems/",
     inputType: "v2v",
@@ -592,7 +592,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "odyssey-3-v2v-bon8-rank-sum",
-    listing: "all",
+    listing: "leaderboard",
     model: "Odyssey 3",
     sourceUrl: "https://odyssey.systems/",
     inputType: "v2v",
@@ -608,7 +608,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "odyssey-3-i2v-bpp",
-    listing: "all",
+    listing: "leaderboard",
     model: "Odyssey 3",
     sourceUrl: "https://odyssey.systems/",
     inputType: "i2v",
@@ -622,7 +622,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "odyssey-3-i2v-prompt-enhanced",
-    listing: "all",
+    listing: "leaderboard",
     model: "Odyssey 3",
     sourceUrl: "https://odyssey.systems/",
     inputType: "i2v",
@@ -637,7 +637,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "odyssey-3-i2v-bon8-rank-sum",
-    listing: "all",
+    listing: "leaderboard",
     model: "Odyssey 3",
     sourceUrl: "https://odyssey.systems/",
     inputType: "i2v",
@@ -653,7 +653,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "odyssey-3-pro-v2v-prompt-enhanced",
-    listing: "all",
+    listing: "leaderboard",
     model: "Odyssey 3 Pro",
     sourceUrl: "https://odyssey.systems/",
     inputType: "v2v",
@@ -668,7 +668,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "odyssey-3-pro-v2v-bon8-rank-sum",
-    listing: "all",
+    listing: "leaderboard",
     model: "Odyssey 3 Pro",
     sourceUrl: "https://odyssey.systems/",
     inputType: "v2v",
@@ -684,7 +684,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "odyssey-3-pro-i2v-prompt-enhanced",
-    listing: "all",
+    listing: "leaderboard",
     model: "Odyssey 3 Pro",
     sourceUrl: "https://odyssey.systems/",
     inputType: "i2v",
@@ -699,7 +699,7 @@ export const submissions: Submission[] = [
   },
   {
     id: "odyssey-3-pro-i2v-bon8-rank-sum",
-    listing: "all",
+    listing: "leaderboard",
     model: "Odyssey 3 Pro",
     sourceUrl: "https://odyssey.systems/",
     inputType: "i2v",

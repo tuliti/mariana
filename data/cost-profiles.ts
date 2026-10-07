@@ -11,6 +11,7 @@ export type CostProfile = {
   resolution: string;
   seedControl?: boolean;
   price: number;
+  /** Separate API cost per submitted video; BoN candidates share one rewritten prompt. */
   llmCost?: number;
   costBasis?: string;
   computeGpuSeconds?: number;
@@ -42,16 +43,20 @@ export const costProfiles: CostProfile[] = [
   { submissionId: "bfl__flux3-large-v2v-bpp-bon1__2026-10-04", label: "FLUX 3 [large] V2V", text: false, v2v: true, i2v: false, size: "n.d.", fps: 24, resolution: "n.d.", price: 2.05, llmCost: 0.030, costBasis: "$0.41/s × 5 s generation; measured LLM prompt cost ≈$0.030 per prompt, included once; output resolution not provided, so no width normalization" },
   { submissionId: "bfl__flux3-large-i2v-bpp-bon8__2026-10-04", label: "FLUX 3 [large] I2V BoN×8", text: true, v2v: false, i2v: true, size: "n.d.", fps: 24, resolution: "n.d.", price: 6.80, llmCost: 0.018, costBasis: "8 × ($0.17/s × 5 s) generation; measured LLM prompt cost ≈$0.018 per prompt, shared across candidates and included once; output resolution not provided, so no width normalization" },
   { submissionId: "bfl__flux3-large-v2v-bpp-bon8__2026-10-04", label: "FLUX 3 [large] V2V BoN×8", text: false, v2v: true, i2v: false, size: "n.d.", fps: 24, resolution: "n.d.", price: 16.40, llmCost: 0.030, costBasis: "8 × ($0.41/s × 5 s) generation; measured LLM prompt cost ≈$0.030 per prompt, shared across candidates and included once; output resolution not provided, so no width normalization" },
-  { submissionId: "odyssey-3-v2v-bpp", label: "Odyssey 3 V2V · BPP", text: false, v2v: true, i2v: false, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.118, costBasis: "Reported generation cost $0.118/video at 16 FPS and 426 GPU-s/video; GPU model/rate and resolution not supplied; FPS-normalized views apply 24/16, with no width adjustment; separate prompt cost not supplied and excluded", computeGpuSeconds: 426 },
-  { submissionId: "odyssey-3-v2v-prompt-enhanced", label: "Odyssey 3 V2V · Prompt-enhanced", text: false, v2v: true, i2v: false, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.118, costBasis: "Reported generation cost $0.118/video at 16 FPS and 426 GPU-s/video; GPU model/rate and resolution not supplied; FPS-normalized views apply 24/16, with no width adjustment; separate prompt cost not supplied and excluded", computeGpuSeconds: 426 },
-  { submissionId: "odyssey-3-v2v-bon8-rank-sum", label: "Odyssey 3 V2V · BoN×8 rank-sum", text: false, v2v: true, i2v: false, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.947, costBasis: "Reported generation cost $0.947/video at 16 FPS and 3,408 GPU-s/video for BoN×8; GPU model/rate and resolution not supplied; FPS-normalized views apply 24/16, with no width adjustment; separate prompt cost not supplied and excluded", computeGpuSeconds: 3408 },
-  { submissionId: "odyssey-3-i2v-bpp", label: "Odyssey 3 I2V · BPP", text: true, v2v: false, i2v: true, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.086, costBasis: "Reported generation cost $0.086/video at 16 FPS and 308 GPU-s/video; GPU model/rate and resolution not supplied; FPS-normalized views apply 24/16, with no width adjustment; separate prompt cost not supplied and excluded", computeGpuSeconds: 308 },
-  { submissionId: "odyssey-3-i2v-prompt-enhanced", label: "Odyssey 3 I2V · Prompt-enhanced", text: true, v2v: false, i2v: true, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.086, costBasis: "Reported generation cost $0.086/video at 16 FPS and 308 GPU-s/video; GPU model/rate and resolution not supplied; FPS-normalized views apply 24/16, with no width adjustment; separate prompt cost not supplied and excluded", computeGpuSeconds: 308 },
-  { submissionId: "odyssey-3-i2v-bon8-rank-sum", label: "Odyssey 3 I2V · BoN×8 rank-sum", text: true, v2v: false, i2v: true, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.684, costBasis: "Reported generation cost $0.684/video at 16 FPS and 2,464 GPU-s/video for BoN×8; GPU model/rate and resolution not supplied; FPS-normalized views apply 24/16, with no width adjustment; separate prompt cost not supplied and excluded", computeGpuSeconds: 2464 }
+  { submissionId: "odyssey-3-v2v-bpp", label: "Odyssey 3 V2V · BPP", text: false, v2v: true, i2v: false, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.118, costBasis: "Reported generation-only cost $0.118/video at 16 FPS and 426 GPU-s/video; BPP has no prompt rewriting; GPU model/rate and output resolution not supplied", computeGpuSeconds: 426 },
+  { submissionId: "odyssey-3-v2v-prompt-enhanced", label: "Odyssey 3 V2V · Prompt-enhanced", text: false, v2v: true, i2v: false, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.118, llmCost: 0.01, costBasis: "Reported generation-only cost $0.118/video at 16 FPS and 426 GPU-s/video; API prompt-rewriting cost assumed $0.01 per submitted video and added after normalization; GPU model/rate and output resolution not supplied", computeGpuSeconds: 426 },
+  { submissionId: "odyssey-3-v2v-bon8-rank-sum", label: "Odyssey 3 V2V · BoN×8 rank-sum", text: false, v2v: true, i2v: false, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.947, llmCost: 0.01, costBasis: "Reported generation-only cost $0.947/video for 8 generations per submitted video at 16 FPS and 3,408 GPU-s; selection compute excluded; one shared API-rewritten prompt assumed at $0.01 per submitted video, added after normalization; GPU model/rate and output resolution not supplied", computeGpuSeconds: 3408 },
+  { submissionId: "odyssey-3-i2v-bpp", label: "Odyssey 3 I2V · BPP", text: true, v2v: false, i2v: true, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.086, costBasis: "Reported generation-only cost $0.086/video at 16 FPS and 308 GPU-s/video; BPP has no prompt rewriting; GPU model/rate and output resolution not supplied", computeGpuSeconds: 308 },
+  { submissionId: "odyssey-3-i2v-prompt-enhanced", label: "Odyssey 3 I2V · Prompt-enhanced", text: true, v2v: false, i2v: true, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.086, llmCost: 0.01, costBasis: "Reported generation-only cost $0.086/video at 16 FPS and 308 GPU-s/video; API prompt-rewriting cost assumed $0.01 per submitted video and added after normalization; GPU model/rate and output resolution not supplied", computeGpuSeconds: 308 },
+  { submissionId: "odyssey-3-i2v-bon8-rank-sum", label: "Odyssey 3 I2V · BoN×8 rank-sum", text: true, v2v: false, i2v: true, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.684, llmCost: 0.01, costBasis: "Reported generation-only cost $0.684/video for 8 generations per submitted video at 16 FPS and 2,464 GPU-s; selection compute excluded; one shared API-rewritten prompt assumed at $0.01 per submitted video, added after normalization; GPU model/rate and output resolution not supplied", computeGpuSeconds: 2464 },
+  { submissionId: "odyssey-3-pro-v2v-prompt-enhanced", label: "Odyssey 3 Pro V2V · Prompt-enhanced", text: false, v2v: true, i2v: false, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.289, llmCost: 0.01, costBasis: "Reported generation-only cost $0.289/video at 16 FPS and 1,042 GPU-s/video; API prompt-rewriting cost assumed $0.01 per submitted video and added after normalization; GPU model/rate and output resolution not supplied", computeGpuSeconds: 1042 },
+  { submissionId: "odyssey-3-pro-v2v-bon8-rank-sum", label: "Odyssey 3 Pro V2V · BoN×8 rank-sum", text: false, v2v: true, i2v: false, size: "n.d.", fps: 16, resolution: "n.d.", price: 2.316, llmCost: 0.01, costBasis: "Reported generation-only cost $2.316/video for 8 generations per submitted video at 16 FPS and 8,336 GPU-s; selection compute excluded; one shared API-rewritten prompt assumed at $0.01 per submitted video, added after normalization; GPU model/rate and output resolution not supplied", computeGpuSeconds: 8336 },
+  { submissionId: "odyssey-3-pro-i2v-prompt-enhanced", label: "Odyssey 3 Pro I2V · Prompt-enhanced", text: true, v2v: false, i2v: true, size: "n.d.", fps: 16, resolution: "n.d.", price: 0.171, llmCost: 0.01, costBasis: "Reported generation-only cost $0.171/video at 16 FPS and 614 GPU-s/video; API prompt-rewriting cost assumed $0.01 per submitted video and added after normalization; GPU model/rate and output resolution not supplied", computeGpuSeconds: 614 },
+  { submissionId: "odyssey-3-pro-i2v-bon8-rank-sum", label: "Odyssey 3 Pro I2V · BoN×8 rank-sum", text: true, v2v: false, i2v: true, size: "n.d.", fps: 16, resolution: "n.d.", price: 1.364, llmCost: 0.01, costBasis: "Reported generation-only cost $1.364/video for 8 generations per submitted video at 16 FPS and 4,912 GPU-s; selection compute excluded; one shared API-rewritten prompt assumed at $0.01 per submitted video, added after normalization; GPU model/rate and output resolution not supplied", computeGpuSeconds: 4912 }
 ];
 
 export function formatPrice(value: number) {
-  return `$${value.toFixed(3)}`;
+  return Number.isFinite(value) ? `$${value.toFixed(3)}` : "n.d.";
 }
 
 function getResolutionWidth(resolution: string) {
@@ -64,11 +69,13 @@ export function getComparisonCost(profile: CostProfile, costView: CostView) {
   const baseCost = profile.price + promptCost;
   const fpsFactor = costView === "raw" || profile.fps === null ? 1 : 24 / profile.fps;
   const resolutionFactor = costView === "normalized" ? 1280 / getResolutionWidth(profile.resolution) : 1;
+  const generationCost = profile.price * fpsFactor * resolutionFactor;
   return {
     baseCost,
     fpsFactor,
     resolutionFactor,
-    effectiveCost: profile.price * fpsFactor * resolutionFactor + promptCost
+    generationCost,
+    effectiveCost: generationCost + promptCost
   };
 }
 

@@ -78,7 +78,9 @@ function ParetoCostCurves({ rows, costView, setCostView }: { rows: Submission[];
     const submission = rows.find((row) => row.id === profile.submissionId);
     const score = submission?.metrics.physIq;
     if (!submission || !score) return [];
-    return [{ submission, score, effectiveCost: getComparisonCost(profile, costView).effectiveCost }];
+    const effectiveCost = getComparisonCost(profile, costView).effectiveCost;
+    if (!Number.isFinite(effectiveCost)) return [];
+    return [{ submission, score, effectiveCost }];
   });
   const isFrontier = (candidate: typeof points[number]) => points.every((other) =>
     other === candidate || other.effectiveCost > candidate.effectiveCost || other.score.mean < candidate.score.mean ||
@@ -102,7 +104,7 @@ function ParetoCostCurves({ rows, costView, setCostView }: { rows: Submission[];
       </select></label>
     </div>
     {chartPoints.length ? <ParetoCostChart points={chartPoints} costView={costView} /> : <p className="preview-pareto-empty">No cost profiles are available for this track and sampling selection.</p>}
-    <p className="preview-pareto-note">Cost uses a logarithmic x-axis to keep low-cost models legible. {getCostViewNote(costView)} Separate LLM/prompt costs are added after generation-cost normalization.</p>
+    <p className="preview-pareto-note">Cost uses a logarithmic x-axis to keep low-cost models legible. {getCostViewNote(costView)} Separate LLM/prompt costs are added after generation-cost normalization. Odyssey API prompt rewriting is estimated at $0.01 per submitted video; each BoN×8 run shares one rewritten prompt, and selection compute is excluded.</p>
   </section>;
 }
 
@@ -139,7 +141,14 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
   const verifiedDomain = 100;
   const scoreOf = (row: Submission) => scoreMode === "verified" ? row.metrics.physIq!.mean : row.metrics.physIq!.mean - baseline;
   const rankById = new Map(scoredShownRows.map((row, index) => [row.id, index + 1]));
-  const costBySubmission = new Map(costProfiles.map((profile) => [profile.submissionId, getComparisonCost(profile, costView).effectiveCost]));
+  const costBySubmission = new Map(costProfiles.map((profile) => {
+    const comparison = getComparisonCost(profile, costView);
+    const promptCostUnknown = !Number.isFinite(comparison.effectiveCost);
+    return [profile.submissionId, {
+      value: promptCostUnknown ? comparison.generationCost : comparison.effectiveCost,
+      generationOnly: promptCostUnknown
+    }] as const;
+  }));
   const outputFpsBySubmission = new Map(costProfiles.map((profile) => [profile.submissionId, profile.fps]));
   const scoreLabel = scoreMode === "verified" ? "PHYSICS-IQ VERIFIED" : "NET IMPROVEMENT";
   const format = (value: number) => scoreMode === "relative" ? `${value > 0 ? "+" : ""}${value.toFixed(2)}` : value.toFixed(2);
@@ -219,7 +228,7 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
             <td className={`llm-cell ${row.llmSupported === "Yes" ? "is-yes" : ""}`}>{row.llmSupported}</td>
             <td><span className="prompt-label" title={row.promptDetails}>{row.protocol}</span></td>
             <td className="num output-fps-cell">{row.outputFps ?? outputFpsBySubmission.get(row.id) ?? "n.d."}</td>
-            <td className="num cost-cell">{costBySubmission.has(row.id) ? formatPrice(costBySubmission.get(row.id)!) : "n.d."}</td>
+            <td className="num cost-cell">{(() => { const cost = costBySubmission.get(row.id); return cost ? <span title={cost.generationOnly ? "Generation cost only; API prompt-rewriting cost is NaN/unknown." : undefined}>{formatPrice(cost.value)}{cost.generationOnly ? "*" : ""}</span> : "n.d."; })()}</td>
           </tr>)}</tbody>
         </table>
         </div>

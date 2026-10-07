@@ -4,6 +4,7 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { CircleHelp, Clapperboard, Database, FileText, FlaskConical, Github, Linkedin, Twitter } from "lucide-react";
 import { costProfiles, formatPrice, getComparisonCost, getCostViewLabel, getCostViewNote, type CostView } from "../../data/cost-profiles";
 import { submissions, type InputType, type Submission } from "../../data/submissions";
+import ParetoCostChart, { type ParetoPoint } from "./ParetoCostChart";
 import "./design-options.css";
 
 // Kept in the source results for auditability, but Magi-1 original-prompt runs are omitted from the preview pending review.
@@ -79,41 +80,28 @@ function ParetoCostCurves({ rows, costView, setCostView }: { rows: Submission[];
     if (!submission || !score) return [];
     return [{ submission, score, effectiveCost: getComparisonCost(profile, costView).effectiveCost }];
   });
-  const minPrice = Math.min(0.05, ...points.map((point) => point.effectiveCost));
-  const maxPrice = Math.max(...points.map((point) => point.effectiveCost), minPrice * 1.02);
-  const minPerformance = 15;
-  const maxPerformance = 60;
-  const logMinPrice = Math.log(minPrice);
-  const logPriceRange = Math.max(0.001, Math.log(maxPrice) - logMinPrice);
-  const performanceRange = maxPerformance - minPerformance;
-  const plotX = (price: number) => 7 + ((Math.log(Math.max(price, minPrice)) - logMinPrice) / logPriceRange) * 86;
-  const plotY = (performance: number) => 88 - ((performance - minPerformance) / performanceRange) * 76;
-  const costTicks = Array.from(new Set([minPrice, ...[0.1, 0.25, 0.5, 1, 2, 5].filter((value) => value > minPrice && value < maxPrice), maxPrice])).sort((a, b) => a - b);
-  const frontier = points
-    .filter((candidate) => points.every((other) => other === candidate || other.effectiveCost > candidate.effectiveCost || other.score.mean < candidate.score.mean || (other.effectiveCost === candidate.effectiveCost && other.score.mean === candidate.score.mean)))
-    .sort((a, b) => a.effectiveCost - b.effectiveCost);
-  const frontierPath = frontier.map((point, index) => `${index === 0 ? "M" : "L"} ${plotX(point.effectiveCost)} ${plotY(point.score.mean)}`).join(" ");
-  const title = `${getCostViewLabel(costView)} against Physics-IQ Verified score`;
-
+  const isFrontier = (candidate: typeof points[number]) => points.every((other) =>
+    other === candidate || other.effectiveCost > candidate.effectiveCost || other.score.mean < candidate.score.mean ||
+    (other.effectiveCost === candidate.effectiveCost && other.score.mean === candidate.score.mean)
+  );
+  const chartPoints: ParetoPoint[] = points.map(({ submission, score, effectiveCost }) => ({
+    id: submission.id,
+    model: submission.model,
+    company: submission.company,
+    sourceUrl: submission.sourceUrl,
+    icon: companyIcons[submission.company.toLowerCase()],
+    score: score.mean,
+    std: score.std,
+    effectiveCost,
+    isFrontier: isFrontier({ submission, score, effectiveCost })
+  }));
   return <section className="preview-pareto" aria-label="Pareto cost-performance curves">
     <div className="preview-pareto-heading"><div><span>COST FRONTIER</span><h3>Score vs Cost ($)</h3></div>
       <label className="preview-cost-control"><span>Cost view</span><select value={costView} onChange={(event) => setCostView(event.target.value as CostView)} aria-label="Cost normalization">
         <option value="normalized">FPS + resolution normalized</option><option value="fps">FPS normalized</option><option value="raw">Native generation cost</option>
       </select></label>
     </div>
-    {points.length ? <div className="preview-pareto-plot" role="group" aria-label={`${title}; logarithmic cost axis`}>
-      <span className="preview-axis-label y">Physics-IQ Verified</span><span className="preview-axis-label x">{getCostViewLabel(costView)} · LOG SCALE</span>
-      <svg className="preview-frontier-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d={frontierPath} /></svg>
-      {points.map(({ submission, score, effectiveCost }) => {
-        const isFrontier = frontier.some((item) => item.submission.id === submission.id);
-        const x = plotX(effectiveCost);
-        return <ModelLink submission={submission} className={`preview-pareto-point ${isFrontier ? "is-frontier" : ""} ${x > 74 ? "is-right-edge" : ""}`} key={submission.id} style={{ left: `${x}%`, top: `${plotY(score.mean)}%` }} ariaLabel={`${submission.model}: ${score.mean.toFixed(2)}% verified, ${formatPrice(effectiveCost)} ${getCostViewLabel(costView)}`}>
-          <CompanyIcon company={submission.company} /><span className="preview-pareto-label">{submission.model}</span>
-          <span className="preview-pareto-tooltip"><strong>{submission.model}</strong><span>{submission.company}</span><span>Score: {score.mean.toFixed(2)}{score.std === undefined ? "" : ` ± ${score.std.toFixed(2)}`}</span><span>{getCostViewLabel(costView)}: {formatPrice(effectiveCost)}</span></span>
-        </ModelLink>;
-      })}
-      {costTicks.map((tick) => <span className="preview-cost-tick" key={tick} style={{ left: `${plotX(tick)}%` }}>{formatPrice(tick)}</span>)}<span className="preview-pareto-tick y-start">{minPerformance}%</span><span className="preview-pareto-tick y-end">{maxPerformance}%</span>
-    </div> : <p className="preview-pareto-empty">No cost profiles are available for this track and sampling selection.</p>}
+    {chartPoints.length ? <ParetoCostChart points={chartPoints} costView={costView} /> : <p className="preview-pareto-empty">No cost profiles are available for this track and sampling selection.</p>}
     <p className="preview-pareto-note">Cost uses a logarithmic x-axis to keep low-cost models legible. {getCostViewNote(costView)} Separate LLM/prompt costs are added after generation-cost normalization.</p>
   </section>;
 }

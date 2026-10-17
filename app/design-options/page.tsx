@@ -143,10 +143,17 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
   const rankById = new Map(scoredShownRows.map((row, index) => [row.id, index + 1]));
   const costBySubmission = new Map(costProfiles.map((profile) => {
     const comparison = getComparisonCost(profile, costView);
-    const promptCostUnknown = !Number.isFinite(comparison.effectiveCost);
+    const generationCostUnknown = !Number.isFinite(profile.price);
+    const promptCostUnknown = !generationCostUnknown && !Number.isFinite(comparison.effectiveCost);
+    const knownPromptCost = profile.llmCost;
     return [profile.submissionId, {
-      value: promptCostUnknown ? comparison.generationCost : comparison.effectiveCost,
-      generationOnly: promptCostUnknown
+      value: generationCostUnknown ? Number.NaN : promptCostUnknown ? comparison.generationCost : comparison.effectiveCost,
+      generationOnly: promptCostUnknown,
+      title: generationCostUnknown && knownPromptCost !== undefined && Number.isFinite(knownPromptCost)
+        ? `Generation cost n.d.; prompt-upsampling cost $${knownPromptCost.toFixed(4)} per submitted video; total cost n.d.`
+        : promptCostUnknown
+          ? "Generation cost only; API prompt-upsampling cost is unknown."
+          : undefined
     }] as const;
   }));
   const outputFpsBySubmission = new Map(costProfiles.map((profile) => [profile.submissionId, profile.fps]));
@@ -228,7 +235,7 @@ function Preview({ listing, setListing, track, setTrack, scoreMode, setScoreMode
             <td className={`llm-cell ${row.llmSupported === "Yes" ? "is-yes" : ""}`}>{row.llmSupported}</td>
             <td><span className="prompt-label" title={row.promptDetails}>{row.protocol}</span></td>
             <td className="num output-fps-cell">{row.outputFps ?? outputFpsBySubmission.get(row.id) ?? "n.d."}</td>
-            <td className="num cost-cell">{(() => { const cost = costBySubmission.get(row.id); return cost ? <span title={cost.generationOnly ? "Generation cost only; API prompt-rewriting cost is NaN/unknown." : undefined}>{formatPrice(cost.value)}{cost.generationOnly ? "*" : ""}</span> : "n.d."; })()}</td>
+            <td className="num cost-cell">{(() => { const cost = costBySubmission.get(row.id); return cost ? <span title={cost.title}>{formatPrice(cost.value)}{cost.generationOnly ? "*" : ""}</span> : "n.d."; })()}</td>
           </tr>)}</tbody>
         </table>
         </div>
